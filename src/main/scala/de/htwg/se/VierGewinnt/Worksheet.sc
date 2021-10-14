@@ -101,6 +101,7 @@ Chip.Yellow
 Chip.Red
 Chip.Empty
 
+//7 x 6 Spielfeld (X/Y)
 
 val matrix2 = Vector(
   Vector(Chip, "a2", "a3", "a4", "a5", "a6" ),
@@ -113,7 +114,7 @@ val matrix2 = Vector(
 
 case class Spielbrett(rows: Vector[Vector[Chip]]):
   def cell(row: Int, col: Int) = rows(row)(col)
-  def fill(filling: Chip): Spielbrett = copy(Vector.tabulate(3, 3) { (row, col) => filling })
+  def fill(filling: Chip): Spielbrett = copy(Vector.tabulate(7, 6) { (row, col) => filling })
   def replaceCell(row: Int, col: Int, cell: Chip) = copy(rows.updated(row, rows(row).updated(col, cell)))
 
 val m = Spielbrett(Vector(Vector(Chip.Yellow, Chip.Yellow, Chip.Yellow, Chip.Red, Chip.Red, Chip.Red), Vector(), Vector(), Vector(), Vector(), Vector(), Vector()))

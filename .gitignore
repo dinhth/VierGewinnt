@@ -43,7 +43,7 @@ src\main\scala\de\htwg\se\battleship\model\ModelWorksheet.sc
 .sonar/
 
 # Application
-yourgame.log
+VierGewinnt.log
 
 # Application backup
 battlefieldP1.json

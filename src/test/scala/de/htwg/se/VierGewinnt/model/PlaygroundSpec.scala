@@ -1,8 +1,10 @@
 package de.htwg.se.VierGewinnt.model
 
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
-import io.AnsiColor._
+import org.scalatest.matchers.should.Matchers.*
+
+import io.AnsiColor.*
+import scala.math.ceil
 
 class PlaygroundSpec extends AnyWordSpec {
   "Playground is the string representation of the gamefield" when {
@@ -22,7 +24,13 @@ class PlaygroundSpec extends AnyWordSpec {
         playground.line() should be(s"${BLUE_B}  |   |   |   |   |   |   |   |  ${RESET}\n")
       }
       "have a bottom border" in {
-        playground.border() should be (s"${BLUE_B}  -----------------------------  ${RESET}\n")
+        playground.border() should be(s"${BLUE_B}  -----------------------------  ${RESET}\n")
+      }
+      "should print the right representation with an example line" in {
+        playground.toString should be(playground.colnames() + playground.line() * playground.size + s"${BLUE_B}  " +
+          (s"${BLUE_B}|${YELLOW_B}   ${RESET}") * (playground.size.toFloat / 2).toInt +
+          (s"${BLUE_B}|${RED_B}   ${RESET}") * ceil(playground.size.toFloat / 2).toInt +
+          s"${BLUE_B}|  ${RESET}\n" + playground.border())
       }
     }
   }

@@ -6,7 +6,7 @@ import io.AnsiColor._
  * auxilary constructor gets called for an empty board.
  * The default constructor is to copy&replace */
 case class Grid(grid: Vector[Vector[Cell]]) {
-  def this(size: Int) = this(Vector.tabulate(size, size)((row, col) => Cell(Chip.EMPTY))) //call for an empty board
+  def this(size: Int = 7) = this(Vector.tabulate(size, size)((row, col) => Cell(Chip.EMPTY))) //call for an empty board
 
   def getCell(row: Int, col: Int): Cell = grid(row)(col) //getter
 

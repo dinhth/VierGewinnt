@@ -1,20 +1,34 @@
 package de.htwg.se.VierGewinnt
 
-import de.htwg.se.VierGewinnt.model.{Player, Playground}
+import de.htwg.se.VierGewinnt.aview.Tui
+import de.htwg.se.VierGewinnt.model.{Cell, Chip, Grid, Player, Playground}
 
 import scala.io.StdIn.readLine
 
+
 object VierGewinnt {
+  var playground = new Playground(size = 7)
+  val tui = new Tui
+
   def main(args: Array[String]): Unit = {
-    println("Player 1 tell us your name: ")
-    val player1 = Player(readLine())
-    println("Player 2 tell us your name: ")
-    val player2 = Player(readLine())
-    println("Welcome to 'Vier Gewinnt' " + player1.name + " and " + player2.name)
+    val player = List(Player("Player 1", Chip.YELLOW), Player("Player 2", Chip.RED))
+    println("Welcome to 'Vier Gewinnt' " + player(0).name + " and " + player(1).name)
 
-
-    val playground = Playground(size = 7)
+    var input = ""
+    var i = 0
     println(playground)
+
+
+    while {
+      println(s"It's your turn ${player(i % 2)}")
+      input = readLine();
+      playground = tui.evaluate(input, player(i % 2), playground)
+      println(playground)
+      i += 1
+      input != "q"
+    }
+    do ()
+
   }
 
 }

@@ -8,7 +8,11 @@ import io.AnsiColor._
 case class Grid(grid: Vector[Vector[Cell]]) {
   def this(size: Int) = this(Vector.tabulate(size, size)((row, col) => Cell(Chip.EMPTY))) //call for an empty board
 
-  def cell(row: Int, col: Int): Cell = grid(row)(col) //getter
+  def getCell(row: Int, col: Int): Cell = grid(row)(col) //getter
+
+  def replaceCell(row: Int, col: Int, cell: Cell): Grid = {
+    copy(grid.updated(row, grid(row).updated(col, cell)))
+  }
 
   val size: Int = grid.size
 
@@ -18,9 +22,9 @@ case class Grid(grid: Vector[Vector[Cell]]) {
       (row: Vector[Cell]) =>
         out = out + s"${BLUE_B}  "
         row.foreach { (cell: Cell) =>
-          out = out + "|" + cell
+          out = out + s"${BLUE_B}|" + cell
         }
-        out = out + s"|  ${RESET}\n"
+        out = out + s"${BLUE_B}|  ${RESET}\n"
     }
     return out
   }

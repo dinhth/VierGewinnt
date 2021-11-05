@@ -9,6 +9,16 @@ case class Playground(grid: Grid) {
 
   val size: Int = grid.size
 
+  def insertChip(row: Int, col: Int, player: Player): Playground = {
+    copy(grid.replaceCell(getPosition(col), col, Cell(player.chip)))
+  }
+
+  def getPosition(col: Int): Int = { //get the position where the chip should drop
+    var i = size - 1
+    while (grid.getCell(i, col).value != Chip.EMPTY) i -= 1
+    i
+  }
+
 
   override def toString: String = {
     val box = colnames() + grid + border()

@@ -12,6 +12,6 @@ class Tui() {
       println("falsche Eingabe")
       in = readLine()
     println(player)
-    playground.insertChip(playground.size - 1, in.toInt - 1, player)
+    playground.insertChip(in.toInt - 1, player)
   }
 }

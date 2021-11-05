@@ -9,7 +9,7 @@ case class Playground(grid: Grid) {
 
   val size: Int = grid.size
 
-  def insertChip(row: Int, col: Int, player: Player): Playground = {
+  def insertChip(col: Int, player: Player): Playground = {
     copy(grid.replaceCell(getPosition(col), col, Cell(player.chip)))
   }
 

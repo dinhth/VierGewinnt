@@ -24,7 +24,7 @@ object VierGewinnt {
       input = readLine();
       playground = tui.evaluate(input, player(i % 2), playground)
       println(playground)
-      i += 1
+      i += 1;
       input != "q"
     }
     do ()

@@ -1,4 +1,5 @@
-package de.htwg.se.VierGewinnt.aview
+package de.htwg.se.VierGewinnt
+package aview
 
 import de.htwg.se.VierGewinnt.model.{Player, Playground}
 import scala.io.StdIn.readLine

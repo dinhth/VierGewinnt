@@ -12,7 +12,7 @@ class PlayerSpec extends AnyWordSpec {
         player.name should be("player1")
       }
       "have a String representation" in {
-        player.toString should be("player1")
+        player.toString should be(s"${Chip.RED.getColorCode}player1${RESET}")
       }
       "have a red background color" in {
         player.chip.getColorCode should be(s"${RED_B}")

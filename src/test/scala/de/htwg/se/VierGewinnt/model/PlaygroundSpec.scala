@@ -10,18 +10,16 @@ class PlaygroundSpec extends AnyWordSpec {
   "Playground is the representation of the gamefield" when {
     "initialized without parameter" should {
       val playground = new Playground()
-      val player = new Player("Player 1", Chip.RED)
       "have the default size" in {
         playground.size should be(7)
       }
-      val playgroundcpy = playground.insertChip(0, player)
+      val playgroundcpy = playground.insertChip(0)
       "Player should insert a chip in a choosen column" in {
-        playgroundcpy.grid.getCell(playgroundcpy.size - 1, 0).chip should be(Chip.RED)
+        playgroundcpy.grid.getCell(playgroundcpy.size - 1, 0).chip should be(Chip.YELLOW)
       }
       "request how many chips inserted in a column" in {
         playgroundcpy.getPosition(0) should be(playgroundcpy.size - 2)
       }
-
     }
     "have a String representation with a head, grid and border" should {
       val playground = new Playground(7)
@@ -32,7 +30,17 @@ class PlaygroundSpec extends AnyWordSpec {
         playground.border() should be(s"${BLUE_B}  -----------------------------  ${RESET}\n")
       }
       "should print the whole gamefield" in {
-        playground.toString should be(playground.colnames() + playground.grid + playground.border())
+        playground.toString should be("It's your turn " + playground.player(0) + "\n" + playground.colnames() + playground.grid + playground.border())
+      }
+    }
+    "when a column is full" should {
+      val playground = new Playground(1)
+      val playgroundfull = playground.insertChip(0)
+      "nothing happen" in {
+        playgroundfull.insertChip(0) should be(playgroundfull)
+      }
+      "print that the col is full" in {
+        playgroundfull.insertChip(0).error = "This column is full try another one"
       }
     }
   }

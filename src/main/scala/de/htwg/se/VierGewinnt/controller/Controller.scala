@@ -4,9 +4,12 @@ package controller
 import model.{Chip, Player, Playground}
 import util.Observable
 
-case class Controller(var playground: Playground) extends Observable:
-  def insertChip(col: Int, player: Player) =
-    playground = playground.insertChip(col, player)
+class Controller(var playground: Playground) extends Observable :
+  def this(size: Int = 7) = this(new Playground(7))
+
+  def insertChip(col: Int) =    
+    playground = playground.insertChip(col)
     notifyObservers
+
   override def toString = playground.toString
 

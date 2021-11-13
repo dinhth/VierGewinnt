@@ -6,4 +6,4 @@ script:
   - sbt clean test jacoco
 
 after_success:
-  - sbt jacocoCoveralls coverageReport coveralls
+  - sbt jacocoCoveralls

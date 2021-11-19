@@ -2,7 +2,8 @@ package de.htwg.se.VierGewinnt
 package aview
 
 import controller.Controller
-import model.{Player, Playground, Chip}
+import model.{Chip, Player, Playground}
+
 import scala.io.StdIn.readLine
 import util.Observer
 
@@ -14,14 +15,13 @@ class Tui(controller: Controller) extends Observer :
   val size = 7
 
   def run =
-    println("Welcome to 'Vier Gewinnt' ")
-    println(controller.toString)
+    println(s"Welcome to 'Vier Gewinnt'\n$controller")
     getInputAndPrintLoop()
 
   def getInputAndPrintLoop(): Unit =
-    val input = readLine
-    val chars = input.toCharArray
+    val input = readLine()
     input match {
+      case "q" => //Exit
       case x if x.toIntOption == None =>
         println("doesn't look like a number")
         getInputAndPrintLoop()

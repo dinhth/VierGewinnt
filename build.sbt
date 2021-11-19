@@ -11,5 +11,4 @@ lazy val root = project
   )
   .enablePlugins(JacocoCoverallsPlugin)
 
-  jacocoExcludes := Seq("/src/main/scala/de/htwg/se/VierGewinnt/VierGewinnt.scala")
 

@@ -11,4 +11,4 @@ lazy val root = project
   )
   .enablePlugins(JacocoCoverallsPlugin)
 
-  jacocoExcludes := Seq("de.htwg.se.VierGewinnt.VierGewinnt")
+  jacocoExcludes := Seq("de.htwg.se.VierGewinnt.VierGewinnt.scala")

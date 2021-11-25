@@ -1,21 +1,27 @@
 package de.htwg.se.VierGewinnt.model
 
-import io.AnsiColor._
-import scala.math._
+import de.htwg.se.VierGewinnt.util.EnemyStrategy
 
-case class Playground(grid: Grid, player: List[Player]) {
-  def this(size: Int = 7) = this(new Grid(size), List(Player("Player 1", Chip.YELLOW), Player("Player 2", Chip.RED)))
+import io.AnsiColor.*
+import scala.math.*
+
+case class Playground(grid: Grid, player: List[Player], enemStrat:EnemyStrategy) {
+  def this(size: Int = 7) = this(new Grid(size), List(Player("Player 1", Chip.YELLOW), Player("Player 2", Chip.RED)), EnemyPersonStrategy())
   //top element of the List 'player' is the current player
 
   val size: Int = grid.size
   var error = ""
 
   def insertChip(col: Int): Playground = {
-    if (getPosition(col) != -1)
-      copy(grid.replaceCell(getPosition(col), col, Cell(player(0).chip)), player.reverse)
-    else
-      error = "This column is full try another one"
-      this
+    enemStrat.insertChip(this, col)
+  }
+
+  def setEnemyStrategy(enemystrat:String):Playground = {
+    enemystrat match {
+      case "person" => copy(this.grid, player, EnemyPersonStrategy())
+      case "computer" => copy(this.grid, player, EnemyComputerStrategy())
+      case _ => this
+    }
   }
 
   def getPosition(col: Int): Int = { //get the position where the chip should drop

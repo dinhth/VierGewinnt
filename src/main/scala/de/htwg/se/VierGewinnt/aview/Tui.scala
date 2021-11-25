@@ -12,7 +12,7 @@ import scala.util.Try
 
 class Tui(controller: Controller) extends Observer :
   controller.add(this)
-  val size = 7
+  val size = controller.playground.size
 
   def run =
     println(s"Welcome to 'Vier Gewinnt'\n$controller")
@@ -22,6 +22,13 @@ class Tui(controller: Controller) extends Observer :
     val input = readLine()
     input match {
       case "q" => //Exit
+      case "computer" =>
+        controller.changeEnemyStrategy(input)
+        println("changed Enemy player!")
+        getInputAndPrintLoop()
+      case "person" =>
+        controller.changeEnemyStrategy(input)
+        getInputAndPrintLoop()
       case x if x.toIntOption == None =>
         println("doesn't look like a number")
         getInputAndPrintLoop()
@@ -34,7 +41,3 @@ class Tui(controller: Controller) extends Observer :
     }
 
   override def update: Unit = println(controller.toString)
-
-
-
-

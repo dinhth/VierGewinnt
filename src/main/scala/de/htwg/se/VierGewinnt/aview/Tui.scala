@@ -30,10 +30,10 @@ class Tui(controller: Controller) extends Observer :
         controller.changeEnemyStrategy(input)
         getInputAndPrintLoop()
       case x if x.toIntOption == None =>
-        println("doesn't look like a number\n")
+        println("doesn't look like a number")
         getInputAndPrintLoop()
       case x if x.toInt < 1 || x.toInt > size =>
-        println("wrong input, try a number from 1 to " + size + "\n")
+        println("wrong input, try a number from 1 to " + size)
         getInputAndPrintLoop()
       case _ =>
         controller.insertChip(input.toInt - 1)

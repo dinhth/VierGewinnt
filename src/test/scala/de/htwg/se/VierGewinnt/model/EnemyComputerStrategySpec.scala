@@ -29,5 +29,33 @@ class EnemyComputerStrategySpec extends AnyWordSpec {
       }
       tempplayground.insertChip(1) should be (tempplayground)
     }
+
+    "not insert when full by computer" in {
+      var pl = Playground(Grid(Vector.tabulate(4, 4)((row, col) => Cell(Chip.EMPTY)))
+        .replaceCell(0, 0, Cell(Chip.RED))
+        .replaceCell(0, 1, Cell(Chip.RED))
+        .replaceCell(0, 2, Cell(Chip.RED))
+        .replaceCell(0, 3, Cell(Chip.YELLOW))
+
+        .replaceCell(1, 0, Cell(Chip.YELLOW))
+        .replaceCell(1, 1, Cell(Chip.YELLOW))
+        .replaceCell(1, 2, Cell(Chip.RED))
+        .replaceCell(1, 3, Cell(Chip.YELLOW))
+
+        .replaceCell(2, 0, Cell(Chip.YELLOW))
+        .replaceCell(2, 1, Cell(Chip.RED))
+        .replaceCell(2, 2, Cell(Chip.RED))
+        .replaceCell(2, 3, Cell(Chip.YELLOW))
+
+        .replaceCell(3, 0, Cell(Chip.EMPTY))
+        .replaceCell(3, 1, Cell(Chip.EMPTY))
+        .replaceCell(3, 2, Cell(Chip.YELLOW))
+        .replaceCell(3, 3, Cell(Chip.RED)),
+        List(Player("Player 1", Chip.YELLOW), Player("Player 2", Chip.RED)), EnemyComputerStrategy())
+      pl = pl.insertChip(1)
+      pl = pl.insertChip(0)
+      pl.insertChip(0) should be (pl)
+    }
+
   }
 }

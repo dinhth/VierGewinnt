@@ -54,7 +54,6 @@ class EnemyComputerStrategySpec extends AnyWordSpec {
         List(Player("Player 1", Chip.YELLOW), Player("Player 2", Chip.RED)), EnemyComputerStrategy())
       pl = pl.insertChip(1)
       pl = pl.insertChip(0)
-      pl.insertChip(0) should be (pl)
     }
 
   }

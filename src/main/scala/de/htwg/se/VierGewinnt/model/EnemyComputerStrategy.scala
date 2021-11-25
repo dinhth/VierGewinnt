@@ -20,9 +20,10 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
   def ComputerinsertChip(pg:Playground): Playground = {
     var chosenCol = Random.between(0,pg.size)
 
-    while
-      pg.getPosition(chosenCol) == -1
-    do chosenCol = Random.between(0,pg.size)
+    for (i <- 1 to pg.size)
+      if (pg.getPosition(chosenCol) != -1) {
+        chosenCol = Random.between(0,pg.size)
+      }
     pg.copy(pg.grid.replaceCell(pg.getPosition(chosenCol), chosenCol, Cell(pg.player(0).chip)), pg.player.reverse, pg.enemStrat)
   }
 }

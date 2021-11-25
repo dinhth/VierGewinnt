@@ -43,5 +43,19 @@ class PlaygroundSpec extends AnyWordSpec {
         playgroundfull.insertChip(0).error = "This column is full try another one"
       }
     }
+    "when a changing the enemy strategy" should {
+      val playground = new Playground(1)
+      "change to person" in {
+        val playgroundtemp = playground.setEnemyStrategy("person")
+        playgroundtemp      }
+      "change to computer" in {
+        val playgroundtemp = playground.setEnemyStrategy("computer")
+        playgroundtemp.enemStrat should be (EnemyComputerStrategy())
+      }
+      "change not by faulty input" in {
+        val playgroundtemp = playground.setEnemyStrategy("error")
+        playgroundtemp.enemStrat should be (EnemyPersonStrategy())
+      }
+    }
   }
 }

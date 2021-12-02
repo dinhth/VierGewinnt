@@ -8,7 +8,7 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
     if (pg.getPosition(col) != -1)
       val temp = pg.copy(pg.grid.replaceCell(pg.getPosition(col), col, Cell(pg.player(0).chip)), pg.player.reverse, pg.enemStrat)
       temp.grid.checkFull() match {
-        case false if (temp.grid.checkWin() == 0) => ComputerinsertChip(temp)
+        case false if (temp.grid.checkWin() == None) => ComputerinsertChip(temp)
         case _ => temp
       }
 

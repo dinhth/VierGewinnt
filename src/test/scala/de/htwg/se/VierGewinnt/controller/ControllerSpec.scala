@@ -83,13 +83,14 @@ class ControllerSpec extends AnyWordSpec {
         controller.checkFull()
       }
       "undo and redo a move" in {
-        var field = controller.playground
-        field = controller.insChip(Move(1))
-        field.grid.getCell(6, 0) should be(Chip.YELLOW)
-        field = controller.undo
-        field.grid.getCell(6, 0) should be(Chip.EMPTY)
-        field = controller.redo
-        field.grid.getCell(6, 0) should be(Chip.YELLOW)
+        val controller2 = new Controller()
+        var field = controller2.playground
+        field = controller2.insChip(Move(0))
+        field.grid.getCell(6, 0) should be (Cell(Chip.YELLOW))
+        field = controller2.undo
+        field.grid.getCell(6, 0) should be (Cell(Chip.EMPTY))
+        field = controller2.redo
+        field.grid.getCell(6, 0) should be (Cell(Chip.YELLOW))
       }
     }
   }

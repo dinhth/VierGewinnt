@@ -24,7 +24,10 @@ case class Playground(grid: Grid, player: List[Player], enemStrat:EnemyStrategy)
     var i = size - 1
     while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
     i += 1
-    i
+    i match {
+      case size => size - 1
+      case _ => i
+    }
   }
 
   def setEnemyStrategy(enemystrat:String):Playground = {

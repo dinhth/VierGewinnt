@@ -19,26 +19,26 @@ class ControllerSpec extends AnyWordSpec {
 
       "notify when insert a chip" in {
         controller.add(observer)
-        controller.insChip(Move(1))
+        controller.doAndPublish(controller.insChip, Move(0))
         observer.toString should be("true")
         controller.playground.getPosition(0) should be(5)
       }
 
       "after remove should not notify" in {
         controller.remove(observer)
-        controller.insChip(Move(1))
+        controller.doAndPublish(controller.insChip, Move(0))
         observer.toString should be("true")
       }
 
       "change strat to computer enemy strategy" in {
         controller.changeEnemyStrategy("computer")
         controller.playground.enemStrat should be(EnemyComputerStrategy())
-        controller.insChip(Move(1))
+        controller.doAndPublish(controller.insChip, Move(0))
       }
       "change strat to person enemy strategy" in {
         controller.changeEnemyStrategy("person")
         controller.playground.enemStrat should be(EnemyPersonStrategy())
-        controller.insChip(Move(1))
+        controller.doAndPublish(controller.insChip, Move(0))
       }
 
       "checking no one has won" in {

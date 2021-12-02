@@ -4,28 +4,39 @@ package controller
 import model.{Chip, Grid, Player, Playground}
 import util.Observable
 
-class Controller(var playground: Playground) extends Observable :
+class Controller(var playground: Playground)extends Observable :
   def this(size: Int = 7) = this(new Playground(7))
 
-  def insertChip(col: Int):Unit =
+  var gamestate: GameState = GameState()
+
+  def insertChip(col: Int): Unit =
     playground = playground.insertChip(col)
     checkFull()
     checkWinner()
     notifyObservers
 
-  def checkFull():Unit =
-    playground.grid.checkFull() match { //println just FOR DEBUG, DELETE LATER!!! (print ln ONLY in TUI)
-      case true => println("Grid is COMPLETELY FULL")
-      case false => println("Grid is not full")
+  def checkFull(): Unit =
+    playground.grid.checkFull() match {
+      case true => gamestate.state = TieState()
+      case false => gamestate.state = IdleState()
     }
 
-  def changeEnemyStrategy(strat:String):Unit =
+  def changeEnemyStrategy(strat: String): Unit =
     playground = playground.setEnemyStrategy(strat)
 
-  def checkWinner():Unit =
-    playground.grid.checkWin() match {//println just FOR DEBUG, DELETE LATER!!! (print ln ONLY in TUI)
+  def checkWinner(): Unit =
+    playground.grid.checkWin() match {
       case 0 =>
-      case 1 => println("Winner is Red")
-      case 2 => println("Winner is Yellow")
+      case 1 => {
+        println("Winner is Red")
+        gamestate.state = WinState()
+      }
+      case 2 => {
+        println("Winner is Yellow")
+        gamestate.state = WinState()
+      }
     }
+
+  def printState(): Unit = gamestate.displayState()
+
   override def toString = playground.toString

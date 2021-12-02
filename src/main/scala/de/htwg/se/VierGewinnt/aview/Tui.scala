@@ -1,7 +1,7 @@
 package de.htwg.se.VierGewinnt
 package aview
 
-import controller.Controller
+import controller.{Controller, GameState}
 import model.{Chip, Player, Playground}
 
 import scala.io.StdIn.readLine
@@ -10,7 +10,7 @@ import util.Observer
 import scala.util.Try
 
 
-class Tui(controller: Controller) extends Observer :
+class Tui(controller: Controller)extends Observer :
   controller.add(this)
   val size = controller.playground.size
 
@@ -40,4 +40,7 @@ class Tui(controller: Controller) extends Observer :
         getInputAndPrintLoop()
     }
 
-  override def update: Unit = println(controller.toString)
+  override def update: Unit = {
+    println(controller.toString + "\n")
+    controller.printState()
+  }

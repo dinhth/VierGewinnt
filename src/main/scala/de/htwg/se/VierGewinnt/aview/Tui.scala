@@ -2,7 +2,7 @@ package de.htwg.se.VierGewinnt
 package aview
 
 import controller.Controller
-import model.{Chip, Player, Playground}
+import model.{Chip, Player, Playground, Move}
 
 import scala.io.StdIn.readLine
 import util.Observer
@@ -29,6 +29,12 @@ class Tui(controller: Controller) extends Observer :
       case "person" =>
         controller.changeEnemyStrategy(input)
         getInputAndPrintLoop()
+      case "undo" =>
+        controller.doAndPublish(controller.undo);
+        getInputAndPrintLoop()
+      case "redo" =>
+        controller.doAndPublish(controller.redo);
+        getInputAndPrintLoop()
       case x if x.toIntOption == None =>
         println("doesn't look like a number")
         getInputAndPrintLoop()
@@ -36,7 +42,8 @@ class Tui(controller: Controller) extends Observer :
         println("wrong input, try a number from 1 to " + size)
         getInputAndPrintLoop()
       case _ =>
-        controller.insertChip(input.toInt - 1)
+        //controller.insertChip(input.toInt - 1)
+        controller.doAndPublish(controller.insChip, Move(input.toInt - 1))
         getInputAndPrintLoop()
     }
 

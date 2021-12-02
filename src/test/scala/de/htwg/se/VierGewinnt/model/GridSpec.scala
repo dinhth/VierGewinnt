@@ -101,19 +101,19 @@ class GridSpec extends AnyWordSpec {
         tempgrid.checkDiagonalUpLeftWin() should be(1)
       }
       "correctly check result 0 if no win is found" in {
-        grid.checkWin() should be(0)
+        grid.checkWin() should be(None)
       }
       "correctly check other than 1 on vertical" in {
         val tempgrid = grid.replaceCell(0, 0, Cell(Chip.RED)).replaceCell(1, 0, Cell(Chip.RED)).replaceCell(2, 0, Cell(Chip.RED)).replaceCell(3, 0, Cell(Chip.RED))
-        tempgrid.checkWin() should be(1)
+        tempgrid.checkWin() should be(Some(1))
       }
       "correctly check other than 1 on diagonal right up" in {
         val tempgrid = grid.replaceCell(0, 0, Cell(Chip.RED)).replaceCell(1, 1, Cell(Chip.RED)).replaceCell(2, 2, Cell(Chip.RED)).replaceCell(3, 3, Cell(Chip.RED))
-        tempgrid.checkWin() should be(1)
+        tempgrid.checkWin() should be(Some(1))
       }
       "correctly check other than 1 on diagonal left up" in {
         val tempgrid = grid.replaceCell(4, 0, Cell(Chip.RED)).replaceCell(3, 1, Cell(Chip.RED)).replaceCell(2, 2, Cell(Chip.RED)).replaceCell(1, 3, Cell(Chip.RED))
-        tempgrid.checkWin() should be(1)
+        tempgrid.checkWin() should be(Some(1))
       }
     }
   }

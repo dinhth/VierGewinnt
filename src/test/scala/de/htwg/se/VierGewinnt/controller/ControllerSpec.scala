@@ -19,54 +19,54 @@ class ControllerSpec extends AnyWordSpec {
 
       "notify when insert a chip" in {
         controller.add(observer)
-        controller.insertChip(0)
+        controller.insChip(Move(1))
         observer.toString should be("true")
         controller.playground.getPosition(0) should be(5)
       }
 
       "after remove should not notify" in {
         controller.remove(observer)
-        controller.insertChip(0)
+        controller.insChip(Move(1))
         observer.toString should be("true")
       }
 
       "change strat to computer enemy strategy" in {
         controller.changeEnemyStrategy("computer")
         controller.playground.enemStrat should be(EnemyComputerStrategy())
-        controller.insertChip(1)
+        controller.insChip(Move(1))
       }
       "change strat to person enemy strategy" in {
         controller.changeEnemyStrategy("person")
         controller.playground.enemStrat should be(EnemyPersonStrategy())
-        controller.insertChip(1)
+        controller.insChip(Move(1))
       }
 
       "checking no one has won" in {
-        controller.checkWinner()
+        controller.checkWinner(controller.playground)
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
             controller.playground = controller.playground.copy(controller.playground.grid.replaceCell(y, x, Cell(Chip.EMPTY)), controller.playground.player, controller.playground.enemStrat)
           }
         }
-        controller.checkWinner()
+        controller.checkWinner(controller.playground)
       }
       "checking RED has won" in {
-        controller.checkWinner()
+        controller.checkWinner(controller.playground)
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
             controller.playground = controller.playground.copy(controller.playground.grid.replaceCell(y, x, Cell(Chip.RED)), controller.playground.player, controller.playground.enemStrat)
           }
         }
-        controller.checkWinner()
+        controller.checkWinner(controller.playground)
       }
       "checking YELLOW has won" in {
-        controller.checkWinner()
+        controller.checkWinner(controller.playground)
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
             controller.playground = controller.playground.copy(controller.playground.grid.replaceCell(y, x, Cell(Chip.YELLOW)), controller.playground.player, controller.playground.enemStrat)
           }
         }
-        controller.checkWinner()
+        controller.checkWinner(controller.playground)
       }
       "checking if the gameboard is full" in {
         for (y <- 0 to (6)) yield { //Height
@@ -81,6 +81,15 @@ class ControllerSpec extends AnyWordSpec {
           }
         }
         controller.checkFull()
+      }
+      "undo and redo a move" in {
+        var field = controller.playground
+        field = controller.insChip(Move(1))
+        field.grid.getCell(6, 0) should be(Chip.YELLOW)
+        field = controller.undo
+        field.grid.getCell(6, 0) should be(Chip.EMPTY)
+        field = controller.redo
+        field.grid.getCell(6, 0) should be(Chip.YELLOW)
       }
     }
   }

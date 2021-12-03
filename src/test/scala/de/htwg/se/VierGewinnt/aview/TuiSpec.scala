@@ -58,7 +58,7 @@ class TuiSpec extends AnyWordSpec {
           tui.getInputAndPrintLoop()
         }
       }
-      tui.size should be(7)
+      //tui.size should be(7)
       controller.playground.getPosition(0) should be(5)
     }
     "invalid input: not a number" in {
@@ -82,7 +82,7 @@ class TuiSpec extends AnyWordSpec {
           tui.getInputAndPrintLoop()
         }
       }
-      source.toString should be(("wrong input, try a number from 1 to " + tui.size + "\n") * 3)
+      source.toString should be(("wrong input, try a number from 1 to " + controller.playground.size + "\n") * 3)
     }
   }
 }

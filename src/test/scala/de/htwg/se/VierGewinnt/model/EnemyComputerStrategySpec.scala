@@ -11,7 +11,7 @@ class EnemyComputerStrategySpec extends AnyWordSpec {
     var playground = new Playground()
     "Inserting a Chip" in {
       val tempplayground = playground.setEnemyStrategy("computer")
-      tempplayground.insertChip(1) should not be (Playground(Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCell(6, 1, Cell(Chip.YELLOW)), List(Player("Player 2", Chip.RED), Player("Player 1", Chip.YELLOW)), EnemyComputerStrategy()))
+      tempplayground.insertChip(1) should not be (Playground(Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCell(6, 1, Cell(Chip.YELLOW)), List(HumanPlayer("Player 2", Chip.RED), HumanPlayer("Player 1", Chip.YELLOW)), EnemyComputerStrategy()))
     }
     "not inserting a Chip manually" in {
       var tempplayground = playground.setEnemyStrategy("computer")
@@ -51,7 +51,7 @@ class EnemyComputerStrategySpec extends AnyWordSpec {
         .replaceCell(3, 1, Cell(Chip.EMPTY))
         .replaceCell(3, 2, Cell(Chip.YELLOW))
         .replaceCell(3, 3, Cell(Chip.RED)),
-        List(Player("Player 1", Chip.YELLOW), Player("Player 2", Chip.RED)), EnemyComputerStrategy())
+        List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)), EnemyComputerStrategy())
       pl = pl.insertChip(1)
       pl = pl.insertChip(0)
     }

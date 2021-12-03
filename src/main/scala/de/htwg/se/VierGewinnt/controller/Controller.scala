@@ -1,7 +1,7 @@
 package de.htwg.se.VierGewinnt
 package controller
 
-import model.{Chip, Grid, Player, Playground, Move}
+import model._
 import util.Observable
 import util.Command
 import util.UndoManager
@@ -44,7 +44,7 @@ class Controller(var playground: Playground, var gameType: Int)extends Observabl
     val temp = undoManager.doStep(playground, InsertChipCommand(move))
     checkWinner(temp)
     checkFull()
-    temp
+    temp    
   }
 
   def checkFull(): Unit =

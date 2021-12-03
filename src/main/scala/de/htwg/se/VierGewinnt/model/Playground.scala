@@ -25,7 +25,7 @@ case class Playground(grid: Grid, player: List[Player], enemStrat: EnemyStrategy
     while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
     i += 1
     i match {
-      case size => size - 1
+      case this.size => this.size - 1
       case _ => i
     }
   }

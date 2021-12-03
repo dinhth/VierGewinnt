@@ -45,7 +45,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.checkWinner(controller.playground)
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCell(y, x, Cell(Chip.EMPTY)), controller.playground.player, controller.playground.enemStrat)
+            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.EMPTY)), controller.playground.player, controller.playground.enemStrat)
           }
         }
         controller.checkWinner(controller.playground)
@@ -54,7 +54,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.checkWinner(controller.playground)
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCell(y, x, Cell(Chip.RED)), controller.playground.player, controller.playground.enemStrat)
+            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.RED)), controller.playground.player, controller.playground.enemStrat)
           }
         }
         controller.checkWinner(controller.playground)
@@ -63,7 +63,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.checkWinner(controller.playground)
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCell(y, x, Cell(Chip.YELLOW)), controller.playground.player, controller.playground.enemStrat)
+            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.YELLOW)), controller.playground.player, controller.playground.enemStrat)
           }
         }
         controller.checkWinner(controller.playground)
@@ -71,13 +71,13 @@ class ControllerSpec extends AnyWordSpec {
       "checking if the gameboard is full" in {
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCell(y, x, Cell(Chip.EMPTY)), controller.playground.player, controller.playground.enemStrat)
+            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.EMPTY)), controller.playground.player, controller.playground.enemStrat)
           }
         }
         controller.checkFull()
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCell(y, x, Cell(Chip.RED)), controller.playground.player, controller.playground.enemStrat)
+            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.RED)), controller.playground.player, controller.playground.enemStrat)
           }
         }
         controller.checkFull()

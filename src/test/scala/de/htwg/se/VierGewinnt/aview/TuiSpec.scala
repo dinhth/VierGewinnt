@@ -12,7 +12,7 @@ class TuiSpec extends AnyWordSpec {
     val tui = new Tui(controller)
 
     "run" in {
-      val in = new BufferedReader(new StringReader("q"))
+      val in = new BufferedReader(new StringReader("\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
       Console.withOut(printer) {
@@ -20,7 +20,7 @@ class TuiSpec extends AnyWordSpec {
           tui.run
         }
       }
-      source.toString should be(s"Welcome to 'Vier Gewinnt'\n$controller\n")
+      source.toString should be(s"Welcome to 'Vier Gewinnt'\n\n Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER\n0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'\n ")
     }
 
 

@@ -3,6 +3,7 @@ package de.htwg.se.VierGewinnt.model
 import de.htwg.se.VierGewinnt.util.EnemyStrategy
 import io.AnsiColor.*
 import scala.math.*
+import scala.util.*
 
 case class Playground(grid: Grid, player: List[Player], enemStrat: EnemyStrategy) {
   def this(size: Int = 7) = this(new Grid(size), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)), EnemyPersonStrategy())
@@ -17,11 +18,15 @@ case class Playground(grid: Grid, player: List[Player], enemStrat: EnemyStrategy
   }
 
   def takeAwayChip(col:Int): Playground = {
-    copy(grid.replaceCell(getDeletePosition(col), col, Cell(Chip.EMPTY)), player.reverse, enemStrat)
+    val returnGrid = grid.replaceCell(getDeletePosition(col), col, Cell(Chip.EMPTY))
+    returnGrid match {
+      case Success(v) => copy(v, player.reverse, enemStrat)
+      case Failure(_) => this
+    }
   }
 
   def getDeletePosition(col: Int): Int = { //get the position where the chip should drop
-    var i = size - 1
+    var i = this.size - 1
     while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
     i += 1
     i match {

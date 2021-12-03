@@ -1,6 +1,7 @@
 package de.htwg.se.VierGewinnt.model
 
 import io.AnsiColor._
+import scala.util.*
 
 /** This class keeps the data of the game as a 2D Vector
  * auxilary constructor gets called for an empty board.
@@ -10,7 +11,15 @@ case class Grid(grid: Vector[Vector[Cell]]) {
 
   def getCell(row: Int, col: Int): Cell = grid(row)(col) //getter
 
-  def replaceCell(row: Int, col: Int, cell: Cell): Grid = {
+  def replaceCell(row: Int, col: Int, cell: Cell): Try[Grid] = {
+    val result = Try(copy(grid.updated(row, grid(row).updated(col, cell))))
+    result match {
+      case Success(v) => Success(v)
+      case Failure(e) => Failure(e)
+    }
+  }
+
+  def replaceCellRisk(row: Int, col: Int, cell: Cell): Grid = { // For Testing, only if 100% certain
     copy(grid.updated(row, grid(row).updated(col, cell)))
   }
 

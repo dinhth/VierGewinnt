@@ -49,7 +49,7 @@ class PlaygroundSpec extends AnyWordSpec {
         val playgroundtemp = playground.setEnemyStrategy("person")
         playgroundtemp      }
       "change to computer" in {
-        val playgroundtemp = playground.setEnemyStrategy("computer")
+        val playgroundtemp = playground.setEnemyStrategy("bot")
         playgroundtemp.enemStrat should be (EnemyComputerStrategy())
       }
       "change not by faulty input" in {

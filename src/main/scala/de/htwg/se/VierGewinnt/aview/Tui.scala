@@ -26,7 +26,7 @@ class Tui(controller: Controller)extends Observer :
       case "0" | "1" =>
         println("Type the grid size")
         val size = readLine()
-        controller.newGame(gameType.toInt, size.toInt) //TODO:Try-Monad        
+        controller.newGame(gameType.toInt, size.toInt) //TODO:Try-Monad
       case "2" => println("not supported yet")
         prepareGameType()
       case "q" =>
@@ -56,6 +56,6 @@ class Tui(controller: Controller)extends Observer :
     }
 
   override def update: Unit = {
-    println(controller.toString + "\n")
+    println(controller.toString)
     controller.printState
   }

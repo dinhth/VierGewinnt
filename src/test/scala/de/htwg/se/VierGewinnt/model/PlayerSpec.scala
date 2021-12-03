@@ -7,7 +7,7 @@ import scala.io.AnsiColor._
 class PlayerSpec extends AnyWordSpec {
   "A Player" when {
     "new" should {
-      val player = Player("player1", Chip.RED)
+      val player = HumanPlayer("player1", Chip.RED)
       "have a name" in {
         player.name should be("player1")
       }

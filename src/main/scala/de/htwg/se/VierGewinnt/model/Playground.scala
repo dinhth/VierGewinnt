@@ -1,12 +1,12 @@
 package de.htwg.se.VierGewinnt.model
 
 import de.htwg.se.VierGewinnt.util.EnemyStrategy
-
 import io.AnsiColor.*
 import scala.math.*
 
-case class Playground(grid: Grid, player: List[Player], enemStrat:EnemyStrategy) {
-  def this(size: Int = 7) = this(new Grid(size), List(Player("Player 1", Chip.YELLOW), Player("Player 2", Chip.RED)), EnemyPersonStrategy())
+case class Playground(grid: Grid, player: List[Player], enemStrat: EnemyStrategy) {
+  def this(size: Int = 7) = this(new Grid(size), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)), EnemyPersonStrategy())
+
   //top element of the List 'player' is the current player
 
   val size: Int = grid.size
@@ -33,7 +33,7 @@ case class Playground(grid: Grid, player: List[Player], enemStrat:EnemyStrategy)
   def setEnemyStrategy(enemystrat:String):Playground = {
     enemystrat match {
       case "person" => copy(this.grid, player, EnemyPersonStrategy())
-      case "computer" => copy(this.grid, player, EnemyComputerStrategy())
+      case "bot" => copy(this.grid, player, EnemyComputerStrategy())
       case _ => this
     }
   }

@@ -11,7 +11,7 @@ class EnemyPersonStrategySpec extends AnyWordSpec {
     var playground = new Playground()
     "Inserting a Chip" in {
       val tempplayground = playground.setEnemyStrategy("person")
-      tempplayground.insertChip(1) should be (Playground(Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCell(6,1,Cell(Chip.YELLOW)), List(Player("Player 2", Chip.RED), Player("Player 1", Chip.YELLOW)), EnemyPersonStrategy()))
+      tempplayground.insertChip(1) should be (Playground(Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCell(6,1,Cell(Chip.YELLOW)), List(HumanPlayer("Player 2", Chip.RED), HumanPlayer("Player 1", Chip.YELLOW)), EnemyPersonStrategy()))
     }
   }
 }

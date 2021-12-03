@@ -31,7 +31,7 @@ class ControllerSpec extends AnyWordSpec {
       }
 
       "change strat to computer enemy strategy" in {
-        controller.changeEnemyStrategy("computer")
+        controller.changeEnemyStrategy("bot")
         controller.playground.enemStrat should be(EnemyComputerStrategy())
         controller.doAndPublish(controller.insChip, Move(0))
       }

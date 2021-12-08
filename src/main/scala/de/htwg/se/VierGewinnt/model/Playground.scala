@@ -13,7 +13,7 @@ case class Playground(grid: Grid, player: List[Player], enemStrat: EnemyStrategy
   val size: Int = grid.size
   var error = ""
 
-  def insertChip(col: Int): Playground = {
+  /*def insertChip(col: Int): Playground = {
     enemStrat.insertChip(this, col)
   }
 
@@ -23,7 +23,7 @@ case class Playground(grid: Grid, player: List[Player], enemStrat: EnemyStrategy
       case Success(v) => copy(v, player.reverse, enemStrat)
       case Failure(_) => this
     }
-  }
+  }*/
 
   def getDeletePosition(col: Int): Int = { //get the position where the chip should drop
     var i = this.size - 1

@@ -15,7 +15,7 @@ case class PrepareState()extends State[GameState] :
 
 
 case class PlayState()extends State[GameState] :
-  override def displayState: Unit = print("Game is on")
+  override def displayState: Unit = println("Game is on")
 
 
 case class WinState()extends State[GameState] :

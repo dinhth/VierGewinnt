@@ -30,7 +30,8 @@ class ControllerSpec extends AnyWordSpec {
         observer.toString should be("true")
       }
 
-      "change strat to computer enemy strategy" in {
+      //TODO: new test
+      /*"change strat to computer enemy strategy" in {
         controller.changeEnemyStrategy("bot")
         controller.playground.enemStrat should be(EnemyComputerStrategy())
         controller.doAndPublish(controller.insChip, Move(0))
@@ -81,7 +82,7 @@ class ControllerSpec extends AnyWordSpec {
           }
         }
         controller.checkFull()
-      }
+      }*/
       "undo and redo a move" in {
         val controller2 = new Controller()
         var field = controller2.playground

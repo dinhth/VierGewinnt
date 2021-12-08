@@ -9,7 +9,7 @@ import scala.math.ceil
 class PlaygroundSpec extends AnyWordSpec {
   "Playground is the representation of the gamefield" when {
     "initialized without parameter" should {
-      val playground = new Playground()
+      val playground = PlaygroundPvP(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)))
       "have the default size" in {
         playground.size should be(7)
       }
@@ -34,7 +34,7 @@ class PlaygroundSpec extends AnyWordSpec {
       }
     }
     "when a column is full" should {
-      val playground = new Playground(1)
+      val playground = new PlaygroundPvP(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)))
       val playgroundfull = playground.insertChip(0)
       "nothing happen" in {
         playgroundfull.insertChip(0) should be(playgroundfull)

@@ -22,11 +22,11 @@ class Tui(controller: Controller)extends Observer :
     println("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER\n0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
     val gameType = readLine()
     gameType match
-      case "" => controller.newGame(0, 7)
+      case "" => controller.setupGame(0, 7)
       case "0" | "1" =>
         println("Type the grid size")
         val size = readLine()
-        controller.newGame(gameType.toInt, size.toInt) //TODO:Try-Monad
+        controller.setupGame(gameType.toInt, size.toInt) //TODO:Try-Monad
       case "2" => println("not supported yet")
         prepareGameType()
       case "q" =>

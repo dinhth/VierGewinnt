@@ -1,6 +1,6 @@
 package de.htwg.se.VierGewinnt
 
-import aview.{Tui, GUI}
+import aview.Tui
 import controller.Controller
 import model.{Cell, Chip, Grid, Player}
 import scala.io.StdIn.readLine

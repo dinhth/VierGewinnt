@@ -2,7 +2,7 @@ package de.htwg.se.VierGewinnt
 package aview
 
 import controller.{Controller, GameState}
-import model.{Chip, Player, Playground, Move}
+import model.{Chip, Player, Move}
 
 import scala.io.StdIn.readLine
 import util.Observer

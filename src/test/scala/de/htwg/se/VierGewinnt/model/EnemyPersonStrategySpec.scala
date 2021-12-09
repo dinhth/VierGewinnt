@@ -7,7 +7,7 @@ import scala.io.AnsiColor.*
 
 class EnemyPersonStrategySpec extends AnyWordSpec {
   "An Enemy Person Spec should work deterministic" when {
-    var playground = PlaygroundPvP(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), BotPlayer("Bot 1", Chip.RED)))
+    var playground = PlaygroundPvP(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)))
     "Inserting a Chip" in {
       playground.insertChip(1) should be(
         PlaygroundPvP(

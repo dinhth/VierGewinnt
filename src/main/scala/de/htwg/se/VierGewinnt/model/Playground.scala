@@ -4,7 +4,7 @@ import de.htwg.se.VierGewinnt.util.EnemyStrategy
 import io.AnsiColor.*
 import scala.math.*
 import scala.util.*
-
+/*
 case class Playground(grid: Grid, player: List[Player], enemStrat: EnemyStrategy) {
   def this(size: Int = 7) = this(new Grid(size), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)), EnemyPersonStrategy())
 
@@ -65,3 +65,4 @@ case class Playground(grid: Grid, player: List[Player], enemStrat: EnemyStrategy
     return s"${BLUE_B}  " + ("----" * size) + s"-  ${RESET}\n"
   }
 }
+*/

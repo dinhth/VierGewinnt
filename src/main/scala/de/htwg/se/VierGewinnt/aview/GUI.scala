@@ -5,6 +5,8 @@ import de.htwg.se.VierGewinnt.model.Chip
 import de.htwg.se.VierGewinnt.model.Move
 import de.htwg.se.VierGewinnt.util.Observer
 import scalafx.application.JFXApp3
+import scalafx.event.ActionEvent
+import scalafx.scene.control.Button
 import scalafx.scene.control.Label
 import scalafx.scene.effect.BlendMode.Blue
 import scalafx.scene.input.MouseEvent
@@ -35,7 +37,6 @@ case class GUI(controller: Controller) extends JFXApp3 with Observer:
             element.fill = Color.Yellow
         }
     })
-  // chips.foreach(sublist => sublist.foreach(element => element.fill = controller.getChipColor()))
 
   def run = println("GUI starting to run...")
 
@@ -47,6 +48,13 @@ case class GUI(controller: Controller) extends JFXApp3 with Observer:
         rect.fill = Color.DarkBlue
         controller.setupGame(0, 7)
 
+        val btnUndo = new Button("undo")
+        val btnRedo = new Button("redo")
+        btnUndo.onAction = (event: ActionEvent) => controller.doAndPublish(controller.undo)
+        btnRedo.onAction = (event: ActionEvent) => controller.doAndPublish(controller.redo)
+
+        chipGrid.add(btnUndo, 0, controller.gridSize)
+        chipGrid.add(btnRedo, 1, controller.gridSize)
         content = List(rect, chipGrid)
 
   def emptyChips(): Array[Array[Circle]] = Array.fill(controller.gridSize, controller.gridSize)(Circle(50))

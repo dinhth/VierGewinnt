@@ -30,8 +30,7 @@ class Tui(controller: Controller)extends Observer :
       case "2" => println("not supported yet")
         prepareGameType()
       case "q" =>
-      case _ => prepareGameType()
-
+      case _   => prepareGameType()
 
   def getInputAndPrintLoop(): Unit =
     val input = readLine()
@@ -50,7 +49,6 @@ class Tui(controller: Controller)extends Observer :
         println("wrong input, try a number from 1 to " + controller.playground.size)
         getInputAndPrintLoop()
       case _ =>
-        //controller.insertChip(input.toInt - 1)
         controller.doAndPublish(controller.insChip, Move(input.toInt - 1))
         getInputAndPrintLoop()
     }

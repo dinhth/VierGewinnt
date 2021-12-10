@@ -5,9 +5,13 @@ import de.htwg.se.VierGewinnt.model.Chip
 import de.htwg.se.VierGewinnt.model.Move
 import de.htwg.se.VierGewinnt.util.Observer
 import scalafx.application.JFXApp3
+import scalafx.application.Platform.*
 import scalafx.event.ActionEvent
 import scalafx.scene.control.Button
 import scalafx.scene.control.Label
+import scalafx.scene.control.Menu
+import scalafx.scene.control.MenuBar
+import scalafx.scene.control.MenuItem
 import scalafx.scene.effect.BlendMode.Blue
 import scalafx.scene.input.MouseEvent
 import scalafx.scene.layout.GridPane
@@ -23,8 +27,6 @@ case class GUI(controller: Controller) extends JFXApp3 with Observer:
   var chips = emptyChips()
   var chipGrid = emptyGrid()
 
-  def chipChanged() = println("bla")
-
   override def update: Unit =
     chips.zipWithIndex.foreach((subList, i) => {
       for ((element, j) <- subList.zipWithIndex)
@@ -38,7 +40,6 @@ case class GUI(controller: Controller) extends JFXApp3 with Observer:
         }
     })
 
-  def run = println("GUI starting to run...")
 
   override def start(): Unit =
     stage = new JFXApp3.PrimaryStage:

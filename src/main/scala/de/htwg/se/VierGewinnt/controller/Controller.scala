@@ -7,9 +7,12 @@ import util.Observable
 import util.UndoManager
 
 class Controller(var playground: PlaygroundTemplate, var gameType: Int) extends Observable:
-  def this(size: Int = 7) = this(PlaygroundPvP(new Grid(size), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED))), 0)
+  def this(size: Int = 7) =
+    this(PlaygroundPvP(new Grid(size), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED))), 0)
   var gamestate: GameState = GameState()
   var player: List[Player] = List()
+
+  def gridSize: Int = playground.size
 
   def setupGame(gameType: Int, size: Int): Unit =
     gameType match
@@ -24,11 +27,11 @@ class Controller(var playground: PlaygroundTemplate, var gameType: Int) extends 
 
   val undoManager = new UndoManager[PlaygroundTemplate]
 
-  def doAndPublish(doThis: Move => PlaygroundTemplate, move: Move) =
+  def doAndPublish(doThis: Move => PlaygroundTemplate, move: Move): Unit =
     playground = doThis(move)
     notifyObservers
 
-  def doAndPublish(doThis: => PlaygroundTemplate) =
+  def doAndPublish(doThis: => PlaygroundTemplate): Unit =
     playground = doThis
     notifyObservers
 
@@ -56,6 +59,9 @@ class Controller(var playground: PlaygroundTemplate, var gameType: Int) extends 
         println("Winner is " + num)
         gamestate.changeState(WinState())
     }
+
+  def getChipColor(row: Int, col: Int): Chip =
+    playground.grid.getCell(row, col).chip
 
   def printState: Unit = gamestate.displayState()
 

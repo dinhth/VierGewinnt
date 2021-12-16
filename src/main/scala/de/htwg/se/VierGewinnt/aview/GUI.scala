@@ -5,6 +5,7 @@ import de.htwg.se.VierGewinnt.model.Chip
 import de.htwg.se.VierGewinnt.model.Move
 import de.htwg.se.VierGewinnt.util.Observer
 import scalafx.application.JFXApp3
+import scalafx.application.Platform
 import scalafx.application.Platform.*
 import scalafx.event.ActionEvent
 import scalafx.scene.control.Button
@@ -14,8 +15,7 @@ import scalafx.scene.control.MenuBar
 import scalafx.scene.control.MenuItem
 import scalafx.scene.effect.BlendMode.Blue
 import scalafx.scene.input.MouseEvent
-import scalafx.scene.layout.GridPane
-import scalafx.scene.layout.GridPane.getRowSpan
+import scalafx.scene.layout.*
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Circle
 import scalafx.scene.shape.Rectangle
@@ -40,23 +40,47 @@ case class GUI(controller: Controller) extends JFXApp3 with Observer:
         }
     })
 
-
   override def start(): Unit =
     stage = new JFXApp3.PrimaryStage:
       title.value = "VierGewinnt"
       scene = new Scene:
-        val rect = Rectangle(0, 0, 800, 800)
-        rect.fill = Color.DarkBlue
+        fill = Color.DarkBlue
         controller.setupGame(0, 7)
+        val menu = new MenuBar {
+          menus = List(
+            new Menu("File") {
+              items = List(
+                new MenuItem("New...") {
+                  onAction = (event: ActionEvent) => controller.setupGame(0, 0)
+                },
+                new MenuItem("Save"),
+                new MenuItem("Load")
+              )
+            },
+            new Menu("Control") {
+              items = List(
+                new MenuItem("Undo") {
+                  onAction = (event: ActionEvent) => controller.doAndPublish(controller.undo)
+                },
+                new MenuItem("Redo") {
+                  onAction = (event: ActionEvent) => controller.doAndPublish(controller.redo)
+                }
+              )
+            },
+            new Menu("Help") {
+              items = List(
+                new MenuItem("About")
+              )
+            }
+          )
+        }
 
-        val btnUndo = new Button("undo")
-        val btnRedo = new Button("redo")
-        btnUndo.onAction = (event: ActionEvent) => controller.doAndPublish(controller.undo)
-        btnRedo.onAction = (event: ActionEvent) => controller.doAndPublish(controller.redo)
+        var vBox = new VBox():
+          children = List(menu, chipGrid)
 
-        chipGrid.add(btnUndo, 0, controller.gridSize)
-        chipGrid.add(btnRedo, 1, controller.gridSize)
-        content = List(rect, chipGrid)
+        content = new VBox() {
+          children = List(menu, chipGrid)
+        }
 
   def emptyChips(): Array[Array[Circle]] = Array.fill(controller.gridSize, controller.gridSize)(Circle(50))
 
@@ -68,3 +92,7 @@ case class GUI(controller: Controller) extends JFXApp3 with Observer:
           add(element, i, j)
         }
       }
+
+  override def stopApp(): Unit =
+    super.stopApp()
+    System.exit(0)

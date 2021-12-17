@@ -1,7 +1,10 @@
 package de.htwg.se.VierGewinnt.model
 
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
+import org.scalatest.matchers.should.Matchers.*
+
 import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
 
 class CellSpec extends AnyWordSpec {
@@ -13,12 +16,12 @@ class CellSpec extends AnyWordSpec {
     }
     "picked by Player 1" should {
       "be displayed as a Yellow Cell" in {
-        Cell(Chip.YELLOW).toString() should be(s"${YELLOW_B}" + s"   ")
+        gridBaseImpl.Cell(Chip.YELLOW).toString() should be(s"${YELLOW_B}" + s"   ")
       }
     }
     "picked by Player 2" should {
       "be displayed as a Red Cell" in {
-        Cell(Chip.RED).toString() should be(s"${RED_B}" + s"   ")
+        gridBaseImpl.Cell(Chip.RED).toString() should be(s"${RED_B}" + s"   ")
       }
     }
   }

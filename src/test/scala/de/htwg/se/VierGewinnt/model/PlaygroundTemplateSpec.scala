@@ -1,7 +1,13 @@
 package de.htwg.se.VierGewinnt.model
 
+import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
+import de.htwg.se.VierGewinnt.model.playerComponent.{playerBaseImpl, playerMockImpl}
+import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 
 import io.AnsiColor.*
 import scala.math.ceil
@@ -9,7 +15,7 @@ import scala.math.ceil
 class PlaygroundTemplateSpec extends AnyWordSpec {
   "Playground is the representation of the gamefield" when {
     "initialized without parameter" should {
-      val playground = PlaygroundPvP(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)))
+      val playground = playgroundBaseImpl.PlaygroundPvP(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
       "have the default size" in {
         playground.size should be(7)
       }
@@ -25,7 +31,7 @@ class PlaygroundTemplateSpec extends AnyWordSpec {
       }
     }
     "have a String representation with a head, grid and border" should {
-      val playground = PlaygroundPvP(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)))
+      val playground = playgroundBaseImpl.PlaygroundPvP(new Grid(7), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
       "have a line with column names" in {
         playground.colnames() should be(s"${BLUE_B}\t1\t2\t3\t4\t5\t6\t7\t ${RESET}\n")
       }
@@ -37,7 +43,7 @@ class PlaygroundTemplateSpec extends AnyWordSpec {
       }
     }
     "when a column is full" should {
-      val playground = new PlaygroundPvP(new Grid(1), List(HumanPlayer("Player 1", Chip.YELLOW), HumanPlayer("Player 2", Chip.RED)))
+      val playground = new PlaygroundPvP(new Grid(1), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
       val playgroundfull = playground.insertChip(0)
       "nothing happen" in {
         playgroundfull.insertChip(0) should be(playgroundfull)

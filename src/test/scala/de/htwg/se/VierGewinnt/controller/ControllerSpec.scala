@@ -1,9 +1,11 @@
 package de.htwg.se.VierGewinnt.controller
 
-import de.htwg.se.VierGewinnt.util.Observer
 import de.htwg.se.VierGewinnt.model.*
-import org.scalatest.wordspec.AnyWordSpec
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
+import de.htwg.se.VierGewinnt.util.Observer
 import org.scalatest.matchers.should.Matchers.*
+import org.scalatest.wordspec.AnyWordSpec
 
 class ControllerSpec extends AnyWordSpec {
   "A controller" when {
@@ -30,7 +32,7 @@ class ControllerSpec extends AnyWordSpec {
         observer.toString should be("true")
       }
 
-      //TODO: new test
+      // TODO: new test
       /*"change strat to computer enemy strategy" in {
         controller.changeEnemyStrategy("bot")
         controller.playground.enemStrat should be(EnemyComputerStrategy())
@@ -87,11 +89,11 @@ class ControllerSpec extends AnyWordSpec {
         val controller2 = new Controller()
         var field = controller2.playground
         field = controller2.insChip(Move(0))
-        field.grid.getCell(6, 0) should be (Cell(Chip.YELLOW))
+        field.grid.getCell(6, 0) should be(Cell(Chip.YELLOW))
         field = controller2.undo
-        field.grid.getCell(6, 0) should be (Cell(Chip.EMPTY))
+        field.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.EMPTY))
         field = controller2.redo
-        field.grid.getCell(6, 0) should be (Cell(Chip.YELLOW))
+        field.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.YELLOW))
       }
       "return grid size" in {
         controller.gridSize should be(7)

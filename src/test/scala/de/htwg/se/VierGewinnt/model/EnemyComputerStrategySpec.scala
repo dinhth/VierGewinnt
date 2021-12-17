@@ -1,8 +1,15 @@
 package de.htwg.se.VierGewinnt.model
 
 import de.htwg.se.VierGewinnt.controller.Controller
+import de.htwg.se.VierGewinnt.model.gridComponent.*
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
+import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl
+import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.{BotPlayer, HumanPlayer}
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvE
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+
 import scala.io.AnsiColor.*
 
 class EnemyComputerStrategySpec extends AnyWordSpec {
@@ -10,12 +17,12 @@ class EnemyComputerStrategySpec extends AnyWordSpec {
     var playground = PlaygroundPvE(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), BotPlayer("Bot 1", Chip.RED)))
     "Inserting a Chip" in {
       playground.insertChip(1) should not be (
-        PlaygroundPvE(
-          Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCellRisk(6, 1, Cell(Chip.YELLOW)),
-          List(HumanPlayer("Player 2", Chip.RED), HumanPlayer("Player 1", Chip.YELLOW))
+        playgroundBaseImpl.PlaygroundPvE(
+          Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCellRisk(6, 1, gridBaseImpl.Cell(Chip.YELLOW)),
+          List(playerBaseImpl.HumanPlayer("Player 2", Chip.RED), playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW))
         )
       )
-    }/*
+    } /*
     "not inserting a Chip manually" in {
       for (i <- 0 to 8) {
         playground = playground.insertChip(1)

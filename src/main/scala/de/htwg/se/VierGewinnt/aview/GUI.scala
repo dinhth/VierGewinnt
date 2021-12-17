@@ -1,8 +1,7 @@
 package de.htwg.se.VierGewinnt.aview
 
-import de.htwg.se.VierGewinnt.controller.Controller
-import de.htwg.se.VierGewinnt.model.Chip
-import de.htwg.se.VierGewinnt.model.Move
+import de.htwg.se.VierGewinnt.controller.{Controller, Move}
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 import de.htwg.se.VierGewinnt.util.Observer
 import scalafx.application.JFXApp3
 import scalafx.application.Platform

@@ -1,10 +1,13 @@
 package de.htwg.se.VierGewinnt.model
 
 import de.htwg.se.VierGewinnt.model
+import de.htwg.se.VierGewinnt.model.gridComponent.{GridInterface, gridBaseImpl}
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Cell
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import scala.io.AnsiColor._
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 
+import scala.io.AnsiColor.*
 import java.lang.IndexOutOfBoundsException
 
 class GridSpec extends AnyWordSpec {
@@ -15,10 +18,10 @@ class GridSpec extends AnyWordSpec {
         grid should have size 7
       }
       "fill a 2D Vector with empty Chips" in {
-        grid.grid should be(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY)))
+        grid.get2DVector() should be(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY)))
       }
       "returns any cell from the grid" in {
-        grid.getCell(0, 0) should be(Cell(Chip.EMPTY))
+        grid.getCell(0, 0) should be(gridBaseImpl.Cell(Chip.EMPTY))
       }
       "do not return anything with negative indices" in {
         an[IndexOutOfBoundsException] should be thrownBy grid.getCell(-1, -1)
@@ -33,10 +36,10 @@ class GridSpec extends AnyWordSpec {
         grid should have size 15
       }
       "fill a 2D Vector with empty Chips" in {
-        grid.grid should be(Vector.tabulate(15, 15)((row, col) => Cell(Chip.EMPTY)))
+        grid.grid should be(Vector.tabulate(15, 15)((row, col) => gridBaseImpl.Cell(Chip.EMPTY)))
       }
       "returns any cell from the grid" in {
-        grid.getCell(0, 0) should be(Cell(Chip.EMPTY))
+        grid.getCell(0, 0) should be(gridBaseImpl.Cell(Chip.EMPTY))
       }
       "do not return anything with negative indices" in {
         an[IndexOutOfBoundsException] should be thrownBy grid.getCell(-1, -1)
@@ -47,19 +50,19 @@ class GridSpec extends AnyWordSpec {
     }
     "replace a Cell" should {
       val grid = new Grid()
-      val gridcpy0 = grid.replaceCellRisk(0, 0, Cell(Chip.RED))
+      val gridcpy0 = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.RED))
       "should change the cell Color from BLUE to RED" in {
-        gridcpy0.getCell(0, 0) should be(Cell(Chip.RED))
+        gridcpy0.getCell(0, 0) should be(gridBaseImpl.Cell(Chip.RED))
       }
-      val gridcpy1 = grid.replaceCellRisk(0, 0, Cell(Chip.YELLOW))
+      val gridcpy1 = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.YELLOW))
       "should change the cell Color from RED to YELLOW" in {
-        gridcpy1.getCell(0, 0) should be(Cell(Chip.YELLOW))
+        gridcpy1.getCell(0, 0) should be(gridBaseImpl.Cell(Chip.YELLOW))
       }
       "throw an failure" in {
-        grid.replaceCell(10,10,Cell(Chip.EMPTY)).isFailure should be (true)
+        grid.replaceCell(10,10,gridBaseImpl.Cell(Chip.EMPTY)).isFailure should be (true)
       }
       "return an success" in {
-        grid.replaceCell(0,0,Cell(Chip.EMPTY)).isSuccess should be (true)
+        grid.replaceCell(0,0,gridBaseImpl.Cell(Chip.EMPTY)).isSuccess should be (true)
       }
     }
     "have a string representation" in {
@@ -74,7 +77,7 @@ class GridSpec extends AnyWordSpec {
       "if its full" in {
         for (y <- 0 to (6)) yield { //Height
           for (x <- 0 to (6)) yield { //Width
-            grid = grid.replaceCellRisk(y, x, Cell(Chip.RED))
+            grid = grid.replaceCellRisk(y, x, gridBaseImpl.Cell(Chip.RED))
           }
         }
         grid.checkFull() should be(true)
@@ -83,42 +86,42 @@ class GridSpec extends AnyWordSpec {
     "winning functions" should {
       var grid = new Grid(7)
       "correctly check success in checkFour() " in {
-        val tempgrid = grid.replaceCellRisk(0, 0, Cell(Chip.RED)).replaceCellRisk(0, 1, Cell(Chip.RED)).replaceCellRisk(0, 2, Cell(Chip.RED)).replaceCellRisk(0, 3, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(0, 1, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(0, 2, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(0, 3, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkFour(0, 0, 0, 1, 0, 2, 0, 3) should be(1)
       }
       "correctly check failure in checkFour() " in {
-        val tempgrid = grid.replaceCellRisk(0, 0, Cell(Chip.YELLOW)).replaceCellRisk(0, 1, Cell(Chip.RED)).replaceCellRisk(0, 2, Cell(Chip.RED)).replaceCellRisk(0, 3, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.YELLOW)).replaceCellRisk(0, 1, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(0, 2, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(0, 3, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkFour(0, 0, 0, 1, 0, 2, 0, 3) should be(0)
       }
       "correctly check win in checkHorizontalWin() " in {
-        val tempgrid = grid.replaceCellRisk(0, 0, Cell(Chip.RED)).replaceCellRisk(0, 1, Cell(Chip.RED)).replaceCellRisk(0, 2, Cell(Chip.RED)).replaceCellRisk(0, 3, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(0, 1, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(0, 2, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(0, 3, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkHorizontalWin() should be(1)
       }
       "correctly check win in checkVerticalWin() " in {
-        val tempgrid = grid.replaceCellRisk(0, 0, Cell(Chip.RED)).replaceCellRisk(1, 0, Cell(Chip.RED)).replaceCellRisk(2, 0, Cell(Chip.RED)).replaceCellRisk(3, 0, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(1, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(2, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(3, 0, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkVerticalWin() should be(1)
       }
       "correctly check win in checkDiagonalUpRightWin() " in {
-        val tempgrid = grid.replaceCellRisk(0, 0, Cell(Chip.RED)).replaceCellRisk(1, 1, Cell(Chip.RED)).replaceCellRisk(2, 2, Cell(Chip.RED)).replaceCellRisk(3, 3, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(1, 1, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(2, 2, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(3, 3, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkDiagonalUpRightWin() should be(1)
       }
       "correctly check win in checkDiagonalUpLeftWin() " in {
-        val tempgrid = grid.replaceCellRisk(4, 0, Cell(Chip.RED)).replaceCellRisk(3, 1, Cell(Chip.RED)).replaceCellRisk(2, 2, Cell(Chip.RED)).replaceCellRisk(1, 3, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(4, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(3, 1, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(2, 2, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(1, 3, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkDiagonalUpLeftWin() should be(1)
       }
       "correctly check result 0 if no win is found" in {
         grid.checkWin() should be(None)
       }
       "correctly check other than 1 on vertical" in {
-        val tempgrid = grid.replaceCellRisk(0, 0, Cell(Chip.RED)).replaceCellRisk(1, 0, Cell(Chip.RED)).replaceCellRisk(2, 0, Cell(Chip.RED)).replaceCellRisk(3, 0, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(1, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(2, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(3, 0, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkWin() should be(Some(1))
       }
       "correctly check other than 1 on diagonal right up" in {
-        val tempgrid = grid.replaceCellRisk(0, 0, Cell(Chip.RED)).replaceCellRisk(1, 1, Cell(Chip.RED)).replaceCellRisk(2, 2, Cell(Chip.RED)).replaceCellRisk(3, 3, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(0, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(1, 1, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(2, 2, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(3, 3, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkWin() should be(Some(1))
       }
       "correctly check other than 1 on diagonal left up" in {
-        val tempgrid = grid.replaceCellRisk(4, 0, Cell(Chip.RED)).replaceCellRisk(3, 1, Cell(Chip.RED)).replaceCellRisk(2, 2, Cell(Chip.RED)).replaceCellRisk(1, 3, Cell(Chip.RED))
+        val tempgrid = grid.replaceCellRisk(4, 0, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(3, 1, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(2, 2, gridBaseImpl.Cell(Chip.RED)).replaceCellRisk(1, 3, gridBaseImpl.Cell(Chip.RED))
         tempgrid.checkWin() should be(Some(1))
       }
     }

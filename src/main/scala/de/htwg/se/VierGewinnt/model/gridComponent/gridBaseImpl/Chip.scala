@@ -1,4 +1,4 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 
 import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
 

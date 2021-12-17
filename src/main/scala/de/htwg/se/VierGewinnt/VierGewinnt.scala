@@ -3,10 +3,8 @@ package de.htwg.se.VierGewinnt
 import aview.GUI
 import aview.Tui
 import controller.Controller
-import model.Cell
-import model.Chip
-import model.Grid
-import model.Player
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip}
+
 import scala.io.StdIn.readLine
 import scalafx.application.Platform
 import scalafx.application.Platform.runLater

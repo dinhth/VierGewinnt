@@ -1,10 +1,13 @@
 package de.htwg.se.VierGewinnt.model
 
+import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
-import scala.io.AnsiColor._
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
+import org.scalatest.matchers.should.Matchers.*
 
-class PlayerSpec extends AnyWordSpec {
+import scala.io.AnsiColor.*
+
+class PlayerInterfaceSpec extends AnyWordSpec {
   "A Player" when {
     "new" should {
       val player = HumanPlayer("player1", Chip.RED)

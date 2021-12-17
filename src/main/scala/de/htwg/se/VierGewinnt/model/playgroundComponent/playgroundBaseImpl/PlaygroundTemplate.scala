@@ -1,12 +1,9 @@
 package de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 
-import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
-import de.htwg.se.VierGewinnt.model.playerComponent.PlayerInterface
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
 
-import scala.io.AnsiColor.BLUE_B
-import scala.io.AnsiColor.RESET
+import scala.io.AnsiColor.{BLUE_B, RESET}
 
 trait PlaygroundTemplate extends PlaygroundInterface {
 

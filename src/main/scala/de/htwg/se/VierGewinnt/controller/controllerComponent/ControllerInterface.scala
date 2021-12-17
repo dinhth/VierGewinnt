@@ -1,9 +1,10 @@
 package de.htwg.se.VierGewinnt.controller.controllerComponent
 
-import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{GameState, Move}
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.GameState
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 import de.htwg.se.VierGewinnt.model.playerComponent.PlayerInterface
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
+import de.htwg.se.VierGewinnt.util.Move
 
 trait ControllerInterface():
   def gridSize: Int

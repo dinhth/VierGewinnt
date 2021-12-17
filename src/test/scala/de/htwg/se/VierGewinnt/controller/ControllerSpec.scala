@@ -1,10 +1,10 @@
 package de.htwg.se.VierGewinnt.controller
 
-import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{Controller, Move}
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.*
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
-import de.htwg.se.VierGewinnt.util.Observer
+import de.htwg.se.VierGewinnt.util.{Move, Observer}
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 

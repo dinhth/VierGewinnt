@@ -15,9 +15,7 @@ import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvE
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
-import de.htwg.se.VierGewinnt.util.Command
-import de.htwg.se.VierGewinnt.util.Observable
-import de.htwg.se.VierGewinnt.util.UndoManager
+import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
 
 class Controller(var playground: PlaygroundInterface, var gameType: Int) extends Observable with ControllerInterface:
   def this(size: Int = 7) =

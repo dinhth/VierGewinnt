@@ -1,11 +1,10 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Cell
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvE
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundTemplate
-import de.htwg.se.VierGewinnt.util.EnemyStrategy
 import scala.util.Failure
 import scala.util.Random
 import scala.util.Success
@@ -34,10 +33,10 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
   def ComputerinsertChip(pg: PlaygroundTemplate): PlaygroundTemplate = {
     var chosenCol = Random.between(0, pg.size)
 
-    for (i <- 0 to pg.size - 1)
+    /*for (i <- 0 to pg.size - 1)
       if (pg.getPosition(chosenCol) != -1) {
         chosenCol = i
-      }
+      }*/
 
     val returnGrid = pg.grid.replaceCell(pg.getPosition(chosenCol), chosenCol, gridBaseImpl.Cell(pg.player(0).getChip()))
     returnGrid match {

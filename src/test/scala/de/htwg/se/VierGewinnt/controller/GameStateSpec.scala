@@ -1,5 +1,6 @@
 package de.htwg.se.VierGewinnt.controller
 
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{EndState, GameState, PlayState, PrepareState, TieState, WinState}
 import de.htwg.se.VierGewinnt.util.Observer
 import de.htwg.se.VierGewinnt.model.*
 import org.scalatest.wordspec.AnyWordSpec

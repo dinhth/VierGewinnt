@@ -9,12 +9,12 @@ import scala.util.Success
 import scala.util.Try
 
 case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface:
-  def this(size: Int = 7) = this(Vector.tabulate(size, size)((row, col) => gridBaseImpl.Cell(Chip.EMPTY))) // call for an empty board
+  def this(size: Int = 7) = this(Vector.tabulate(size, size)((row, col) => Cell())) // call for an empty board
 
   override def getCell(row: Int, col: Int): Cell = grid(row)(col)
-  override def get2DVector():Vector[Vector[Cell]] = grid
+  override def get2DVector(): Vector[Vector[Cell]] = grid
 
-  override def replaceCell(row: Int, col: Int, cell: Cell): Try[Grid] = {
+  override def replaceCell(row: Int, col: Int, cell: Cell): Try[GridInterface] = {
     val result = Try(copy(grid.updated(row, grid(row).updated(col, cell))))
     result match {
       case Success(v) => Success(v)
@@ -22,7 +22,15 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface:
     }
   }
 
-  override def replaceCellRisk(row: Int, col: Int, cell: Cell): Grid = { // For Testing, only if 100% certain
+  override def removeCell(row: Int, col: Int): Try[GridInterface] = {
+    val result = Try(copy(grid.updated(row, grid(row).updated(col, Cell()))))
+    result match {
+      case Success(v) => Success(v)
+      case Failure(e) => Failure(e)
+    }
+  }
+
+  override def replaceCellRisk(row: Int, col: Int, cell: Cell): GridInterface = { // For Testing, only if 100% certain
     copy(grid.updated(row, grid(row).updated(col, cell)))
   }
 

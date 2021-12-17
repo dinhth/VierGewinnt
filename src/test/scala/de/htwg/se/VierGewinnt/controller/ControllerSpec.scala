@@ -1,5 +1,6 @@
 package de.htwg.se.VierGewinnt.controller
 
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{Controller, Move}
 import de.htwg.se.VierGewinnt.model.*
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*

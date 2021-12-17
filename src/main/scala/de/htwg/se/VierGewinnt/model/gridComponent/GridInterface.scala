@@ -13,7 +13,10 @@ trait GridInterface:
   def getCell(row: Int, col: Int): Cell
 
   def get2DVector(): Vector[Vector[Cell]]
+  
   def replaceCell(row: Int, col: Int, cell: Cell): Try[GridInterface]
+  
+  def removeCell(row: Int, col: Int): Try[GridInterface]
 
   def replaceCellRisk(row: Int, col: Int, cell: Cell): GridInterface
 

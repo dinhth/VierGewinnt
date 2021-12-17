@@ -1,11 +1,8 @@
-package de.htwg.se.VierGewinnt
-package controller
+package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
-import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
-import util.Command
-import util.UndoManager
+import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
+import de.htwg.se.VierGewinnt.util.Command
 
 class InsertChipCommand(move: Move) extends Command[PlaygroundInterface]:
   override def noStep(playground: PlaygroundInterface): PlaygroundInterface = playground

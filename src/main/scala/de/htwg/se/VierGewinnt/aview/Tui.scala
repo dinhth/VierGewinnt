@@ -1,7 +1,8 @@
 package de.htwg.se.VierGewinnt
 package aview
 
-import controller.{Controller, GameState, Move}
+
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{Controller, Move}
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 
 import scala.io.StdIn.readLine

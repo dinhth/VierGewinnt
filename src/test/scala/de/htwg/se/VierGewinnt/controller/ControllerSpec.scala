@@ -93,6 +93,9 @@ class ControllerSpec extends AnyWordSpec {
         field = controller2.redo
         field.grid.getCell(6, 0) should be (Cell(Chip.YELLOW))
       }
+      "return grid size" in {
+        controller.gridSize should be(7)
+      }
     }
   }
 }

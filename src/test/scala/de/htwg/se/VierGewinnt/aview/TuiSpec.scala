@@ -1,8 +1,7 @@
 package de.htwg.se.VierGewinnt.aview
 
-import de.htwg.se.VierGewinnt.controller.Controller
-import de.htwg.se.VierGewinnt.controller.GameState
-import de.htwg.se.VierGewinnt.controller.PlayState
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{Controller, GameState, PlayState}
+
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream

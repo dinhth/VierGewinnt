@@ -1,6 +1,6 @@
 package de.htwg.se.VierGewinnt.model
 
-import de.htwg.se.VierGewinnt.controller.Controller
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.gridComponent.{GridInterface, gridBaseImpl}
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Cell
 import de.htwg.se.VierGewinnt.model.playerComponent.{playerBaseImpl, playerMockImpl}

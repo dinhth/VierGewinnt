@@ -2,7 +2,7 @@ package de.htwg.se.VierGewinnt
 
 import aview.GUI
 import aview.Tui
-import controller.Controller
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip}
 
 import scala.io.StdIn.readLine

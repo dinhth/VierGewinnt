@@ -1,9 +1,8 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Cell
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvP, PlaygroundTemplate}
-import de.htwg.se.VierGewinnt.util.EnemyStrategy
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundTemplate
 
 import scala.util.Failure
 import scala.util.Success
@@ -14,7 +13,7 @@ case class EnemyPersonStrategy() extends EnemyStrategy {
     returnGrid match {
       case Success(v) => playgroundBaseImpl.PlaygroundPvP(v, pg.player.reverse) // IF Success, return the new playground
       case Failure(_) => {
-        //pg.error = "This column is full try another one"
+        // pg.error = "This column is full try another one"
         pg
       } // If Failure, return the old playground
     }

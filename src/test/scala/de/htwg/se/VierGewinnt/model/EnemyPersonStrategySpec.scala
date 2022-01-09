@@ -17,11 +17,11 @@ class EnemyPersonStrategySpec extends AnyWordSpec {
   "An Enemy Person Spec should work deterministic" when {
     var playground = playgroundBaseImpl.PlaygroundPvP(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
     "Inserting a Chip" in {
-      playground.insertChip(1) should be(
+      playground.insertChip(1).toString should be(
         playgroundBaseImpl.PlaygroundPvP(
           Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCellRisk(6, 1, gridBaseImpl.Cell(Chip.YELLOW)),
           List(playerBaseImpl.HumanPlayer("Player 2", Chip.RED), playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW))
-        )
+        ).toString
       )
     }
     "Inserting a Chip in full column" in {
@@ -33,7 +33,7 @@ class EnemyPersonStrategySpec extends AnyWordSpec {
       var playground_ins5 = playground_ins4.insertChip(1)
       var playground_full = playground_ins5.insertChip(1)
 
-      playground_full.insertChip(1) should be(
+      playground_full.insertChip(1).toString should be(
         playgroundBaseImpl.PlaygroundPvP(
           Grid(Vector.tabulate(7, 7)((row, col) => gridBaseImpl.Cell(Chip.EMPTY)))
             .replaceCellRisk(0, 1, gridBaseImpl.Cell(Chip.YELLOW))
@@ -44,7 +44,7 @@ class EnemyPersonStrategySpec extends AnyWordSpec {
             .replaceCellRisk(5, 1, gridBaseImpl.Cell(Chip.RED))
             .replaceCellRisk(6, 1, gridBaseImpl.Cell(Chip.YELLOW)),
           List(playerBaseImpl.HumanPlayer("Player 2", Chip.RED), playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW))
-        )
+        ).toString
       )
     }
   }

@@ -10,11 +10,12 @@ trait PlaygroundTemplate extends PlaygroundInterface {
   override def size = grid.size
 
   override def getDeletePosition(col: Int): Int = { // get the position where the chip should drop
-    var i = size - 1
+    var i = this.size - 1
     while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
     i += 1
+    val realsize = this.size
     i match {
-      case size => size - 1
+      case realsize => this.size - 1
       case _    => i
     }
   }

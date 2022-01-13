@@ -2,9 +2,9 @@ name: Scala Codecov
 
 on:
   push:
-    branches: [ master ]
+    branches: [ 10-Components ]
   pull_request:
-    branches: [ master ]
+    branches: [ 10-Components ]
 
 jobs:
   build:

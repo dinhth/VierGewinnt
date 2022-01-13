@@ -20,7 +20,7 @@ jobs:
           distribution: 'adopt'
       - name: compile
         run: sbt compile
-  tests:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

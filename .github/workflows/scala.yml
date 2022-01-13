@@ -20,11 +20,13 @@ jobs:
           distribution: 'adopt'
       - name: compile
         run: sbt compile
-  test:
+  tests:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Coveralls
-          uses: coverallsapp/github-action@master
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: Build Project and export Coverage to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: |
+          export CI_BRANCH="${GITHUB_REF#refs/heads/}"
+          sbt clean jacoco jacocoCoveralls

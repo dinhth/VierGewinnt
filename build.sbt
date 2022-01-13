@@ -9,6 +9,10 @@ lazy val root = project
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.10",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.10" % "test",
     libraryDependencies += ("org.scalafx" %% "scalafx" % "17.0.1-R26"),
+    jacocoCoverallsServiceName := "github-actions",
+    jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
+    jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
+    jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries
       lazy val osName = System.getProperty("os.name") match {

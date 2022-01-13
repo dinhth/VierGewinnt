@@ -2,9 +2,9 @@ name: Scala CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ 10-Components ]
   pull_request:
-    branches: [ main ]
+    branches: [ 10-Components ]
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build Project and export Coverage
+      - name: Build Project and export Coverage to Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: |

@@ -15,7 +15,6 @@ lazy val root = project
     jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
     jacocoExcludes in Test := Seq(
       "de.htwg.se.VierGewinnt.VierGewinnt*",
-      "de.htwg.se.VierGewinnt.aview.GUI*",
       "de.htwg.se.VierGewinnt.model.enemyStrategyMockImpl*",
       "de.htwg.se.VierGewinnt.gridComponent.gridMockImpl*",
       "de.htwg.se.VierGewinnt.playerComponent.playerMockImpl*"

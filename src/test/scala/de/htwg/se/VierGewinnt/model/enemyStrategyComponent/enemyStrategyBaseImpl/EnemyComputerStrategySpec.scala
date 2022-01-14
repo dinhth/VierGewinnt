@@ -1,4 +1,4 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.gridComponent.*

@@ -1,13 +1,12 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 
 import de.htwg.se.VierGewinnt.model
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Cell
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Grid
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
-import java.lang.IndexOutOfBoundsException
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip, Grid}
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+
+import java.lang.IndexOutOfBoundsException
 import scala.io.AnsiColor.*
 
 class GridSpec extends AnyWordSpec {

@@ -1,9 +1,9 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.playerComponent
 
-import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
-import org.scalatest.wordspec.AnyWordSpec
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
+import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
 import org.scalatest.matchers.should.Matchers.*
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.io.AnsiColor.*
 

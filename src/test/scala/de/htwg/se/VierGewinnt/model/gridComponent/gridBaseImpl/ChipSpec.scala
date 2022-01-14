@@ -1,9 +1,10 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 
-import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
-import scala.io.AnsiColor._
+import org.scalatest.matchers.should.Matchers.*
+import org.scalatest.wordspec.AnyWordSpec
+
+import scala.io.AnsiColor.*
 
 class ChipSpec extends AnyWordSpec {
   "Create chip for empty cell" when {

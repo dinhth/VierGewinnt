@@ -1,4 +1,4 @@
-package de.htwg.se.VierGewinnt.controller
+package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.*

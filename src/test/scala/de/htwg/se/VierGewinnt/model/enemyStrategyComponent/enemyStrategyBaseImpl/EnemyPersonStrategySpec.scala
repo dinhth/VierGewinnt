@@ -1,15 +1,14 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.model.gridComponent.{GridInterface, gridBaseImpl}
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Cell
-import de.htwg.se.VierGewinnt.model.playerComponent.{playerBaseImpl, playerMockImpl}
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
+import de.htwg.se.VierGewinnt.model.playerComponent.{playerBaseImpl, playerMockImpl}
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 
 import scala.io.AnsiColor.*
 

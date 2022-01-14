@@ -14,11 +14,11 @@ lazy val root = project
     jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
     jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
     jacocoExcludes in Test := Seq(
-      "de.htwg.se.VierGewinnt.VierGewinnt*",
-      "de.htwg.se.VierGewinnt.aview.GUI*",
-      "de.htwg.se.VierGewinnt.model.enemyStrategyMockImpl.EnemyStrategy*",
-      "de.htwg.se.VierGewinnt.gridComponent.gridMockImpl.Grid*",
-      "de.htwg.se.VierGewinnt.playerComponent.playerMockImpl.Player*"
+      "VierGewinnt*",
+      "aview.GUI*",
+      "model.enemyStrategyMockImpl.EnemyStrategy*",
+      "gridComponent.gridMockImpl.Grid*",
+      "playerComponent.playerMockImpl.Player*"
     ),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries

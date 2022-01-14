@@ -1,5 +1,8 @@
 package de.htwg.se.VierGewinnt.aview
 
+import com.google.inject.Guice
+import de.htwg.se.VierGewinnt.VierGewinntModule
+import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{Controller, GameState, PlayState}
 
 import java.io.BufferedReader
@@ -12,7 +15,8 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class TuiSpec extends AnyWordSpec {
   "TUI of VierGewinnt" should {
-    val controller = new Controller()
+    val injector = Guice.createInjector(new VierGewinntModule)
+    val controller = injector.getInstance(classOf[ControllerInterface])
     val tui = new Tui(controller)
 
     "run" in {

@@ -1,43 +1,34 @@
 package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
 
+import com.google.inject.{Guice, Inject, Key}
+import com.google.inject.name.{Named, Names}
+import de.htwg.se.VierGewinnt.VierGewinntModule
 import de.htwg.se.VierGewinnt.controller.*
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.model.*
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Grid
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
-import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl
-import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.BotPlayer
-import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
-import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.Player
-import de.htwg.se.VierGewinnt.model.playerComponent.PlayerInterface
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvE
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
-import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Chip, Grid}
+import de.htwg.se.VierGewinnt.model.playerComponent.{PlayerInterface, playerBaseImpl}
+import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.{BotPlayer, HumanPlayer, Player}
+import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvE, PlaygroundPvP}
 import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
 
-class Controller(var playground: PlaygroundInterface, var gameType: Int) extends Observable with ControllerInterface:
-  def this(size: Int = 7) =
-    this(
-      playgroundBaseImpl
-        .PlaygroundPvP(new Grid(size), List(HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED))),
-      0
-    )
+class Controller @Inject()(@Named("DefaultPlayground") var playground: PlaygroundInterface, @Named("DefaultGameType") var gameType: Int) extends Observable with ControllerInterface :
+  /*def this(size: Int = 7) =
+    this(playgroundBaseImpl.PlaygroundPvP(new Grid(size), List(HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED))),
+      0)*/
+
+  val injector = Guice.createInjector(new VierGewinntModule)
 
   override def gridSize: Int = playground.size
+
   override def setupGame(gameType: Int, size: Int): Unit =
     gameType match
       case 0 =>
-        player = List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED))
-        playground = PlaygroundPvP(new Grid(size), player)
+        playground = injector.getInstance(Key.get(classOf[PlaygroundInterface], Names.named("PvP")))
       case 1 =>
-        player = List(
-          HumanPlayer("Player 1", Chip.YELLOW),
-          BotPlayer("Bot 1", Chip.RED)
-        )
-
-        playground = PlaygroundPvE(new Grid(size), player)
+        playground = injector.getInstance(Key.get(classOf[PlaygroundInterface], Names.named("PvE")))
     gamestate.changeState(PlayState())
     notifyObservers
 
@@ -64,7 +55,7 @@ class Controller(var playground: PlaygroundInterface, var gameType: Int) extends
 
   override def checkFull(): Unit =
     playground.grid.checkFull() match {
-      case true  => gamestate.changeState(TieState())
+      case true => gamestate.changeState(TieState())
       case false => gamestate.changeState(PlayState())
     }
 

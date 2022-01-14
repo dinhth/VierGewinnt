@@ -2,6 +2,7 @@ package de.htwg.se.VierGewinnt
 package aview
 
 
+import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 
@@ -11,7 +12,7 @@ import util.{Move, Observer}
 import scala.util.Try
 
 
-class Tui(controller: Controller)extends Observer :
+class Tui(controller: ControllerInterface)extends Observer :
   controller.add(this)
 
   def run =

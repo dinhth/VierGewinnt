@@ -1,5 +1,8 @@
 package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
 
+import com.google.inject.Guice
+import de.htwg.se.VierGewinnt.VierGewinntModule
+import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.*
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
@@ -11,7 +14,8 @@ import org.scalatest.wordspec.AnyWordSpec
 class ControllerSpec extends AnyWordSpec {
   "A controller" when {
     "observed by an Observer" should {
-      val controller = new Controller()
+      val injector = Guice.createInjector(new VierGewinntModule)
+      val controller = injector.getInstance(classOf[ControllerInterface])
       val observer = new Observer {
         var updated: Boolean = false
 
@@ -87,7 +91,8 @@ class ControllerSpec extends AnyWordSpec {
         controller.checkFull()
       }*/
       "undo and redo a move" in {
-        val controller2 = new Controller()
+        val injector = Guice.createInjector(new VierGewinntModule)
+        val controller2 = injector.getInstance(classOf[ControllerInterface])
         var field = controller2.playground
         field = controller2.insChip(Move(0))
         field.grid.getCell(6, 0) should be(Cell(Chip.YELLOW))

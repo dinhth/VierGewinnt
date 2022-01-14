@@ -1,5 +1,7 @@
 package de.htwg.se.VierGewinnt.aview
 
+
+import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
@@ -21,7 +23,7 @@ import scalafx.scene.shape.Rectangle
 import scalafx.scene.Scene
 import scalafx.Includes.*
 
-case class GUI(controller: Controller) extends JFXApp3 with Observer:
+case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
   controller.add(this)
   var chips = emptyChips()
   var chipGrid = emptyGrid()

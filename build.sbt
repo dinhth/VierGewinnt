@@ -14,8 +14,8 @@ lazy val root = project
     jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
     jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
     jacocoExcludes in Test := Seq(
-      "de.htwg.se.VierGewinnt.aview.GUI;",
-      "de.htwg.se.VierGewinnt.VierGewinnt;"
+      "de.htwg.se.VierGewinnt.aview.GUI",
+      "de.htwg.se.VierGewinnt.VierGewinnt"
     ),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries

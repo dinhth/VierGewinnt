@@ -1,15 +1,15 @@
-package de.htwg.se.VierGewinnt.model
+package de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
-import de.htwg.se.VierGewinnt.model.playerComponent.{playerBaseImpl, playerMockImpl}
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
+import de.htwg.se.VierGewinnt.model.playerComponent.{playerBaseImpl, playerMockImpl}
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
-import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
+import org.scalatest.wordspec.AnyWordSpec
 
-import io.AnsiColor.*
+import scala.io.AnsiColor.*
 import scala.math.ceil
 
 class PlaygroundTemplateSpec extends AnyWordSpec {

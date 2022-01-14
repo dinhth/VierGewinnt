@@ -1,4 +1,4 @@
-package de.htwg.se.VierGewinnt.controller
+package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
 
 import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.VierGewinntModule

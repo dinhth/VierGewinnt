@@ -1,10 +1,10 @@
-package de.htwg.se.VierGewinnt.controller
+package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{EndState, GameState, PlayState, PrepareState, TieState, WinState}
-import de.htwg.se.VierGewinnt.util.Observer
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.*
 import de.htwg.se.VierGewinnt.model.*
-import org.scalatest.wordspec.AnyWordSpec
+import de.htwg.se.VierGewinnt.util.Observer
 import org.scalatest.matchers.should.Matchers.*
+import org.scalatest.wordspec.AnyWordSpec
 
 class GameStateSpec extends AnyWordSpec {
     "A GameStateSpec" when {

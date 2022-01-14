@@ -1,6 +1,5 @@
 package de.htwg.se.VierGewinnt.aview
 
-
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 import de.htwg.se.VierGewinnt.util.{Move, Observer}

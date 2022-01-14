@@ -16,9 +16,9 @@ lazy val root = project
     jacocoExcludes in Test := Seq(
       "de.htwg.se.VierGewinnt.VierGewinnt*",
       "de.htwg.se.VierGewinnt.aview.GUI*",
-      "de.htwg.se.VierGewinnt.model.enemyStrategyMockImpl.*",
-      "de.htwg.se.VierGewinnt.gridComponent.gridMockImpl.*",
-      "de.htwg.se.VierGewinnt.playerComponent.playerMockImpl.*"
+      "de.htwg.se.VierGewinnt.model.enemyStrategyMockImpl.EnemyStrategy*",
+      "de.htwg.se.VierGewinnt.gridComponent.gridMockImpl.Grid*",
+      "de.htwg.se.VierGewinnt.playerComponent.playerMockImpl.Player*"
     ),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries

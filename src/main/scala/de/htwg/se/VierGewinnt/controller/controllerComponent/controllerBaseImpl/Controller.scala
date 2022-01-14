@@ -1,17 +1,15 @@
 package de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl
 
-import com.google.inject.{Guice, Inject, Key}
 import com.google.inject.name.{Named, Names}
+import com.google.inject.{Guice, Inject, Key}
 import de.htwg.se.VierGewinnt.VierGewinntModule
-import de.htwg.se.VierGewinnt.controller.*
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
-import de.htwg.se.VierGewinnt.model.*
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Chip, Grid}
-import de.htwg.se.VierGewinnt.model.playerComponent.{PlayerInterface, playerBaseImpl}
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.{BotPlayer, HumanPlayer, Player}
-import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
+import de.htwg.se.VierGewinnt.model.playerComponent.{PlayerInterface, playerBaseImpl}
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvE, PlaygroundPvP}
+import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, playgroundBaseImpl}
 import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
 
 class Controller @Inject()(@Named("DefaultPlayground") var playground: PlaygroundInterface, @Named("DefaultGameType") var gameType: Int) extends Observable with ControllerInterface :
@@ -26,9 +24,9 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   override def setupGame(gameType: Int, size: Int): Unit =
     gameType match
       case 0 =>
-        playground = injector.getInstance(Key.get(classOf[PlaygroundInterface], Names.named("PvP")))
+        playground = new PlaygroundPvP(size)
       case 1 =>
-        playground = injector.getInstance(Key.get(classOf[PlaygroundInterface], Names.named("PvE")))
+        playground = new PlaygroundPvE(size)
     gamestate.changeState(PlayState())
     notifyObservers
 

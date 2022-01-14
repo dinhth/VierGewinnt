@@ -11,14 +11,10 @@ import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl._
 import net.codingwell.scalaguice.ScalaModule
 
 class VierGewinntModule extends AbstractModule {
-  override def configure(): Unit = {
+  override def configure(): Unit =
     bind(classOf[ControllerInterface]).to(classOf[controllerBaseImpl.Controller])
 
     bind(classOf[PlaygroundInterface]).annotatedWith(Names.named("DefaultPlayground")).toInstance(new PlaygroundPvP())
     bind(classOf[Int]).annotatedWith(Names.named("DefaultGameType")).toInstance(0)
 
-    bind(classOf[PlaygroundInterface]).annotatedWith(Names.named("PvP")).toInstance(new PlaygroundPvP())
-    bind(classOf[PlaygroundInterface]).annotatedWith(Names.named("PvE")).toInstance(new PlaygroundPvE())
-
-  }
 }

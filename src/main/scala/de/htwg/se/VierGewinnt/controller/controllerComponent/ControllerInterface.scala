@@ -17,8 +17,9 @@ trait ControllerInterface() extends Observable:
   def insChip(move: Move):PlaygroundInterface
   def checkFull(): Unit
   def checkWinner(pg: PlaygroundInterface): Unit
-  def getChipColor(row: Int, col: Int): Chip
-  def printState: Unit
+  def getChipColor(row: Int, col: Int): String
+  def printState: String
+  def playgroundState: String
   var gamestate: GameState = GameState()
   var player: List[PlayerInterface] = List()
   var playground: PlaygroundInterface

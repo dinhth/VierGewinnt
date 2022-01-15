@@ -12,5 +12,6 @@ trait PlaygroundInterface:
   def takeAwayChip(col: Int): PlaygroundInterface
   def getDeletePosition(col: Int): Int
   def getPosition(col: Int): Int
+  def getStatus(): String
   def colnames(): String
   def border(): String

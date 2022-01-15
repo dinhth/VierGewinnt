@@ -10,14 +10,10 @@ trait PlaygroundTemplate extends PlaygroundInterface {
   override def size = grid.size
 
   override def getDeletePosition(col: Int): Int = { // get the position where the chip should drop
-    var i = this.size - 1
+    var i = size - 1
     while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
     i += 1
-    val realsize = this.size
-    i match {
-      case realsize => this.size - 1
-      case _    => i
-    }
+    i
   }
 
   override def getPosition(col: Int): Int = { // get the position where the chip should drop
@@ -27,8 +23,23 @@ trait PlaygroundTemplate extends PlaygroundInterface {
   }
 
   override def toString: String = {
-    val box = "It's your turn " + player(0) + "\n" + colnames() + grid + border()
+    val box = getStatus() + "\n" + colnames() + grid + border()
     return if (error != "") error else box // print the col is full error if needed
+  }
+
+  override def getStatus(): String = {
+    grid.checkWin() match { //Option-Monade
+      case None =>
+        val box = "It's your turn " + player(0).getName()
+        return if (error != "") error else box // print the col is full error if needed
+      case Some(num) =>
+        if (num == 1) //1 == Red, 2 == Yellow
+          val box = "Player Red has won the game!"
+          return if (error != "") error else box // print the col is full error if needed
+        else
+          val box = "Player Yellow has won the game!"
+          return if (error != "") error else box // print the col is full error if needed
+    }
   }
 
   override def colnames(): String = {

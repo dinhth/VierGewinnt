@@ -32,9 +32,8 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
 
   def ComputerinsertChip(pg: PlaygroundTemplate): PlaygroundTemplate = {
     var chosenCol = Random.between(0, pg.size)
-
     for (i <- 0 to pg.size - 1)
-      if (pg.getPosition(chosenCol) != -1) {
+      if (pg.getPosition(chosenCol) == -1) {
         chosenCol = i
       }
 

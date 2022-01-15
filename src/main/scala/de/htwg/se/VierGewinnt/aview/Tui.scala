@@ -4,7 +4,6 @@ package aview
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 
 import scala.io.StdIn.readLine
 import util.{Move, Observer}
@@ -28,10 +27,10 @@ class Tui(controller: ControllerInterface)extends Observer :
       case "0" | "1" =>
         println("Type the grid size")
         val size = readLine()
-        controller.setupGame(gameType.toInt, size.toInt) //TODO:Try-Monad
+        controller.setupGame(gameType.toInt, size.toInt)
       case "2" => println("not supported yet")
         prepareGameType()
-      case "q" =>
+      case "q" => //Exit
       case _   => prepareGameType()
 
   def getInputAndPrintLoop(): Unit =
@@ -57,5 +56,5 @@ class Tui(controller: ControllerInterface)extends Observer :
 
   override def update: Unit = {
     println(controller.toString)
-    controller.printState
+    println(controller.printState)
   }

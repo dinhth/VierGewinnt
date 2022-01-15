@@ -3,7 +3,6 @@ package de.htwg.se.VierGewinnt.aview
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
 import scalafx.application.JFXApp3
 import scalafx.application.Platform
@@ -23,20 +22,24 @@ import scalafx.scene.shape.Rectangle
 import scalafx.scene.Scene
 import scalafx.Includes.*
 
+import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
+
 case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
   controller.add(this)
   var chips = emptyChips()
   var chipGrid = emptyGrid()
+  var playgroundstatus = new Menu(controller.playgroundState)
+  var statestatus = new Menu(controller.printState)
 
   override def update: Unit =
     chips.zipWithIndex.foreach((subList, i) => {
       for ((element, j) <- subList.zipWithIndex)
         controller.getChipColor(j, i) match {
-          case Chip.EMPTY =>
+          case BLUE_B => //Empty
             element.fill = Color.Gray
-          case Chip.RED =>
+          case RED_B => //Red
             element.fill = Color.Red
-          case Chip.YELLOW =>
+          case YELLOW_B => //Yellow
             element.fill = Color.Yellow
         }
     })
@@ -46,13 +49,15 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
       title.value = "VierGewinnt"
       scene = new Scene:
         fill = Color.DarkBlue
-        controller.setupGame(0, 7)
+        //controller.setupGame(0, 7)
         val menu = new MenuBar {
           menus = List(
             new Menu("File") {
               items = List(
-                new MenuItem("New...") {
-                  onAction = (event: ActionEvent) => controller.setupGame(0, 0)
+                new MenuItem("New PVP") {
+                  onAction = (event: ActionEvent) => controller.setupGame(0, 7)
+                },new MenuItem("New PVE") {
+                  onAction = (event: ActionEvent) => controller.setupGame(1, 7)
                 },
                 new MenuItem("Save"),
                 new MenuItem("Load")
@@ -72,7 +77,9 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
               items = List(
                 new MenuItem("About")
               )
-            }
+            },
+            playgroundstatus,
+            statestatus
           )
         }
 
@@ -89,7 +96,10 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
     new GridPane:
       for ((subList, i) <- chips.zipWithIndex) {
         for ((element, j) <- subList.zipWithIndex) {
-          element.onMouseClicked = (event: MouseEvent) => controller.doAndPublish(controller.insChip, Move(i))
+          element.onMouseClicked = (event: MouseEvent) =>
+            controller.doAndPublish(controller.insChip, Move(i));
+            playgroundstatus.text = controller.playgroundState;
+            statestatus.text = controller.printState
           add(element, i, j)
         }
       }

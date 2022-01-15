@@ -39,7 +39,7 @@ class PlaygroundTemplateSpec extends AnyWordSpec {
         playground.border() should be(s"${BLUE_B}  -----------------------------  ${RESET}\n")
       }
       "should print the whole gamefield" in {
-        playground.toString should be("It's your turn " + playground.player(0) + "\n" + playground.colnames() + playground.grid + playground.border())
+        playground.toString should be("It's your turn " + playground.player(0).getName() + "\n" + playground.colnames() + playground.grid + playground.border())
       }
     }
     "when a column is full" should {

@@ -33,12 +33,14 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   val undoManager = new UndoManager[PlaygroundInterface]
 
   override def doAndPublish(doThis: Move => PlaygroundInterface, move: Move): Unit =
-    playground = doThis(move)
-    notifyObservers
+    if (!gamestate.state.equals(WinState()))
+      playground = doThis(move)
+      notifyObservers
 
   override def doAndPublish(doThis: => PlaygroundInterface): Unit =
-    playground = doThis
-    notifyObservers
+    if (!gamestate.state.equals(WinState()))
+      playground = doThis
+      notifyObservers
 
   override def undo: PlaygroundInterface = undoManager.undoStep(playground)
 
@@ -53,21 +55,22 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
 
   override def checkFull(): Unit =
     playground.grid.checkFull() match {
-      case true => gamestate.changeState(TieState())
-      case false => gamestate.changeState(PlayState())
+      case true => if (!gamestate.state.equals(WinState())) { gamestate.changeState(TieState()) }
+      case false => if (!gamestate.state.equals(WinState())) { gamestate.changeState(PlayState()) }
     }
 
   override def checkWinner(pg: PlaygroundInterface): Unit =
     pg.grid.checkWin() match {
       case None =>
-      case Some(num) =>
-        println("Winner is " + num)
+      case Some(num) => //1 == Red, 2 == Yellow
         gamestate.changeState(WinState())
     }
 
-  override def getChipColor(row: Int, col: Int): Chip =
-    playground.grid.getCell(row, col).chip
+  override def getChipColor(row: Int, col: Int): String =
+    playground.grid.getCell(row, col).chip.getColorCode
 
-  override def printState: Unit = gamestate.displayState()
+  override def printState: String = gamestate.displayState()
 
+  override def playgroundState: String = playground.getStatus()
+  
   override def toString = playground.toString

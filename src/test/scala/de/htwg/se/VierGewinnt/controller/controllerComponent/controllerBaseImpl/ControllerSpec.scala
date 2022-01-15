@@ -94,12 +94,12 @@ class ControllerSpec extends AnyWordSpec {
         val injector = Guice.createInjector(new VierGewinntModule)
         val controller2 = injector.getInstance(classOf[ControllerInterface])
         var field = controller2.playground
-        field = controller2.insChip(Move(0))
-        field.grid.getCell(6, 0) should be(Cell(Chip.YELLOW))
-        field = controller2.undo
-        field.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.EMPTY))
-        field = controller2.redo
-        field.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.YELLOW))
+        controller2.doAndPublish(controller2.insChip, Move(0))
+        controller2.playground.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.YELLOW))
+        controller2.doAndPublish(controller2.undo);
+        controller2.playground.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.EMPTY))
+        controller2.doAndPublish(controller2.redo);
+        controller2.playground.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.YELLOW))
       }
       "return grid size" in {
         controller.gridSize should be(7)

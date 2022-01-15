@@ -8,11 +8,7 @@ import scalafx.application.JFXApp3
 import scalafx.application.Platform
 import scalafx.application.Platform.*
 import scalafx.event.ActionEvent
-import scalafx.scene.control.Button
-import scalafx.scene.control.Label
-import scalafx.scene.control.Menu
-import scalafx.scene.control.MenuBar
-import scalafx.scene.control.MenuItem
+import scalafx.scene.control.{Button, Label, Menu, MenuBar, MenuItem, TextInputDialog}
 import scalafx.scene.effect.BlendMode.Blue
 import scalafx.scene.input.MouseEvent
 import scalafx.scene.layout.*
@@ -23,8 +19,9 @@ import scalafx.scene.Scene
 import scalafx.Includes.*
 
 import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
+import java.util.Optional
 
-case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
+case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
   controller.add(this)
   var chips = emptyChips()
   var chipGrid = emptyGrid()
@@ -45,9 +42,9 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
     })
 
   override def start(): Unit =
-    stage = new JFXApp3.PrimaryStage:
+    stage = new JFXApp3.PrimaryStage :
       title.value = "VierGewinnt"
-      scene = new Scene:
+      scene = new Scene :
         fill = Color.DarkBlue
         //controller.setupGame(0, 7)
         val menu = new MenuBar {
@@ -55,9 +52,27 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
             new Menu("File") {
               items = List(
                 new MenuItem("New PVP") {
-                  onAction = (event: ActionEvent) => controller.setupGame(0, 7)
-                },new MenuItem("New PVE") {
-                  onAction = (event: ActionEvent) => controller.setupGame(1, 7)
+                  onAction = (event: ActionEvent) => {
+                    val result = new TextInputDialog("7") {
+                      initOwner(stage)
+                      title = "Set a size"
+                      this.setContentText("Enter a number 4+")
+                    }.showAndWait()
+
+                    controller.setupGame(0, result.get.toInt)
+                    start()
+                  }
+                }, new MenuItem("New PVE") {
+                  onAction = (event: ActionEvent) => {
+                    val result = new TextInputDialog("7") {
+                      initOwner(stage)
+                      title = "Set a size"
+                      this.setContentText("Enter a number 4+")
+                    }.showAndWait()
+
+                    controller.setupGame(1, result.get.toInt)
+                    start()
+                  }
                 },
                 new MenuItem("Save"),
                 new MenuItem("Load")
@@ -83,17 +98,18 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer:
           )
         }
 
-        var vBox = new VBox():
+        var vBox = new VBox() :
           children = List(menu, chipGrid)
 
         content = new VBox() {
           children = List(menu, chipGrid)
         }
 
-  def emptyChips(): Array[Array[Circle]] = Array.fill(controller.gridSize, controller.gridSize)(Circle(50))
+
+  def emptyChips(): Vector[Vector[Circle]] = Vector.fill(controller.gridSize, controller.gridSize)(Circle(50, fill = Color.Gray))
 
   def emptyGrid(): GridPane =
-    new GridPane:
+    new GridPane :
       for ((subList, i) <- chips.zipWithIndex) {
         for ((element, j) <- subList.zipWithIndex) {
           element.onMouseClicked = (event: MouseEvent) =>

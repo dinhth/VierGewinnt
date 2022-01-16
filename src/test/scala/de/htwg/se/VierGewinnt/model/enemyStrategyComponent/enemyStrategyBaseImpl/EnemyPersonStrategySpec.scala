@@ -1,6 +1,7 @@
 package de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.VierGewinnt.model.gridComponent
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.model.gridComponent.{GridInterface, gridBaseImpl}
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
@@ -18,10 +19,13 @@ class EnemyPersonStrategySpec extends AnyWordSpec {
     "Inserting a Chip" in {
       playground.insertChip(1).toString should be(
         playgroundBaseImpl.PlaygroundPvP(
-          Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCellRisk(6, 1, gridBaseImpl.Cell(Chip.YELLOW)),
+          Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCellRisk(6, 1, Cell(Chip.YELLOW)),
           List(playerBaseImpl.HumanPlayer("Player 2", Chip.RED), playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW))
         ).toString
       )
+    }
+    "Getting the Strategy" in {
+      playground.enemStrat should be (EnemyPersonStrategy())
     }
     "Inserting a Chip in full column" in {
 

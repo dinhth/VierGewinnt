@@ -2,7 +2,7 @@ package de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 
 import de.htwg.se.VierGewinnt.model
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip, Grid}
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Grid
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 

@@ -1,7 +1,8 @@
 package de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
-import de.htwg.se.VierGewinnt.model.gridComponent.*
+import de.htwg.se.VierGewinnt.model.gridComponent
+import de.htwg.se.VierGewinnt.model.gridComponent.{gridBaseImpl, *}
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.{BotPlayer, HumanPlayer}
@@ -14,54 +15,44 @@ import scala.io.AnsiColor.*
 
 class EnemyComputerStrategySpec extends AnyWordSpec {
   "An Enemy Computer Spec should work random" when {
-    var playground = PlaygroundPvE(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), BotPlayer("Bot 1", Chip.RED)))
+    var playground = playgroundBaseImpl.PlaygroundPvE(new Grid(7), List(HumanPlayer("Player 1", Chip.YELLOW), BotPlayer("Bot 1", Chip.RED)))
     "Inserting a Chip" in {
-      playground.insertChip(1) should not be (
+      playground.insertChip(1).toString should not be (
         playgroundBaseImpl.PlaygroundPvE(
           Grid(Vector.tabulate(7, 7)((row, col) => Cell(Chip.EMPTY))).replaceCellRisk(6, 1, gridBaseImpl.Cell(Chip.YELLOW)),
           List(playerBaseImpl.HumanPlayer("Player 2", Chip.RED), playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW))
-        )
+        ).toString
       )
-    } /*
+    }
+    "Getting the Strategy" in {
+      playground.enemStrat should be (EnemyComputerStrategy())
+    }
     "not inserting a Chip manually" in {
-      for (i <- 0 to 8) {
-        playground = playground.insertChip(1)
-      }
-      playground.insertChip(1) should be(playground)
+      var playground_ins1 = playground.insertChip(1)
+      var playground_ins2 = playground_ins1.insertChip(1)
+      var playground_ins3 = playground_ins2.insertChip(1)
+      var playground_ins4 = playground_ins3.insertChip(1)
+      var playground_ins5 = playground_ins4.insertChip(1)
+      var playground_ins6 = playground_ins5.insertChip(1)
+      var playground_full = playground_ins6.insertChip(1)
+      playground_full.insertChip(1) should be(playground_full)
     }
     "not inserting a Chip by computer" in {
-      for (i <- 1 to 7) yield {
-        for (j <- 0 to 6) yield {
-          playground = playground.insertChip(j)
-        }
-      }
-      playground.insertChip(1) should be(playground)
+      var playground_comp = playgroundBaseImpl.PlaygroundPvE(new Grid(1), List(HumanPlayer("Player 1", Chip.YELLOW), BotPlayer("Bot 1", Chip.RED)))
+      var playground_ins1 = playground_comp.insertChip(0)
+      playground_ins1.insertChip(0) should be(playground_ins1)
     }
 
     "not insert when full by computer" in {
       var pl = PlaygroundPvE(
-        Grid(Vector.tabulate(4, 4)((row, col) => Cell(Chip.EMPTY)))
+        Grid(Vector.tabulate(2, 2)((row, col) => Cell(Chip.EMPTY)))
           .replaceCellRisk(0, 0, Cell(Chip.RED))
           .replaceCellRisk(0, 1, Cell(Chip.RED))
-          .replaceCellRisk(0, 2, Cell(Chip.RED))
-          .replaceCellRisk(0, 3, Cell(Chip.YELLOW))
           .replaceCellRisk(1, 0, Cell(Chip.YELLOW))
-          .replaceCellRisk(1, 1, Cell(Chip.YELLOW))
-          .replaceCellRisk(1, 2, Cell(Chip.RED))
-          .replaceCellRisk(1, 3, Cell(Chip.YELLOW))
-          .replaceCellRisk(2, 0, Cell(Chip.YELLOW))
-          .replaceCellRisk(2, 1, Cell(Chip.RED))
-          .replaceCellRisk(2, 2, Cell(Chip.RED))
-          .replaceCellRisk(2, 3, Cell(Chip.YELLOW))
-          .replaceCellRisk(3, 0, Cell(Chip.EMPTY))
-          .replaceCellRisk(3, 1, Cell(Chip.EMPTY))
-          .replaceCellRisk(3, 2, Cell(Chip.YELLOW))
-          .replaceCellRisk(3, 3, Cell(Chip.RED)),
+          .replaceCellRisk(1, 1, Cell(Chip.YELLOW)),
         List(HumanPlayer("Player 1", Chip.YELLOW), BotPlayer("Bot 1", Chip.RED))
       )
-      pl = pl.insertChip(1)
-      pl = pl.insertChip(0)
-    }*/
-
+      pl.insertChip(1) should be(pl)
+    }
   }
 }

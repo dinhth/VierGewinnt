@@ -4,7 +4,7 @@ import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.VierGewinntModule
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
-import de.htwg.se.VierGewinnt.model.*
+import de.htwg.se.VierGewinnt.model.{gridComponent, *}
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
@@ -95,7 +95,7 @@ class ControllerSpec extends AnyWordSpec {
         val controller2 = injector.getInstance(classOf[ControllerInterface])
         var field = controller2.playground
         controller2.doAndPublish(controller2.insChip, Move(0))
-        controller2.playground.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.YELLOW))
+        controller2.playground.grid.getCell(6, 0) should be(Cell(Chip.YELLOW))
         controller2.doAndPublish(controller2.undo);
         controller2.playground.grid.getCell(6, 0) should be(gridBaseImpl.Cell(Chip.EMPTY))
         controller2.doAndPublish(controller2.redo);

@@ -1,6 +1,7 @@
 package de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
+import de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl.*
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.HumanPlayer
 import de.htwg.se.VierGewinnt.model.playerComponent.{playerBaseImpl, playerMockImpl}
@@ -25,6 +26,12 @@ class PlaygroundTemplateSpec extends AnyWordSpec {
       }
       "request how many chips inserted in a column" in {
         playgroundcpy.getPosition(0) should be(playgroundcpy.size - 2)
+      }
+      "return 0 on too big getPosition input" in {
+        playgroundcpy.getPosition(100) should be(0)
+      }
+      "return 0 on too low getPosition input" in {
+        playgroundcpy.getPosition(-100) should be(0)
       }
       "be able to return the last position" in {
         playgroundcpy.getDeletePosition(0) should be(playgroundcpy.size - 1)
@@ -52,6 +59,50 @@ class PlaygroundTemplateSpec extends AnyWordSpec {
         playgroundfull.insertChip(0).error = "This column is full try another one"
       }
     }
+    "when getting the Status" should {
+      "Yellow wins" in {
+        val playground = playgroundBaseImpl.PlaygroundPvP(new Grid(4), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
+        val playground_ylmove1 = playground.insertChip(0)
+        val playground_redmove1 = playground_ylmove1.insertChip(1)
+        val playground_ylmove2 = playground_redmove1.insertChip(0)
+        val playground_redmove2 = playground_ylmove2.insertChip(2)
+        val playground_ylmove3 = playground_redmove2.insertChip(0)
+        val playground_redmove3 = playground_ylmove3.insertChip(3)
+        val playground_ylmove4 = playground_redmove3.insertChip(0)
+        val playground_redmove4 = playground_ylmove4.insertChip(0)
+        playground_redmove4.getStatus() should be ("Player Yellow has won the game!")
+      }
+      "Red wins" in {
+        val playground = playgroundBaseImpl.PlaygroundPvP(new Grid(4), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
+        val playground_ylmove1 = playground.insertChip(1)
+        val playground_redmove1 = playground_ylmove1.insertChip(0)
+        val playground_ylmove2 = playground_redmove1.insertChip(2)
+        val playground_redmove2 = playground_ylmove2.insertChip(0)
+        val playground_ylmove3 = playground_redmove2.insertChip(3)
+        val playground_redmove3 = playground_ylmove3.insertChip(0)
+        val playground_ylmove4 = playground_redmove3.insertChip(2)
+        val playground_redmove4 = playground_ylmove4.insertChip(0)
+        playground_redmove4.getStatus() should be ("Player Red has won the game!")
+      }
+      "no one won yet" in {
+          val playground = playgroundBaseImpl.PlaygroundPvP(new Grid(4), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
+          val playground_ylmove1 = playground.insertChip(0)
+          val playground_redmove1 = playground_ylmove1.insertChip(1)
+          playground_redmove1.getStatus() should be ("It's your turn Player 1")
+      }
+    }
+    "when initialized as PVE" should {
+      "return the correct enemStrat PVE" in  {
+        val playground = playgroundBaseImpl.PlaygroundPvE(new Grid(4), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.BotPlayer("Bot", Chip.RED)))
+        playground.enemStrat should be (EnemyComputerStrategy())
+      }
+    }
+    "when initialized as PVP" should {
+      "return the correct enemStrat PVP" in  {
+        val playground = playgroundBaseImpl.PlaygroundPvP(new Grid(4), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
+        playground.enemStrat should be (EnemyPersonStrategy())
+      }
+    }
   }
-
 }
+

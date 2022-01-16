@@ -33,6 +33,28 @@ class TuiSpec extends AnyWordSpec {
       //)
     }
 
+    "choose enemy mode" in {
+      val in = new BufferedReader(new StringReader("\n0\n7\nredo\nundo\nk\n4\nq"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.run
+        }
+      }
+    }
+
+    "choose no mode" in {
+      val in = new BufferedReader(new StringReader("\n2\n7\nq"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.run
+        }
+      }
+    }
+
     /*
     "be playable against a Computer" in {
       val in = new BufferedReader(new StringReader("computer"))
@@ -94,6 +116,10 @@ class TuiSpec extends AnyWordSpec {
       //source.toString should be(
       //  "doesn't look like a number" + ("wrong input, try a number from 1 to " + controller.playground.size + "\n") * 3
       //)
+    }
+
+    "update with update()" in {
+      tui.update
     }
   }
 }

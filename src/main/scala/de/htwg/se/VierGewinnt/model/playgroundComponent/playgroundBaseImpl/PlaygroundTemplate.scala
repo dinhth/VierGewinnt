@@ -17,9 +17,14 @@ trait PlaygroundTemplate extends PlaygroundInterface {
   }
 
   override def getPosition(col: Int): Int = { // get the position where the chip should drop
-    var i = size - 1
-    while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
-    i
+    col match {
+      case col if col > size => 0
+      case col if col < 0 => 0
+      case _ =>
+        var i = size - 1
+        while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
+        i
+    }
   }
 
   override def toString: String = {

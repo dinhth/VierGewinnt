@@ -24,6 +24,9 @@ class EnemyComputerStrategySpec extends AnyWordSpec {
         ).toString
       )
     }
+    "return old playground when index out of bounds" in {
+      playground.insertChip(10) should be (playground)
+    }
     "Getting the Strategy" in {
       playground.enemStrat should be (EnemyComputerStrategy())
     }
@@ -42,7 +45,6 @@ class EnemyComputerStrategySpec extends AnyWordSpec {
       var playground_ins1 = playground_comp.insertChip(0)
       playground_ins1.insertChip(0) should be(playground_ins1)
     }
-
     "not insert when full by computer" in {
       var pl = PlaygroundPvE(
         Grid(Vector.tabulate(2, 2)((row, col) => Cell(Chip.EMPTY)))

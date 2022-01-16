@@ -8,6 +8,7 @@ import de.htwg.se.VierGewinnt.model.{gridComponent, *}
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
+import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -37,59 +38,50 @@ class ControllerSpec extends AnyWordSpec {
         observer.toString should be("true")
       }
 
-      // TODO: new test
-      /*"change strat to computer enemy strategy" in {
-        controller.changeEnemyStrategy("bot")
-        controller.playground.enemStrat should be(EnemyComputerStrategy())
+      "check if the Board is full" in {
+        controller.setupGame(0, 2)
         controller.doAndPublish(controller.insChip, Move(0))
-      }
-      "change strat to person enemy strategy" in {
-        controller.changeEnemyStrategy("person")
-        controller.playground.enemStrat should be(EnemyPersonStrategy())
         controller.doAndPublish(controller.insChip, Move(0))
+        controller.doAndPublish(controller.insChip, Move(1))
+        controller.doAndPublish(controller.insChip, Move(1))
+        controller.checkFull()
+        controller.gamestate.state should be (TieState())
       }
 
-      "checking no one has won" in {
-        controller.checkWinner(controller.playground)
-        for (y <- 0 to (6)) yield { //Height
-          for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.EMPTY)), controller.playground.player, controller.playground.enemStrat)
-          }
-        }
-        controller.checkWinner(controller.playground)
+      "setup a PVE Game" in {
+        controller.setupGame(1, 7)
+        controller.playground.player(1).getName() should be ("Bot 1")
+        controller.gamestate.state should be (PlayState())
       }
-      "checking RED has won" in {
-        controller.checkWinner(controller.playground)
-        for (y <- 0 to (6)) yield { //Height
-          for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.RED)), controller.playground.player, controller.playground.enemStrat)
-          }
-        }
-        controller.checkWinner(controller.playground)
+
+      "setup a PVP Game" in {
+        controller.setupGame(0, 7)
+        controller.playground.player(1).getName() should be ("Player 2")
+        controller.gamestate.state should be (PlayState())
       }
-      "checking YELLOW has won" in {
+
+
+      "check if there is a winner" in {
+        controller.doAndPublish(controller.insChip, Move(0))
+        controller.doAndPublish(controller.insChip, Move(1))
+        controller.doAndPublish(controller.insChip, Move(0))
+        controller.doAndPublish(controller.insChip, Move(1))
+        controller.doAndPublish(controller.insChip, Move(0))
+        controller.doAndPublish(controller.insChip, Move(1))
+        controller.doAndPublish(controller.insChip, Move(0))
         controller.checkWinner(controller.playground)
-        for (y <- 0 to (6)) yield { //Height
-          for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.YELLOW)), controller.playground.player, controller.playground.enemStrat)
-          }
-        }
-        controller.checkWinner(controller.playground)
+        controller.gamestate.state should be (WinState())
       }
-      "checking if the gameboard is full" in {
-        for (y <- 0 to (6)) yield { //Height
-          for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.EMPTY)), controller.playground.player, controller.playground.enemStrat)
-          }
-        }
-        controller.checkFull()
-        for (y <- 0 to (6)) yield { //Height
-          for (x <- 0 to (6)) yield { //Width
-            controller.playground = controller.playground.copy(controller.playground.grid.replaceCellRisk(y, x, Cell(Chip.RED)), controller.playground.player, controller.playground.enemStrat)
-          }
-        }
-        controller.checkFull()
-      }*/
+
+      "get the Chip Color" in {
+        controller.getChipColor(0,0) should be (BLUE_B)
+      }
+
+      "get the playground state" in {
+        controller.toString
+        controller.playgroundState should be ("Player Yellow has won the game!")
+      }
+      
       "undo and redo a move" in {
         val injector = Guice.createInjector(new VierGewinntModule)
         val controller2 = injector.getInstance(classOf[ControllerInterface])

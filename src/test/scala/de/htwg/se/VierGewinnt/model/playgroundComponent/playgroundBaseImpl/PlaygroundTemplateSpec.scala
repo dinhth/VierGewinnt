@@ -94,13 +94,15 @@ class PlaygroundTemplateSpec extends AnyWordSpec {
     "when initialized as PVE" should {
       "return the correct enemStrat PVE" in  {
         val playground = playgroundBaseImpl.PlaygroundPvE(new Grid(4), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.BotPlayer("Bot", Chip.RED)))
-        playground.enemStrat should be (EnemyComputerStrategy())
+        val getStrat = playground.enemStrat
+        getStrat should be (EnemyComputerStrategy())
       }
     }
     "when initialized as PVP" should {
       "return the correct enemStrat PVP" in  {
         val playground = playgroundBaseImpl.PlaygroundPvP(new Grid(4), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED)))
-        playground.enemStrat should be (EnemyPersonStrategy())
+        val getStrat = playground.enemStrat
+        getStrat should be (EnemyPersonStrategy())
       }
     }
   }

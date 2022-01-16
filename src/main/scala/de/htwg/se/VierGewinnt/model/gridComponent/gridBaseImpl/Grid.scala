@@ -34,10 +34,10 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface:
     copy(grid.updated(row, grid(row).updated(col, cell)))
   }
 
-  override def checkFull(): Boolean = { // if any of the top rows is not full, return false, if true, grid is completly full
+  override def checkFull(): Boolean = { // if any of the top rows is not full, return false and stop from checking, if true, grid is completly full
     var result = true
     for (i <- 0 to size - 1) yield {
-      result = if (getCell(i, size - 1).value.getValue == 0) false else result
+      if (result == true) { result = if (getCell(0, i).value.getValue == 0) false else true }
     }
     result
   }

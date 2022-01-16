@@ -33,12 +33,12 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   val undoManager = new UndoManager[PlaygroundInterface]
 
   override def doAndPublish(doThis: Move => PlaygroundInterface, move: Move): Unit =
-    if (!gamestate.state.equals(WinState()))
+    if (!gamestate.state.equals(WinState()) && !gamestate.state.equals(TieState()))
       playground = doThis(move)
       notifyObservers
 
   override def doAndPublish(doThis: => PlaygroundInterface): Unit =
-    if (!gamestate.state.equals(WinState()))
+    if (!gamestate.state.equals(WinState()) && !gamestate.state.equals(TieState())) //As long as it is not win or tie state
       playground = doThis
       notifyObservers
 
@@ -55,8 +55,8 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
 
   override def checkFull(): Unit =
     playground.grid.checkFull() match {
-      case true => if (!gamestate.state.equals(WinState())) { gamestate.changeState(TieState()) }
-      case false => if (!gamestate.state.equals(WinState())) { gamestate.changeState(PlayState()) }
+      case true => if (!gamestate.state.equals(WinState()) && !gamestate.state.equals(TieState())) { gamestate.changeState(TieState()) }
+      case false => if (!gamestate.state.equals(WinState()) && !gamestate.state.equals(TieState())) { gamestate.changeState(PlayState()) }
     }
 
   override def checkWinner(pg: PlaygroundInterface): Unit =
@@ -72,5 +72,5 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   override def printState: String = gamestate.displayState()
 
   override def playgroundState: String = playground.getStatus()
-  
+
   override def toString = playground.toString

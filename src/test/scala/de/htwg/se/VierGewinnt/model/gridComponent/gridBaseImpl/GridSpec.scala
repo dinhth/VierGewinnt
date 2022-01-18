@@ -64,6 +64,15 @@ class GridSpec extends AnyWordSpec {
         grid.replaceCell(0, 0, Cell(Chip.EMPTY)).isSuccess should be(true)
       }
     }
+    "removing a cell" should {
+      val grid = new Grid()
+      "throw an failure" in {
+        grid.removeCell(10, 10).isFailure should be(true)
+      }
+      "return an success" in {
+        grid.removeCell(0, 0).isSuccess should be(true)
+      }
+    }
     "have a string representation" in {
       val grid = new Grid(1)
       grid.toString should be(s"${BLUE_B}  ${BLUE_B}|" + grid.getCell(0, 0) + s"${BLUE_B}|  ${RESET}\n")

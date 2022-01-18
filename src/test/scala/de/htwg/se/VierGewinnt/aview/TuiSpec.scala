@@ -28,9 +28,11 @@ class TuiSpec extends AnyWordSpec {
           tui.run
         }
       }
-      //source.toString should be(
-      //  s"Welcome to 'Vier Gewinnt'\n\nPlease select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER\n0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'\n${controller.toString}\n\nGame is on"
-      //)
+      source.toString should include("Welcome to 'Vier Gewinnt'")
+      source.toString should include("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER")
+      source.toString should include("0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
+      source.toString should include(controller.toString)
+      source.toString should include("Game is on")
     }
 
     "choose enemy mode" in {
@@ -42,6 +44,11 @@ class TuiSpec extends AnyWordSpec {
           tui.run
         }
       }
+      source.toString should include("Game is on")
+      source.toString should include("It's your turn Player 2")
+      source.toString should include("It's your turn Player 1")
+      source.toString should include("wrong input, try a number from 1 to 7")
+      source.toString should include("doesn't look like a number")
     }
 
     "choose no mode" in {
@@ -53,32 +60,11 @@ class TuiSpec extends AnyWordSpec {
           tui.run
         }
       }
+      source.toString should include("Game is on")
+      source.toString should include("It's your turn Player 1")
+      source.toString should include("It's your turn Player 2")
+      source.toString should include(controller.toString)
     }
-
-    /*
-    "be playable against a Computer" in {
-      val in = new BufferedReader(new StringReader("computer"))
-      val source = new ByteArrayOutputStream()
-      val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
-          tui.getInputAndPrintLoop()
-        }
-      }
-
-    }
-
-    "be playable against a Person" in {
-      val in = new BufferedReader(new StringReader("1\nq\n"))
-      val source = new ByteArrayOutputStream()
-      val printer = new PrintStream(source)
-      Console.withOut(printer) {
-        Console.withIn(in) {
-          tui.getInputAndPrintLoop()
-        }
-      }
-    }
-     */
 
     "valid input" in {
       val in = new BufferedReader(new StringReader("\n1\nq\n"))
@@ -89,9 +75,10 @@ class TuiSpec extends AnyWordSpec {
           tui.getInputAndPrintLoop()
         }
       }
-      // tui.size should be(7)
-      controller.playground.getPosition(0) should be(5)
+      source.toString should include("doesn't look like a number")
+      source.toString should include("It's your turn Player 2")
     }
+
     "invalid input: not a number" in {
       val in = new BufferedReader(new StringReader("\na\n \n+\n\nq\n"))
       val source = new ByteArrayOutputStream()
@@ -101,11 +88,10 @@ class TuiSpec extends AnyWordSpec {
           tui.getInputAndPrintLoop()
         }
       }
-
-      //source.toString should be("doesn't look like a number\n" * 5 + "\n")
+      source.toString should include("doesn't look like a number")
     }
     "invalid input: a number but not in range" in {
-      val in = new BufferedReader(new StringReader("\n0\n8\n-1\nq\n"))
+      val in = new BufferedReader(new StringReader("0\n0\n8\n-1\nq\n"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
       Console.withOut(printer) {
@@ -113,13 +99,69 @@ class TuiSpec extends AnyWordSpec {
           tui.getInputAndPrintLoop()
         }
       }
-      //source.toString should be(
-      //  "doesn't look like a number" + ("wrong input, try a number from 1 to " + controller.playground.size + "\n") * 3
-      //)
+      source.toString should include("wrong input, try a number from 1 to " + controller.playground.size)
     }
 
     "update with update()" in {
-      tui.update
+      val in = new BufferedReader(new StringReader(""))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.update
+        }
+      }
+      source.toString should include(controller.toString)
+    }
+
+    "quit on prepareGameType()" in {
+      val in = new BufferedReader(new StringReader("q"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.prepareGameType()
+        }
+      }
+      source.toString should include ("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER\n" +
+        "0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
+    }
+
+    "choose 0 and then size 7 on prepareGameType()" in {
+      val in = new BufferedReader(new StringReader("0\n7"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.prepareGameType()
+        }
+      }
+      source.toString should include("Type the grid size")
+    }
+
+    "choose 2 and quit on prepareGameType()" in {
+      val in = new BufferedReader(new StringReader("2\nq"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.prepareGameType()
+        }
+      }
+      source.toString should include("not supported yet")
+    }
+
+    "choose empty and quit on prepareGameType()" in {
+      val in = new BufferedReader(new StringReader(" \nq"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.prepareGameType()
+        }
+      }
+      source.toString should include("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER")
+      source.toString should include("0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
     }
   }
 }

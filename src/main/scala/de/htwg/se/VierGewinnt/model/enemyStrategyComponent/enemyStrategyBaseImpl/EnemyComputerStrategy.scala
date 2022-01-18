@@ -20,8 +20,7 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
       case Failure(_) =>
         temp = {
           pg.error = "This column is full try another one"
-          pg
-        } // If Failure, return the old playground
+          pg } // If Failure, return the old playground
     }
     temp.grid.checkFull() match {
       case false if ((temp.grid.checkWin() == None) && temp != pg) =>

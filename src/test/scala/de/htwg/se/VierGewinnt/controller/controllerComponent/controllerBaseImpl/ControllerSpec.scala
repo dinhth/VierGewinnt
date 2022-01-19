@@ -81,7 +81,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.toString
         controller.playgroundState should be ("Player Yellow has won the game!")
       }
-      
+
       "undo and redo a move" in {
         val injector = Guice.createInjector(new VierGewinntModule)
         val controller2 = injector.getInstance(classOf[ControllerInterface])
@@ -95,6 +95,18 @@ class ControllerSpec extends AnyWordSpec {
       }
       "return grid size" in {
         controller.gridSize should be(7)
+      }
+      "return if it is preparing" in {
+        controller.gamestate.changeState(PlayState())
+        controller.isPreparing should be(false)
+      }
+      "restart the game to reset into PrepareState" in {
+        controller.restartGame
+        controller.gamestate.state should be(PrepareState())
+      }
+      "game is not done yet" in {
+        controller.gamestate.changeState(PlayState())
+        controller.gameNotDone should be(true)
       }
     }
   }

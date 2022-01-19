@@ -29,6 +29,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
   var statestatus = new Menu(controller.printState)
 
   override def update: Unit =
+    checkChipSize()
     chips.zipWithIndex.foreach((subList, i) => {
       for ((element, j) <- subList.zipWithIndex)
         controller.getChipColor(j, i) match {
@@ -46,7 +47,6 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
       title.value = "VierGewinnt"
       scene = new Scene :
         fill = Color.DarkBlue
-        //controller.setupGame(0, 7)
         val menu = new MenuBar {
           menus = List(
             new Menu("File") {
@@ -60,6 +60,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                     }.showAndWait()
 
                     controller.setupGame(0, result.get.toInt)
+                    chipGrid = emptyGrid()  //Update Grid to new Size
                     start()
                   }
                 }, new MenuItem("New PVE") {
@@ -71,6 +72,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                     }.showAndWait()
 
                     controller.setupGame(1, result.get.toInt)
+                    chipGrid = emptyGrid()  //Update Grid to new Size
                     start()
                   }
                 },
@@ -107,6 +109,15 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
 
 
   def emptyChips(): Vector[Vector[Circle]] = Vector.fill(controller.gridSize, controller.gridSize)(Circle(50, fill = Color.Gray))
+
+  //checkChipSize checks if the chips size is the same as the controller size, if not, update the chips
+  def checkChipSize():Unit =
+    if (!chips.length.equals(controller.gridSize)) {
+      chips = emptyChips()
+      chipGrid = emptyGrid()
+    }
+
+
 
   def emptyGrid(): GridPane =
     new GridPane :

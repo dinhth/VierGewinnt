@@ -3,7 +3,7 @@ package de.htwg.se.VierGewinnt.aview
 import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.VierGewinntModule
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
-import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{Controller, GameState, PlayState}
+import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.{Controller, GameState, PlayState, PrepareState}
 
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
@@ -76,7 +76,19 @@ class TuiSpec extends AnyWordSpec {
         }
       }
       source.toString should include("doesn't look like a number")
-      source.toString should include("It's your turn Player 2")
+    }
+
+    "restart the game" in {
+      val in = new BufferedReader(new StringReader("\nrestart\nq\nq"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.getInputAndPrintLoop()
+        }
+      }
+      source.toString should include("Game is setting up")
+      source.toString should include("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER")
     }
 
     "invalid input: not a number" in {
@@ -115,6 +127,7 @@ class TuiSpec extends AnyWordSpec {
     }
 
     "quit on prepareGameType()" in {
+      controller.gamestate.changeState(PrepareState())
       val in = new BufferedReader(new StringReader("q"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
@@ -128,6 +141,7 @@ class TuiSpec extends AnyWordSpec {
     }
 
     "choose 0 and then size 7 on prepareGameType()" in {
+      controller.gamestate.changeState(PrepareState())
       val in = new BufferedReader(new StringReader("0\n7"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
@@ -140,6 +154,7 @@ class TuiSpec extends AnyWordSpec {
     }
 
     "choose 2 and quit on prepareGameType()" in {
+      controller.gamestate.changeState(PrepareState())
       val in = new BufferedReader(new StringReader("2\nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
@@ -152,6 +167,7 @@ class TuiSpec extends AnyWordSpec {
     }
 
     "choose empty and quit on prepareGameType()" in {
+      controller.gamestate.changeState(PrepareState())
       val in = new BufferedReader(new StringReader(" \nq"))
       val source = new ByteArrayOutputStream()
       val printer = new PrintStream(source)
@@ -162,6 +178,36 @@ class TuiSpec extends AnyWordSpec {
       }
       source.toString should include("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER")
       source.toString should include("0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
+    }
+
+    "should be able to use prepareGameType()" in {
+      controller.gamestate.changeState(PrepareState())
+      val in = new BufferedReader(new StringReader(" \n2\nq"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.prepareGameType()
+        }
+      }
+      source.toString should include("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER")
+      source.toString should include("0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
+      source.toString should include("not supported yet")
+    }
+
+    "should not be able to use prepareGameType()" in {
+      controller.gamestate.changeState(PlayState())
+      val in = new BufferedReader(new StringReader(" \n2\nq"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.prepareGameType()
+        }
+      }
+      source.toString should include("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER")
+      source.toString should include("0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
+      source.toString should not include("not supported yet")
     }
   }
 }

@@ -10,6 +10,9 @@ import de.htwg.se.VierGewinnt.util.{Move, Observable}
 trait ControllerInterface() extends Observable:
   def gridSize: Int
   def setupGame(gameType: Int, size: Int): Unit
+  def restartGame: Unit
+  def isPreparing: Boolean
+  def gameNotDone: Boolean
   def doAndPublish(doThis: Move => PlaygroundInterface, move: Move): Unit
   def doAndPublish(doThis: => PlaygroundInterface): Unit
   def undo: PlaygroundInterface
@@ -23,4 +26,3 @@ trait ControllerInterface() extends Observable:
   var gamestate: GameState = GameState()
   var player: List[PlayerInterface] = List()
   var playground: PlaygroundInterface
-

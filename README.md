@@ -5,21 +5,28 @@ The game VierGewinnt (Connect Four) is a software project for the course softwar
 
 # How to play (GUI)
 1. Choose Game Type (_File -> New PvP | New PVE_)
+<img src='https://user-images.githubusercontent.com/39746011/150041452-64b434dc-df87-4d13-a58c-5b347bcdaafa.png' width='500'>
+<img src='https://user-images.githubusercontent.com/39746011/150042267-72939e7e-45dd-4679-b0aa-3e56193a4b33.png' width='200'>
 
 2. Player 1 begins
 
 3. Click on a slot to insert a Chip
+<img src='https://user-images.githubusercontent.com/39746011/150042848-08d6a9a1-ea34-47e3-a742-334c18509437.png' width='350'>
+<img src='https://user-images.githubusercontent.com/39746011/150043284-4d6af027-2953-4ed6-a2cc-da9568e206d6.png' width='350'>
 
 4. Take turns with Player 2
 
+
 5. Accidental steps can be reversed (_Control -> Undo | Redo_)
 
-6. The game is won when 4 Chips of the same Chip color are next to each other either
-   -- horizontally,
-   -- vertically or
-   -- diagonally
+<img src='https://user-images.githubusercontent.com/39746011/150043665-cd5af24c-562b-4351-a461-d9c9629b9393.png' width='500'>
+
+6. The game is won when 4 Chips of the same Chip color are next to each other either horizontally, vertically or diagonally
+<img src='https://user-images.githubusercontent.com/39746011/150044486-8ed09a95-0863-4c9d-a4a3-1b2ac5c6a0d9.png' width='400'>
 
 7. If all slots are occupied without a winner, the game ends in a tie
+
+<img src='https://user-images.githubusercontent.com/39746011/150044954-ac3feecb-9a89-42eb-b6d7-9bc18ec9bacc.png' width='300'>
 
 8. Save your game and continue playing it later (_File -> Save | Load_)
    (future feature)
@@ -30,7 +37,8 @@ The game VierGewinnt (Connect Four) is a software project for the course softwar
 
 2. Player 1 begins
 
-3. Enter a number from 1 to 7 to insert a Chip into the slot
+3. Enter a number from 1 to 7 to insert a Chip into the slot!
+
 
 4. Take turns with Player 2
 

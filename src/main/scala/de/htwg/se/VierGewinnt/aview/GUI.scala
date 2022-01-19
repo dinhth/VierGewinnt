@@ -56,7 +56,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                     val result = new TextInputDialog("7") {
                       initOwner(stage)
                       title = "Set a size"
-                      this.setContentText("Enter a number 4+")
+                      this.setContentText("Enter a number min. 4:")
                     }.showAndWait()
 
                     controller.setupGame(0, result.get.toInt)
@@ -68,7 +68,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                     val result = new TextInputDialog("7") {
                       initOwner(stage)
                       title = "Set a size"
-                      this.setContentText("Enter a number 4+")
+                      this.setContentText("Enter a number min. 4:")
                     }.showAndWait()
 
                     controller.setupGame(1, result.get.toInt)
@@ -106,6 +106,8 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
         content = new VBox() {
           children = List(menu, chipGrid)
         }
+    playgroundstatus.setText(controller.playgroundState)
+    statestatus.setText(controller.printState)
 
 
   def emptyChips(): Vector[Vector[Circle]] = Vector.fill(controller.gridSize, controller.gridSize)(Circle(50, fill = Color.Gray))

@@ -59,12 +59,12 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   override def insChip(move: Move): PlaygroundInterface = {
     val temp = undoManager.doStep(playground, InsertChipCommand(move))
     checkWinner(temp)
-    checkFull()
+    checkFull(temp)
     temp
   }
 
-  override def checkFull(): Unit =
-    playground.grid.checkFull() match {
+  override def checkFull(pg: PlaygroundInterface): Unit =
+    pg.grid.checkFull() match {
       case true => if (gameNotDone) { gamestate.changeState(TieState()) }
       case false => if (gameNotDone) { gamestate.changeState(PlayState()) }
     }

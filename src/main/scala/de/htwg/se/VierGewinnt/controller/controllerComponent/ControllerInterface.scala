@@ -18,7 +18,7 @@ trait ControllerInterface() extends Observable:
   def undo: PlaygroundInterface
   def redo: PlaygroundInterface
   def insChip(move: Move):PlaygroundInterface
-  def checkFull(): Unit
+  def checkFull(pg: PlaygroundInterface): Unit
   def checkWinner(pg: PlaygroundInterface): Unit
   def getChipColor(row: Int, col: Int): String
   def printState: String

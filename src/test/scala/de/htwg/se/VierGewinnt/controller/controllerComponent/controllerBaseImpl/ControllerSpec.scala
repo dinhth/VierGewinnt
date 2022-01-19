@@ -7,7 +7,9 @@ import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.
 import de.htwg.se.VierGewinnt.model.{gridComponent, *}
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.*
+import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
+
 import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
@@ -44,7 +46,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.doAndPublish(controller.insChip, Move(0))
         controller.doAndPublish(controller.insChip, Move(1))
         controller.doAndPublish(controller.insChip, Move(1))
-        controller.checkFull()
+        controller.checkFull(controller.playground)
         controller.gamestate.state should be (TieState())
       }
 

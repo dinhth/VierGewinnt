@@ -40,7 +40,7 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
     val returnGrid = pg.grid.replaceCell(pg.getPosition(chosenCol), chosenCol, gridBaseImpl.Cell(pg.player(0).getChip()))
     returnGrid match {
       case Success(v) => playgroundBaseImpl.PlaygroundPvE(v, pg.player.reverse) // IF Success, return the new playground
-      case Failure(_) => computerinsertChip(pg) // If Failure, retry inserting a chip!
+      case Failure(_) => pg // If Failure, retry inserting a chip!
     }
   }
 

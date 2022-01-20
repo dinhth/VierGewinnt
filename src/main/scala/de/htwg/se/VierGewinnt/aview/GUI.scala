@@ -2,7 +2,6 @@ package de.htwg.se.VierGewinnt.aview
 
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
-import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
 import javafx.animation
 import scalafx.application.JFXApp3

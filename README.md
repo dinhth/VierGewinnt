@@ -11,8 +11,8 @@ The game VierGewinnt (Connect Four) is a software project for the course softwar
 2. Player 1 begins
 
 3. Click on a slot to insert a Chip
-<img src='https://user-images.githubusercontent.com/39746011/150042848-08d6a9a1-ea34-47e3-a742-334c18509437.png' width='350'>
-<img src='https://user-images.githubusercontent.com/39746011/150043284-4d6af027-2953-4ed6-a2cc-da9568e206d6.png' width='350'>
+<img src='https://user-images.githubusercontent.com/39746011/150325954-f4cdc356-af86-44b4-9fb8-699f5eea52af.gif' width='500'>
+
 
 4. Take turns with Player 2
 

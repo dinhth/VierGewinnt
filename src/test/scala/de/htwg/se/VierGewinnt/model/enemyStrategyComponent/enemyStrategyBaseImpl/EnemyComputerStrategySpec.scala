@@ -54,7 +54,11 @@ class EnemyComputerStrategySpec extends AnyWordSpec {
           .replaceCellRisk(1, 1, Cell(Chip.YELLOW)),
         List(HumanPlayer("Player 1", Chip.YELLOW), BotPlayer("Bot 1", Chip.RED))
       )
-      pl.insertChip(1) should be(pl)
+      pl.computerInsertChip() should be(pl)
+    }
+    "insert random by computer" in {
+      var playground_comp = playgroundBaseImpl.PlaygroundPvE(new Grid(1), List(HumanPlayer("Player 1", Chip.YELLOW), BotPlayer("Bot 1", Chip.RED)))
+      playground_comp.computerInsertChip() should not be(playground_comp)
     }
   }
 }

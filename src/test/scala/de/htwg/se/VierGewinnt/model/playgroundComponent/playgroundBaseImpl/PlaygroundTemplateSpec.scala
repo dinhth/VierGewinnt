@@ -97,6 +97,10 @@ class PlaygroundTemplateSpec extends AnyWordSpec {
         val getStrat = playground.enemStrat
         getStrat should be (EnemyComputerStrategy())
       }
+      "set a chip correctly" in {
+        val playground = playgroundBaseImpl.PlaygroundPvE(new Grid(4), List(playerBaseImpl.HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.BotPlayer("Bot", Chip.RED)))
+        playground.computerInsertChip() should not be (playground)
+      }
     }
     "when initialized as PVP" should {
       "return the correct enemStrat PVP" in  {

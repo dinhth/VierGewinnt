@@ -1,10 +1,7 @@
 package de.htwg.se.VierGewinnt
 package aview
 
-
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
-import de.htwg.se.VierGewinnt.controller.controllerComponent.controllerBaseImpl.Controller
-
 import scala.io.StdIn.readLine
 import util.{Move, Observer}
 

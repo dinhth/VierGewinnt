@@ -23,11 +23,6 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
           pg } // If Failure, return the old playground
     }
     temp
-    /*temp.grid.checkFull() match {
-      case false if ((temp.grid.checkWin() == None) && temp != pg) =>
-        ComputerinsertChip(temp) // If temp != pg means change was a success, if failure, try a new move
-      case _ => temp
-    }*/
   }
 
   def computerinsertChip(pg: PlaygroundTemplate): PlaygroundTemplate = {

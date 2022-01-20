@@ -9,6 +9,7 @@ trait PlaygroundInterface:
   def size: Int
   var error: String = ""
   def insertChip(col: Int): PlaygroundInterface
+  def computerInsertChip(): PlaygroundInterface
   def takeAwayChip(col: Int): PlaygroundInterface
   def getDeletePosition(col: Int): Int
   def getPosition(col: Int): Int

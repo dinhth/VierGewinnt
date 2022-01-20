@@ -37,20 +37,21 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
       playground = doThis(move)
       notifyObservers
 
-  override def restartGame: Unit =
-    gamestate.changeState(PrepareState())
-    notifyObservers
-
-  override def isPreparing : Boolean =
-    gamestate.state.equals(PrepareState())
-
-  override def gameNotDone : Boolean =
-    !(gamestate.state.equals(WinState()) || gamestate.state.equals(TieState()))
-
   override def doAndPublish(doThis: => PlaygroundInterface): Unit =
     if (gameNotDone)
       playground = doThis
       notifyObservers
+
+  override def restartGame: Unit =
+    gamestate.changeState(PrepareState())
+    notifyObservers
+
+  override def isPreparing: Boolean =
+    gamestate.state.equals(PrepareState())
+
+  override def gameNotDone: Boolean =
+    !(gamestate.state.equals(WinState()) || gamestate.state.equals(TieState()))
+
 
   override def undo: PlaygroundInterface = undoManager.undoStep(playground)
 
@@ -65,8 +66,12 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
 
   override def checkFull(pg: PlaygroundInterface): Unit =
     pg.grid.checkFull() match {
-      case true => if (gameNotDone) { gamestate.changeState(TieState()) }
-      case false => if (gameNotDone) { gamestate.changeState(PlayState()) }
+      case true => if (gameNotDone) {
+        gamestate.changeState(TieState())
+      }
+      case false => if (gameNotDone) {
+        gamestate.changeState(PlayState())
+      }
     }
 
   override def checkWinner(pg: PlaygroundInterface): Unit =

@@ -6,6 +6,6 @@ import de.htwg.se.VierGewinnt.util.{Command, Move}
 
 class InsertChipCommand(move: Move) extends Command[PlaygroundInterface]:
   override def noStep(playground: PlaygroundInterface): PlaygroundInterface = playground
-  override def doStep(playground: PlaygroundInterface): PlaygroundInterface = playground.insertChip(move.col)
+  override def doStep(playground: PlaygroundInterface): PlaygroundInterface = playground.insertChip(move.col).computerInsertChip()
   override def undoStep(playground: PlaygroundInterface): PlaygroundInterface = playground.takeAwayChip(move.col) //take away chip function
   override def redoStep(playground: PlaygroundInterface): PlaygroundInterface = playground.insertChip(move.col)

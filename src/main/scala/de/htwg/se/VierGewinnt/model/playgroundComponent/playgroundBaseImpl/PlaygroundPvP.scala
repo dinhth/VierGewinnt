@@ -15,4 +15,6 @@ case class PlaygroundPvP(val grid: GridInterface, val player: List[PlayerInterfa
 
   override def takeAwayChip(col: Int): PlaygroundInterface =
     PlaygroundPvP(grid.removeCell(getDeletePosition(col), col).get, player.reverse)
+
+  override def computerInsertChip(): PlaygroundInterface = this //never used
 }

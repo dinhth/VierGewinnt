@@ -1,5 +1,5 @@
 package de.htwg.se.VierGewinnt.util
 
 trait State[T] {
-  def displayState: Unit
+  def displayState: String
 }

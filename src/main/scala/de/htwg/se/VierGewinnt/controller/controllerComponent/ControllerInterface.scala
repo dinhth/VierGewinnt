@@ -10,6 +10,8 @@ import de.htwg.se.VierGewinnt.util.{Move, Observable}
 trait ControllerInterface() extends Observable:
   def gridSize: Int
   def setupGame(gameType: Int, size: Int): Unit
+  def load:Unit
+  def save:Unit
   def restartGame: Unit
   def isPreparing: Boolean
   def gameNotDone: Boolean

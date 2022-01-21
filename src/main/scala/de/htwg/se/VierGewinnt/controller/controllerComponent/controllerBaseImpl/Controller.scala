@@ -4,6 +4,7 @@ import com.google.inject.name.{Named, Names}
 import com.google.inject.{Guice, Inject, Key}
 import de.htwg.se.VierGewinnt.VierGewinntModule
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
+import de.htwg.se.VierGewinnt.model.fileIoComponent.FileIOInterface
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Chip, Grid}
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.{BotPlayer, HumanPlayer, Player}
@@ -13,13 +14,23 @@ import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, pl
 import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
 
 class Controller @Inject()(@Named("DefaultPlayground") var playground: PlaygroundInterface, @Named("DefaultGameType") var gameType: Int) extends Observable with ControllerInterface :
-  /*def this(size: Int = 7) =
-    this(playgroundBaseImpl.PlaygroundPvP(new Grid(size), List(HumanPlayer("Player 1", Chip.YELLOW), playerBaseImpl.HumanPlayer("Player 2", Chip.RED))),
-      0)*/
 
   val injector = Guice.createInjector(new VierGewinntModule)
+  val fileIo = injector.getInstance(classOf[FileIOInterface])
 
   override def gridSize: Int = playground.size
+
+  override def load: Unit =
+    playground = fileIo.load
+    /*fileIo.load match {
+      case None => setupGame(0, 7)
+      case Some(pg) => playground = pg
+    }*/
+    notifyObservers
+
+  override def save: Unit =
+    fileIo.save(playground)
+    notifyObservers
 
   override def setupGame(gameType: Int, size: Int): Unit =
     gameType match

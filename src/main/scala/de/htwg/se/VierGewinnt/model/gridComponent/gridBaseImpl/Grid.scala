@@ -8,10 +8,11 @@ import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
 
-case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface:
+case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
   def this(size: Int = 7) = this(Vector.tabulate(size, size)((row, col) => Cell())) // call for an empty board
 
   override def getCell(row: Int, col: Int): Cell = grid(row)(col)
+
   override def get2DVector(): Vector[Vector[Cell]] = grid
 
   override def replaceCell(row: Int, col: Int, cell: Cell): Try[GridInterface] = {
@@ -37,7 +38,9 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface:
   override def checkFull(): Boolean = { // if any of the top rows is not full, return false and stop from checking, if true, grid is completly full
     var result = true
     for (i <- 0 to size - 1) yield {
-      if (result == true) { result = if (getCell(0, i).value.getValue == 0) false else true }
+      if (result == true) {
+        result = if (getCell(0, i).value.getValue == 0) false else true
+      }
     }
     result
   }
@@ -58,8 +61,8 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface:
     val check = getCell(a1, a2).value.getValue
     if (
       (getCell(b1, b2).value.getValue == check)
-      && (getCell(c1, c2).value.getValue == check)
-      && (getCell(d1, d2).value.getValue == check)
+        && (getCell(c1, c2).value.getValue == check)
+        && (getCell(d1, d2).value.getValue == check)
     ) {
       check
     } else {

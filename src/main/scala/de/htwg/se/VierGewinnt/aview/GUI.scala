@@ -106,8 +106,14 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                     start()
                   }
                 },
-                new MenuItem("Save"),
-                new MenuItem("Load")
+                new MenuItem("Save") {
+                  onAction = (event: ActionEvent) => controller.save
+                },
+                new MenuItem("Load") {
+                  onAction = (event: ActionEvent) =>
+                    controller.load
+                    start()
+                },
               )
             },
             new Menu("Control") {

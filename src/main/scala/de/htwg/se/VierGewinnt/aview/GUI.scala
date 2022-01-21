@@ -25,7 +25,7 @@ import java.util.Optional
 import scala.language.postfixOps
 
 case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
-
+  controller.add(this)
   var chips = emptyChips()
   var chipGrid = emptyGrid()
   var playgroundstatus = new Menu(controller.playgroundState)
@@ -39,10 +39,10 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
           case BLUE_B => //Empty
             element.fill = Color.Gray
           case RED_B => //Red
-            if element.getFill() == Color.sfxColor2jfx(Color.Gray) then
+            if element.getFill() != Color.sfxColor2jfx(Color.Red) then
               animateDrop(element, Color.Red)
           case YELLOW_B => //Yellow
-            if element.getFill() == Color.sfxColor2jfx(Color.Gray) then
+            if element.getFill() != Color.sfxColor2jfx(Color.Yellow) then
               animateDrop(element, Color.Yellow)
         }
     })
@@ -66,7 +66,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
     ).play()
 
   override def start(): Unit =
-    controller.add(this)
+
     stage = new JFXApp3.PrimaryStage :
       title.value = "VierGewinnt"
       scene = new Scene :

@@ -2,9 +2,9 @@ name: Scala CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ 12-FileIO ]
   pull_request:
-    branches: [ master ]
+    branches: [ 12-FileIO ]
 
 jobs:
   build:

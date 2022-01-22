@@ -125,7 +125,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.save
         controller.insChip(Move(0))
         controller.load
-        controller.playground.toString should include(savedBeforeChange.toString)
+        controller.playground.size should be(savedBeforeChange.size)
       }
     }
   }

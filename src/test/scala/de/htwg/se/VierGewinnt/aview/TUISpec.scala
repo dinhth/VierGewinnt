@@ -13,11 +13,11 @@ import java.io.StringReader
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
-class TuiSpec extends AnyWordSpec {
+class TUISpec extends AnyWordSpec {
   "TUI of VierGewinnt" should {
     val injector = Guice.createInjector(new VierGewinntModule)
     val controller = injector.getInstance(classOf[ControllerInterface])
-    val tui = new Tui(controller)
+    val tui = new TUI(controller)
 
     "run" in {
       val in = new BufferedReader(new StringReader("\nq"))
@@ -208,6 +208,34 @@ class TuiSpec extends AnyWordSpec {
       source.toString should include("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER")
       source.toString should include("0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
       source.toString should not include("not supported yet")
+    }
+
+    "should be able to save and load a game in Prepare State" in {
+      controller.gamestate.changeState(PrepareState())
+      val in = new BufferedReader(new StringReader("save\nload"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.prepareGameType()
+        }
+      }
+      source.toString should include("Game saved.")
+      source.toString should include("Game loaded.")
+    }
+
+    "should be able to save and load a game in playing State" in {
+      controller.gamestate.changeState(PlayState())
+      val in = new BufferedReader(new StringReader("0\n0\nsave\nload\nq\n"))
+      val source = new ByteArrayOutputStream()
+      val printer = new PrintStream(source)
+      Console.withOut(printer) {
+        Console.withIn(in) {
+          tui.getInputAndPrintLoop()
+        }
+      }
+      source.toString should include("Game saved.")
+      source.toString should include("Game loaded.")
     }
   }
 }

@@ -22,10 +22,6 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
 
   override def load: Unit =
     playground = fileIo.load
-    /*fileIo.load match {
-      case None => setupGame(0, 7)
-      case Some(pg) => playground = pg
-    }*/
     notifyObservers
 
   override def save: Unit =
@@ -76,21 +72,17 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   }
 
   override def checkFull(pg: PlaygroundInterface): Unit =
-    pg.grid.checkFull() match {
-      case true => if (gameNotDone) {
+    pg.grid.checkFull() match
+      case true => if (gameNotDone)
         gamestate.changeState(TieState())
-      }
-      case false => if (gameNotDone) {
+      case false => if (gameNotDone)
         gamestate.changeState(PlayState())
-      }
-    }
 
   override def checkWinner(pg: PlaygroundInterface): Unit =
-    pg.grid.checkWin() match {
+    pg.grid.checkWin() match
       case None =>
       case Some(num) => //1 == Red, 2 == Yellow
         gamestate.changeState(WinState())
-    }
 
   override def getChipColor(row: Int, col: Int): String =
     playground.grid.getCell(row, col).chip.getColorCode

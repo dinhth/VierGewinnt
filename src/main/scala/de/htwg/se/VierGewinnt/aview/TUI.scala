@@ -8,7 +8,7 @@ import util.{Move, Observer}
 import scala.util.Try
 
 
-class Tui(controller: ControllerInterface)extends Observer :
+class TUI(controller: ControllerInterface)extends Observer :
   controller.add(this)
 
   def run =
@@ -28,6 +28,13 @@ class Tui(controller: ControllerInterface)extends Observer :
           controller.setupGame(gameType.toInt, size.toInt)
         case "2" => println("not supported yet")
           prepareGameType()
+        case "save" =>
+          controller.save
+          println("Game saved.")
+          prepareGameType()
+        case "load" =>
+          controller.load
+          println("Game loaded.")
         case "q" => //Exit
         case _   => prepareGameType()
 
@@ -44,6 +51,14 @@ class Tui(controller: ControllerInterface)extends Observer :
         getInputAndPrintLoop()
       case "redo" =>
         controller.doAndPublish(controller.redo);
+        getInputAndPrintLoop()
+      case "save" =>
+        controller.save
+        println("Game saved.")
+        getInputAndPrintLoop()
+      case "load" =>
+        controller.load
+        println("Game loaded.")
         getInputAndPrintLoop()
       case x if x.toIntOption == None =>
         println("doesn't look like a number")

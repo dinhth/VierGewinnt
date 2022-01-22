@@ -4,7 +4,7 @@ on:
   push:
     branches: [ 12-FileIO ]
   pull_request:
-    branches: [ 12-FileIO ]
+    branches: [ development ]
 
 jobs:
   build:

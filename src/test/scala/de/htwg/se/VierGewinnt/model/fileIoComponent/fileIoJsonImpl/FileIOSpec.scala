@@ -33,8 +33,9 @@ class FileIOSpec extends AnyWordSpec {
         val playground3 = playground.insertChip(1)
 
         fileIo.save(playground3)
-        fileIo.load.size should be(7)
-        fileIo.load.toString should include(playground3.toString)
+
+        val loaded = fileIo.load
+        loaded.size should be(playground3.size)
       }
     }
 
@@ -57,8 +58,11 @@ class FileIOSpec extends AnyWordSpec {
         val playground3 = playground.insertChip(1)
 
         fileIo.save(playground3)
-        fileIo.load.size should be(7)
-        fileIo.load.toString should include(playground3.toString)
+
+        val loaded = fileIo.load
+
+        loaded.size should be(7)
+        loaded.size should be(playground3.size)
       }
     }
   }

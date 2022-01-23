@@ -16,9 +16,9 @@ import scala.io.StdIn.readLine
   val controller = injector.getInstance(classOf[ControllerInterface])
 
   args match
-    case x if x.contains("tui") =>
+    case x if x contains "tui" =>
       TUI(controller).run
-    case x if x.contains("gui") =>
+    case x if x contains "gui" =>
       GUI(controller).main(Array())
     case _ =>
       new Thread {

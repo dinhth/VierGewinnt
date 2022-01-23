@@ -28,8 +28,9 @@ class TUI(controller: ControllerInterface)extends Observer :
   def prepareGameType(): Unit =
     println("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER\n0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
     val gameType = readLine()
-    if (controller.isPreparing) //If controller is not preparing anymore, skip this
-      gameType match
+    controller.isPreparing match
+      case true =>
+        gameType match
         case "" => controller.setupGame(0, 7)
         case "0" | "1" =>
           println("Type the grid size")
@@ -46,6 +47,7 @@ class TUI(controller: ControllerInterface)extends Observer :
           println("Game loaded.")
         case "q" => //Exit
         case _   => prepareGameType()
+      case _ =>
 
   /** Function for the ingame phase of the game */
   def getInputAndPrintLoop(): Unit =

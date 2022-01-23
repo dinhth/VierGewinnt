@@ -43,9 +43,9 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
   def computerinsertChip(pg: PlaygroundTemplate): PlaygroundTemplate = {
     var chosenCol = Random.between(0, pg.size)
     for (i <- 0 to pg.size - 1)
-      if (pg.getPosition(chosenCol) == -1) {
-        chosenCol = i
-      }
+      pg.getPosition(chosenCol) match
+        case -1 => chosenCol = i
+        case _ =>
 
     val returnGrid = pg.grid.replaceCell(pg.getPosition(chosenCol), chosenCol, gridBaseImpl.Cell(pg.player(1).getChip()))
     returnGrid match {

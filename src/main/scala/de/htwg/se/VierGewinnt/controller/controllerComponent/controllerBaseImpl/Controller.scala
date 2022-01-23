@@ -66,18 +66,22 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
    * @param move Move with input.
    */
   override def doAndPublish(doThis: Move => PlaygroundInterface, move: Move): Unit =
-    if (gameNotDone)
-      playground = doThis(move)
-      notifyObservers
+    gameNotDone match
+      case true =>
+        playground = doThis(move)
+        notifyObservers
+      case _ =>
 
   /** Do a given function and save it into the UndoManager.
    *
    * @param doThis A function to do and save into the UndoManager.
    */
   override def doAndPublish(doThis: => PlaygroundInterface): Unit =
-    if (gameNotDone)
-      playground = doThis
-      notifyObservers
+    gameNotDone match
+      case true =>
+        playground = doThis
+        notifyObservers
+      case _ =>
 
   /** Reset the GameState to PrepareState() to restart the game. */
   override def restartGame: Unit =

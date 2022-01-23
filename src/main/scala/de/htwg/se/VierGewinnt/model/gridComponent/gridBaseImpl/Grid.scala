@@ -58,9 +58,10 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
   override def checkFull(): Boolean = { // if any of the top rows is not full, return false and stop from checking, if true, grid is completly full
     var result = true
     for (i <- 0 to size - 1) yield {
-      if (result == true) {
-        result = if (getCell(0, i).value.getValue == 0) false else true
-      }
+      result match
+        case true =>
+          result = if (getCell(0, i).value.getValue == 0) false else true
+        case _ =>
     }
     result
   }
@@ -85,11 +86,9 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
    * @return */
   override def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Int = {
     val check = getCell(a1, a2).value.getValue
-    if (
-      (getCell(b1, b2).value.getValue == check)
+    if ((getCell(b1, b2).value.getValue == check)
         && (getCell(c1, c2).value.getValue == check)
-        && (getCell(d1, d2).value.getValue == check)
-    ) {
+        && (getCell(d1, d2).value.getValue == check)) {
       check
     } else {
       0
@@ -120,9 +119,9 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
     for (x <- 0 to (size - 4)) yield { // Width
       for (y <- 0 to (size - 1)) yield { // Height
         var tempres = checkFour(x, y, x + 1, y, x + 2, y, x + 3, y)
-        if (tempres != 0) {
-          result = tempres
-        }
+        tempres match
+          case 0 =>
+          case _ => result = tempres
       }
     }
     result
@@ -136,9 +135,9 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
     for (y <- 0 to (size - 4)) yield { // Height
       for (x <- 0 to (size - 4)) yield { // Width
         var tempres = checkFour(x, y, x + 1, y + 1, x + 2, y + 2, x + 3, y + 3)
-        if (tempres != 0) {
-          result = tempres
-        }
+        tempres match
+          case 0 =>
+          case _ => result = tempres
       }
     }
     result
@@ -152,9 +151,9 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
     for (y <- 0 to (size - 4)) yield { // Height
       for (x <- 3 to (size - 1)) yield { // Width
         var tempres = checkFour(x, y, x - 1, y + 1, x - 2, y + 2, x - 3, y + 3)
-        if (tempres != 0) {
-          result = tempres
-        }
+        tempres match
+          case 0 =>
+          case _ => result = tempres
       }
     }
     result

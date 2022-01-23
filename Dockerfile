@@ -5,3 +5,6 @@ RUN apt-get update && \
 
 WORKDIR /VierGewinnt
 ADD . /VierGewinnt
+
+RUN chmod +x /VierGewinnt/view.sh
+ENTRYPOINT ["/VierGewinnt/view.sh"]

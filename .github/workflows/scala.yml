@@ -2,9 +2,9 @@ name: Scala CI
 
 on:
   push:
-    branches: [ 13-Docker ]
+    branches: [ development ]
   pull_request:
-    branches: [ 13-Docker ]
+    branches: [ development ]
 
 jobs:
   build:

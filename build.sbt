@@ -20,10 +20,7 @@ lazy val root = project
     jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
     jacocoExcludes in Test := Seq(
       "de.htwg.se.VierGewinnt.VierGewinnt*",
-      "de.htwg.se.VierGewinnt.aview.GUI*",
-      "de.htwg.se.VierGewinnt.model.enemyStrategyMockImpl.EnemyStrategy*",
-      "de.htwg.se.VierGewinnt.gridComponent.gridMockImpl.Grid*",
-      "de.htwg.se.VierGewinnt.playerComponent.playerMockImpl.Player*"
+      "de.htwg.se.VierGewinnt.aview.GUI*"
     ),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries

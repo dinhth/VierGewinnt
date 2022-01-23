@@ -25,11 +25,11 @@ trait GridInterface:
   def get2DVector(): Vector[Vector[Cell]]
   
   /** Replace a cell with a Try-Monade.
-   * If faulty coordinates where given, return a failure, otherwise a success with the new grid. */
+   * If faulty coordinates were given, return a failure, otherwise a success with the new grid. */
   def replaceCell(row: Int, col: Int, cell: Cell): Try[GridInterface]
   
   /** Remove a cell with a Try-Monade.
-   * If faulty coordinates where given, return a failure, otherwise a success with the new grid. */
+   * If faulty coordinates were given, return a failure, otherwise a success with the new grid. */
   def removeCell(row: Int, col: Int): Try[GridInterface]
 
   /** Replace a cell without a Try-Monade. Easier for testing purposes. */

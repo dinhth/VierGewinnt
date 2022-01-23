@@ -30,7 +30,7 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
   override def get2DVector(): Vector[Vector[Cell]] = grid
 
   /** Replace a cell with a Try-Monade.
-   * If faulty coordinates where given, return a failure, otherwise a success with the new grid. */
+   * If faulty coordinates were given, return a failure, otherwise a success with the new grid. */
   override def replaceCell(row: Int, col: Int, cell: Cell): Try[GridInterface] = {
     val result = Try(copy(grid.updated(row, grid(row).updated(col, cell))))
     result match {
@@ -40,7 +40,7 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
   }
 
   /** Remove a cell with a Try-Monade.
-   * If faulty coordinates where given, return a failure, otherwise a success with the new grid. */
+   * If faulty coordinates were given, return a failure, otherwise a success with the new grid. */
   override def removeCell(row: Int, col: Int): Try[GridInterface] = {
     val result = Try(copy(grid.updated(row, grid(row).updated(col, Cell()))))
     result match {

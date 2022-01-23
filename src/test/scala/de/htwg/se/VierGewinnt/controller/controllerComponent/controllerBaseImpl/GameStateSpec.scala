@@ -16,7 +16,7 @@ class GameStateSpec extends AnyWordSpec {
         "output preparing" in {
           var gamestate: GameState = GameState()
           gamestate.displayState()
-          //gamestate.displayState() should be ("Game is setting up")
+          gamestate.displayState() should be("Game is setting up")
         }
       }
       "changed to PlayState" should {
@@ -27,7 +27,7 @@ class GameStateSpec extends AnyWordSpec {
         }
         "output playing" in {
           gamestate.displayState()
-          //gamestate.displayState() should be ("Game is on")
+          gamestate.displayState() should be("Game is on")
         }
       }
       "being won" should {
@@ -38,7 +38,7 @@ class GameStateSpec extends AnyWordSpec {
         }
         "output won" in {
           gamestate.displayState()
-          //gamestate.displayState() should be ("Game is won")
+          gamestate.displayState() should be("Game is won")
         }
       }
       "being tied" should {
@@ -49,7 +49,7 @@ class GameStateSpec extends AnyWordSpec {
         }
         "output tie" in {
           gamestate.displayState()
-          //gamestate.displayState() should be ("Game ends with a tie")
+          gamestate.displayState() should be("Game ends with a tie")
         }
       }
       "being over" should {
@@ -60,7 +60,7 @@ class GameStateSpec extends AnyWordSpec {
         }
         "output ending" in {
           gamestate.displayState()
-          //gamestate.displayState() should be ("Game over. Restart?")
+          gamestate.displayState() should be("Game over. Restart?")
         }
       }
     }

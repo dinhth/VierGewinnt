@@ -22,6 +22,4 @@ import scalafx.application.Platform.runLater
       new Thread {
         override def run(): Unit = GUI(controller).main(Array())
       }.start()
-      new Thread {
-        override def run(): Unit = TUI(controller).run
-      }.start()
+      TUI(controller).run

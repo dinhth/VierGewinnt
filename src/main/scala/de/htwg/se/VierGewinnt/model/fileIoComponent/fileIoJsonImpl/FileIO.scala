@@ -1,3 +1,6 @@
+/** FileIO JSON Implementation for VierGewinnt.
+ *
+ * @author Thu Ha Dinh & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.fileIoComponent.fileIoJsonImpl
 
 import play.api.libs.json.*
@@ -8,12 +11,14 @@ import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvE, PlaygroundPvP}
 import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.{BotPlayer, HumanPlayer}
 
-
 import java.io.PrintWriter
 import scala.io.Source
 import scala.util.{Failure, Success}
 
+/** FileIO JSON Implementation, to save and load the state of a game with a JSON file. */
 class FileIO extends FileIOInterface {
+  
+  /** Load the game from a "playground.json" file and return the playground. */
   override def load: PlaygroundInterface =
     val source: String = Source.fromFile("playground.json").getLines().mkString
     val json: JsValue = Json.parse(source)
@@ -46,7 +51,10 @@ class FileIO extends FileIOInterface {
     else
       PlaygroundPvE(grid, List(HumanPlayer(pl1._1, pl1._2), BotPlayer(pl2._1, pl2._2)))
 
-
+  /** Save the game to a "playground.json" file.
+   *
+   * @param playground The playground to save.
+   */
   override def save(playground: PlaygroundInterface): Unit =
     import java.io._
     val pw = new PrintWriter(new File("playground.json"))

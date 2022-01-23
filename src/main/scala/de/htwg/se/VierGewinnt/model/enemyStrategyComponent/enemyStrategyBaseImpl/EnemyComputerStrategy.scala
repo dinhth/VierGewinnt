@@ -1,3 +1,6 @@
+/** EnemyComputerStrategy base implementation for VierGewinnt.
+ *
+ * @author Thu Ha Dinh & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.enemyStrategyComponent.enemyStrategyBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
@@ -9,8 +12,15 @@ import scala.util.Failure
 import scala.util.Random
 import scala.util.Success
 
+/** Strategy class, when the opponent is a computer. */
 case class EnemyComputerStrategy() extends EnemyStrategy {
 
+  /** Insert a chip to the playground.
+   *
+   * @param playground Old playground.
+   * @param col Column on where to place the chip.
+   * @return New playground.
+   */
   override def insertChip(pg: PlaygroundTemplate, col: Int): PlaygroundTemplate = {
     var temp =
       pg // Temporary Playground, only for EnemyComputer, because of the Full Grid check. If Grid Full, Computer does NOT play anymore.
@@ -25,6 +35,11 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
     temp
   }
 
+  /** Function for the computer to place a chip.
+   *
+   * @param pg Old playground.
+   * @return Returns the new playground. If the playground is full, then the same old playground gets returned.
+   */
   def computerinsertChip(pg: PlaygroundTemplate): PlaygroundTemplate = {
     var chosenCol = Random.between(0, pg.size)
     for (i <- 0 to pg.size - 1)
@@ -35,7 +50,7 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
     val returnGrid = pg.grid.replaceCell(pg.getPosition(chosenCol), chosenCol, gridBaseImpl.Cell(pg.player(1).getChip()))
     returnGrid match {
       case Success(v) => playgroundBaseImpl.PlaygroundPvE(v, pg.player) // IF Success, return the new playground
-      case Failure(_) => pg // If Failure, retry inserting a chip!
+      case Failure(_) => pg // If Failure, return the old playground
     }
   }
 

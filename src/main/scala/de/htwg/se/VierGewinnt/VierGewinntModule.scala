@@ -1,3 +1,6 @@
+/** VierGewinntModule class for VierGewinnt.
+ *
+ * @author Thu Ha Dinh & Orkan Yücetag */
 package de.htwg.se.VierGewinnt
 
 import com.google.inject.AbstractModule
@@ -12,6 +15,7 @@ import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.*
 import de.htwg.se.VierGewinnt.model.fileIoComponent._
 import net.codingwell.scalaguice.ScalaModule
 
+/** Module for dependency injection, decides which interfaces and default parameter to use. */
 class VierGewinntModule extends AbstractModule {
   override def configure(): Unit =
     bind(classOf[ControllerInterface]).to(classOf[controllerBaseImpl.Controller])

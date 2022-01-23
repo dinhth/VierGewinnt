@@ -1,8 +1,11 @@
+/** Graphical User Interface for VierGewinnt.
+ *
+ * @author Thu Ha Dinh & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.aview
-
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
+
 import javafx.animation
 import scalafx.application.JFXApp3
 import scalafx.application.Platform
@@ -24,6 +27,11 @@ import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
 import java.util.Optional
 import scala.language.postfixOps
 
+/** GUI class, the graphical user interface.
+ * Extends the Observer class to be compatible with the model-view-controller architecture.
+ *
+ * @param controller Controller as parameter, which controls this GUI.
+ */
 case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
   controller.add(this)
   var chips = emptyChips()
@@ -31,6 +39,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
   var playgroundstatus = new Menu(controller.playgroundState)
   var statestatus = new Menu(controller.printState)
 
+  /** Updates the GUI with chips and grid from the controller. */
   override def update: Unit =
     checkChipSize()
     chips.zipWithIndex.foreach((subList, i) => {
@@ -47,7 +56,11 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
         }
     })
 
-
+  /**Animates the dropping of a chip into his position.
+   *
+   * @param element Choose the element type to be animated.
+   * @param color Choose the element color to be animated.
+   */
   def animateDrop(element: Circle, color: Color): Unit =
     Timeline(
       Seq(
@@ -65,8 +78,8 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
       )
     ).play()
 
+  /** Builds the GUI application. */
   override def start(): Unit =
-
     stage = new JFXApp3.PrimaryStage :
       title.value = "VierGewinnt"
       scene = new Scene :
@@ -145,17 +158,26 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
     playgroundstatus.setText(controller.playgroundState)
     statestatus.setText(controller.printState)
 
-
+  /** Places empty gray circles with the size 50 into a vector.
+   *
+   * @return Returns a new Matrix with circles.
+   */
   def emptyChips(): Vector[Vector[Circle]] = Vector.fill(controller.gridSize, controller.gridSize)(Circle(50, fill = Color.Gray))
 
-  //checkChipSize checks if the chips size is the same as the controller size, if not, update the chips
+
+  /** Checks if the chips size equals the controller gridsize to prevent having a ScalaFX Threading error.
+   * If the chips size does not equal the controller size, update the chips and the grid with an empty one. */
   def checkChipSize(): Unit =
     if (!chips.length.equals(controller.gridSize)) {
       chips = emptyChips()
       chipGrid = emptyGrid()
     }
 
-
+  /** Creates an empty grid with the size of chips.
+   *  If mouse clicked on the grid, insert a new chip and update the status text.
+   *
+   * @return Returns an empty GridPane.
+   */
   def emptyGrid(): GridPane =
     new GridPane :
       for ((subList, i) <- chips.zipWithIndex) {
@@ -168,6 +190,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
         }
       }
 
+  /** Stops the application and exit. */
   override def stopApp(): Unit =
     super.stopApp()
     System.exit(0)

@@ -1,3 +1,6 @@
+/** FileIO XML Implementation for VierGewinnt.
+ *
+ * @author Thu Ha Dinh & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.fileIoComponent.fileIoXmlnImpl
 
 import com.google.inject.Guice
@@ -13,8 +16,10 @@ import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.{BotPlayer, H
 import scala.util.{Failure, Success}
 import scala.xml.PrettyPrinter
 
-
+/** FileIO XML Implementation, to save and load the state of a game with a XML file. */
 class FileIO extends FileIOInterface {
+
+  /** Load the game from a "playground.xml" file and return the playground. */
   override def load: PlaygroundInterface =
     val file = scala.xml.XML.loadFile("playground.xml")
     val size = file \\ "playground" \ "@size"
@@ -37,7 +42,7 @@ class FileIO extends FileIOInterface {
       _grid match
         case Success(g) => grid = g
     }
-    
+
     val pl1 = (player1.text.split("&")(0), if (player1.text.split("&")(1)) == "RED" then Chip.RED else Chip.YELLOW)
     val pl2 = (player2.text.split("&")(0), if (player2.text.split("&")(1)) == "RED" then Chip.RED else Chip.YELLOW)
     if (gameType.text == "0") then
@@ -45,9 +50,21 @@ class FileIO extends FileIOInterface {
     else
       PlaygroundPvE(grid, List(HumanPlayer(pl1._1, pl1._2), BotPlayer(pl2._1, pl2._2)))
 
+  /** Save the game to a "playground.json" file.
+   *
+   * @param playground The playground to save.
+   */
 
+  /** Call the saveString function to save the game to a "playground.xml" file.
+   *
+   * @param playground The playground to save.
+   */
   override def save(playground: PlaygroundInterface): Unit = saveString(playground)
 
+  /** Save the game to a "playground.xml" file.
+   *
+   * @param playground The playground to save.
+   */
   def saveString(pg: PlaygroundInterface): Unit = {
     import java.io._
     val pw = new PrintWriter(new File("playground.xml"))
@@ -57,12 +74,14 @@ class FileIO extends FileIOInterface {
     pw.close()
   }
 
+  /** Converts the given playground to XML. */
   def pgToXml(pg: PlaygroundInterface) = {
     <playground size={pg.size.toString} gameType={if pg.isInstanceOf[PlaygroundPvP] then "0" else "1"} player1={pg.player(0).getName() + "&" + pg.player(0).getChip()} player2={pg.player(1).getName() + "&" + pg.player(1).getChip()}>
       {gridToXmL(pg.grid)}
     </playground>
   }
 
+  /** Converts the given grid to XML. */
   def gridToXmL(grid: GridInterface) =
     for {
       row <- 0 until grid.size

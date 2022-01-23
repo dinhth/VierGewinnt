@@ -1,3 +1,6 @@
+/** Text-based User Interface for VierGewinnt.
+ *
+ * @author Thu Ha Dinh & Orkan Yücetag */
 package de.htwg.se.VierGewinnt
 package aview
 
@@ -7,15 +10,21 @@ import util.{Move, Observer}
 
 import scala.util.Try
 
-
+/** TUI class, the text-based user interface.
+ *  Extends the Observer class to be compatible with the model-view-controller architecture.
+ *
+ * @param controller Controller as parameter, which controls this TUI.
+ */
 class TUI(controller: ControllerInterface)extends Observer :
   controller.add(this)
 
+  /** Starting point of the tui. */
   def run =
     println(s"Welcome to 'Vier Gewinnt'\n")
     prepareGameType()
     getInputAndPrintLoop()
 
+  /** Function for the prepare-phase of the game. */
   def prepareGameType(): Unit =
     println("Please select one of the game type you want to play. For default settings ('Player vs Player', grid size=7) press ENTER\n0:'Player vs. Player', 1:'Player vs. Bot', 2:'Bot vs. Bot'")
     val gameType = readLine()
@@ -38,6 +47,7 @@ class TUI(controller: ControllerInterface)extends Observer :
         case "q" => //Exit
         case _   => prepareGameType()
 
+  /** Function for the ingame phase of the game */
   def getInputAndPrintLoop(): Unit =
     val input = readLine()
     input match {
@@ -71,6 +81,7 @@ class TUI(controller: ControllerInterface)extends Observer :
         getInputAndPrintLoop()
     }
 
+  /** Updates the tui with a print of the playground and status. */
   override def update: Unit = {
     println(controller.toString)
     println(controller.printState)

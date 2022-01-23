@@ -6,8 +6,6 @@ import com.google.inject.{Guice, Inject, Injector}
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 
 import scala.io.StdIn.readLine
-import scalafx.application.Platform
-import scalafx.application.Platform.runLater
 
 @main def run(args:String*): Unit =
   val injector = Guice.createInjector(new VierGewinntModule)

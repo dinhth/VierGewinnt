@@ -1,9 +1,7 @@
-FROM hseeberger/scala-sbt:8u222_1.3.5_2.13.1
+FROM hseeberger/scala-sbt:16.0.1_1.5.4_2.13.6
 
 RUN apt-get update && \
-    apt-get install -y sbt libxrender1 libxtst6 libxi6
+    apt-get install -y libxrender1 libxtst6 libxi6 libgl1-mesa-glx libgtk-3-0
 
 WORKDIR /VierGewinnt
 ADD . /VierGewinnt
-
-CMD sbt run

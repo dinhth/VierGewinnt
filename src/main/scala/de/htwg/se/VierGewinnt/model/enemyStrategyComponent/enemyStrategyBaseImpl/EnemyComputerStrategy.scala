@@ -41,19 +41,18 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
    * @return Returns the new playground. If the playground is full, then the same old playground gets returned.
    */
   def computerinsertChip(pg: PlaygroundTemplate): PlaygroundTemplate = {
-    var chosenCol = Random.between(0, pg.size)
-    for (i <- 0 to pg.size - 1)
-      pg.getPosition(chosenCol) match
-        case -1 => chosenCol = i
-        case _ =>
+    pg.grid.checkWin() match
+      case Some(_) => pg
+      case _ =>
+        var chosenCol = Random.between(0, pg.size)
+        for (i <- 0 to pg.size - 1)
+          if (pg.getPosition(chosenCol) == -1) {
+            chosenCol = i
+          }
 
-    val returnGrid = pg.grid.replaceCell(pg.getPosition(chosenCol), chosenCol, gridBaseImpl.Cell(pg.player(1).getChip()))
-    returnGrid match {
-      case Success(v) => playgroundBaseImpl.PlaygroundPvE(v, pg.player) // IF Success, return the new playground
-      case Failure(_) => pg // If Failure, return the old playground
-    }
+        val returnGrid = pg.grid.replaceCell(pg.getPosition(chosenCol), chosenCol, gridBaseImpl.Cell(pg.player(1).getChip()))
+        returnGrid match
+          case Success(v) => playgroundBaseImpl.PlaygroundPvE(v, pg.player) // IF Success, return the new playground
+          case Failure(_) => pg // If Failure, retry inserting a chip!
   }
-
-
-
 }

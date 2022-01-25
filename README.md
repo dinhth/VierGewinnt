@@ -29,7 +29,6 @@ The game VierGewinnt (Connect Four) is a software project for the course softwar
 <img src='https://user-images.githubusercontent.com/39746011/150044954-ac3feecb-9a89-42eb-b6d7-9bc18ec9bacc.png' width='300'>
 
 8. Save your game and continue playing it later (_File -> Save | Load_)
-   (future feature)
 
 9. Play a new game (_File -> New PvP | New PVE_)
 # How to play (TUI)

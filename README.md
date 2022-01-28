@@ -1,5 +1,5 @@
-[![Scala CI](https://github.com/dinhth/VierGewinnt/actions/workflows/scala.yml/badge.svg?branch=13-Docker&kill_cache=1)](https://github.com/dinhth/VierGewinnt/actions/workflows/scala.yml)
-[![Coverage Status](https://coveralls.io/repos/github/dinhth/VierGewinnt/badge.svg?branch=13-Docker&kill_cache=1)](https://coveralls.io/github/dinhth/VierGewinnt?branch=13-Docker)
+[![Scala CI](https://github.com/dinhth/VierGewinnt/actions/workflows/scala.yml/badge.svg?branch=master&kill_cache=1)](https://github.com/dinhth/VierGewinnt/actions/workflows/scala.yml)
+[![Coverage Status](https://coveralls.io/repos/github/dinhth/VierGewinnt/badge.svg?branch=master&kill_cache=1)](https://coveralls.io/github/dinhth/VierGewinnt?branch=master)
 # VierGewinnt
 The game VierGewinnt (Connect Four) is a software project for the course software engineering of the University of Applied Sciences (HTWG Konstanz) developed by the students Thu Ha Dinh, Orkan Yücetag
 
@@ -11,7 +11,8 @@ The game VierGewinnt (Connect Four) is a software project for the course softwar
 2. Player 1 begins
 
 3. Click on a slot to insert a Chip
-<img src='https://user-images.githubusercontent.com/39746011/151515748-d5fc513f-bdb8-4c3a-a7f7-01ead8a54fd1.gif' width='500'>
+<img src='https://user-images.githubusercontent.com/39746011/150325954-f4cdc356-af86-44b4-9fb8-699f5eea52af.gif' width='500'>
+
 
 4. Take turns with Player 2
 

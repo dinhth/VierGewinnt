@@ -75,8 +75,8 @@ class TUI(controller: ControllerInterface)extends Observer :
       case x if x.toIntOption == None =>
         println("doesn't look like a number")
         getInputAndPrintLoop()
-      case x if x.toInt < 1 || x.toInt > controller.playground.size =>
-        println("wrong input, try a number from 1 to " + controller.playground.size)
+      case x if x.toInt < 1 || x.toInt > controller.gridSize=>
+        println("wrong input, try a number from 1 to " + controller.gridSize)
         getInputAndPrintLoop()
       case _ =>
         controller.doAndPublish(controller.insChip, Move(input.toInt - 1))

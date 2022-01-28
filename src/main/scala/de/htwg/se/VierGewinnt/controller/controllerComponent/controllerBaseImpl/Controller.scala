@@ -133,8 +133,8 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   override def checkWinner(pg: PlaygroundInterface): Unit =
     pg.grid.checkWin() match
       case None =>
-      case Some(num) => //1 == Red, 2 == Yellow
-        winnerChips = Some(num)
+      case Some(winningchips) => //1 == Red, 2 == Yellow
+        winnerChips = Some(winningchips)
         gamestate.changeState(WinState())
 
   /** Gets the color of a chip on a certain coordinate.

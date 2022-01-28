@@ -8,7 +8,6 @@ import de.htwg.se.VierGewinnt.model.playerComponent.PlayerInterface
 
 /** Interface for the playground. */
 trait PlaygroundInterface:
-
   /** Returns the grid of the playground. */
   def grid: GridInterface
 

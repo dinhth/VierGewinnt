@@ -69,7 +69,7 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
   /** Check if someone has won (4 Chips touch each other horizontally, vertically or diagonally) using Option.
    *
    * @return None won, return none. 1 -> red has won. 2 -> yellow has won. */
-  override def checkWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = { // Return 0 = none, 1 = red, 2 = yel
+  override def checkWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
     var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
     checkHorizontalWin() match {
       case Some(v) => result = Some(v)
@@ -92,12 +92,10 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
       }
     result
 
-
-  }
-
   /** Check if four chips have the same colour
    *
-   * @return */
+   * @return (winner, (x0,y0),...,(x3,y4))
+   *         winner: 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
   override def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
     val check = getCell(a1, a2).value.getValue
     if (check != 0 && (getCell(b1, b2).value.getValue == check)
@@ -111,7 +109,8 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
 
   /** Iterates through the grid and checks for all horizontal win possibilities.
    *
-   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
+   * @return (winner, (x0,y0),...,(x3,y4))
+   *         winner: 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
   override def checkHorizontalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
     var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
     for (y <- 0 to (size - 4)) yield { // Height

@@ -18,15 +18,14 @@ trait PlaygroundTemplate extends PlaygroundInterface {
   override def size = grid.size
 
   /** Get the position on a specific column, where the most-top chip is placed. */
-  override def getDeletePosition(col: Int): Int = {
+  override def getDeletePosition(col: Int): Int =
     var i = size - 1
     while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
     i += 1
     i
-  }
-
+  
   /** Get the position one higher than the most-top chip. */
-  override def getPosition(col: Int): Int = {
+  override def getPosition(col: Int): Int =
     col match {
       case col if col > size => 0
       case col if col < 0 => 0
@@ -35,43 +34,40 @@ trait PlaygroundTemplate extends PlaygroundInterface {
         while (i >= 0 && grid.getCell(i, col).value != Chip.EMPTY) i -= 1
         i
     }
-  }
 
   /** Build the playgorund together with status, column names, grid and borders. Then return it to a string. */
-  override def toString: String = {
+  override def toString: String =
     val box = getStatus() + "\n" + colnames() + grid + border()
-    return if (error != "") error else box // print the col is full error if needed
-  }
-
+    if (error != "") error else box // print the col is full error if needed
+  
   /** Return the status of the playground Using hte Option-Monade
    * If noone was won yet, return next players turn string.
    * If someone one, return the string of who has won.
    * */
-  override def getStatus(): String = {
+  override def getStatus(): String =
     grid.checkWin() match { //Option-Monade
       case None =>
         val box = "It's your turn " + player(0).getName()
-        return if (error != "") error else box // print the col is full error if needed
+        if (error != "") error else box // print the col is full error if needed
       case Some(num) =>
         if (num._1 == 1) //1 == Red, 2 == Yellow
           val box = "Player Red has won the game!"
-          return if (error != "") error else box // print the col is full error if needed
+          if (error != "") error else box // print the col is full error if needed
         else
           val box = "Player Yellow has won the game!"
-          return if (error != "") error else box // print the col is full error if needed
+          if (error != "") error else box // print the col is full error if needed
     }
-  }
 
   /** Return the column names of the playground. */
   override def colnames(): String = {
     val cols = for {
       n <- 1 to size
     } yield n
-    return s"${BLUE_B}\t" + cols.mkString("\t") + s"\t ${RESET}\n"
+    s"${BLUE_B}\t" + cols.mkString("\t") + s"\t ${RESET}\n"
   }
 
   /** Return the border of the playground. */
   override def border(): String = {
-    return s"${BLUE_B}  " + ("----" * size) + s"-  ${RESET}\n"
+    s"${BLUE_B}  " + ("----" * size) + s"-  ${RESET}\n"
   }
 }

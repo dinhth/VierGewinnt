@@ -43,7 +43,7 @@ case class EnemyComputerStrategy() extends EnemyStrategy {
   def computerinsertChip(pg: PlaygroundTemplate): PlaygroundTemplate = {
     pg.grid.checkWin() match
       case Some(_) => pg
-      case _ =>
+      case None =>
         var chosenCol = Random.between(0, pg.size)
         for (i <- 0 to pg.size - 1)
           if (pg.getPosition(chosenCol) == -1) {

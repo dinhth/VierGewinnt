@@ -5,7 +5,6 @@ package de.htwg.se.VierGewinnt.aview
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
 import de.htwg.se.VierGewinnt.util.{Move, Observer}
-
 import javafx.animation
 import scalafx.application.JFXApp3
 import scalafx.application.Platform
@@ -20,7 +19,7 @@ import scalafx.scene.shape.Circle
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.Scene
 import scalafx.animation.*
-import scalafx.Includes.*
+import scalafx.Includes.{at, *}
 import scalafx.scene.shape.Circle.sfxCircle2jfx
 
 import scala.io.AnsiColor.{BLUE_B, RED_B, YELLOW_B}
@@ -34,32 +33,83 @@ import scala.language.postfixOps
  */
 case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
   controller.add(this)
-  var chips = emptyChips()
-  var chipGrid = emptyGrid()
+  var chips: Vector[Vector[Circle]] = emptyChips()
+  var chipGrid: GridPane = emptyGrid()
   var playgroundstatus = new Menu(controller.playgroundState)
   var statestatus = new Menu(controller.printState)
 
   /** Updates the GUI with chips and grid from the controller. */
   override def update: Unit =
     checkChipSize()
-    chips.zipWithIndex.foreach((subList, i) => {
-      for ((element, j) <- subList.zipWithIndex)
-        controller.getChipColor(j, i) match {
-          case BLUE_B => //Empty
-            element.fill = Color.Gray
-          case RED_B => //Red
-            if element.getFill() != Color.sfxColor2jfx(Color.Red) then
-              animateDrop(element, Color.Red)
-          case YELLOW_B => //Yellow
-            if element.getFill() != Color.sfxColor2jfx(Color.Yellow) then
-              animateDrop(element, Color.Yellow)
-        }
-    })
+    controller.winnerChips match {
+      case Some(v) => win(v._2, v._3, v._4, v._5)
+      case None =>
+        chips.zipWithIndex.foreach((subList, i) => {
+          for ((element, j) <- subList.zipWithIndex)
+            controller.getChipColor(j, i) match {
+              case BLUE_B => //Empty
+                element.fill = Color.Gray
+              case RED_B => //Red
+                if element.getFill() != Color.sfxColor2jfx(Color.Red) then
+                  animateDrop(element, Color.Red)
+              case YELLOW_B => //Yellow
+                if element.getFill() != Color.sfxColor2jfx(Color.Yellow) then
+                  animateDrop(element, Color.Yellow)
+            }
+        })
+    }
 
-  /**Animates the dropping of a chip into his position.
+
+  def win(a: (Int, Int), b: (Int, Int), c: (Int, Int), d: (Int, Int)): Unit =
+    val tmpCol = if controller.getChipColor(a._1,a._2) == YELLOW_B then Color.Yellow else Color.Red
+    val t = Timeline(
+      Seq(
+        at(0.0 s) {
+          chips(a._2)(a._1).fill -> Color.Green
+        },
+        at(0.0 s) {
+          chips(b._2)(b._1).fill -> Color.Green
+        },
+        at(0.0 s) {
+          chips(c._2)(c._1).fill -> Color.Green
+        },
+        at(0.0 s) {
+          chips(d._2)(d._1).fill -> Color.Green
+        },
+        at(1 s) {
+          chips(a._2)(a._1).fill -> Color.sfxColor2jfx(tmpCol)
+        },
+        at(1 s) {
+          chips(b._2)(b._1).fill -> Color.sfxColor2jfx(tmpCol)
+        },
+        at(1 s) {
+          chips(c._2)(c._1).fill -> Color.sfxColor2jfx(tmpCol)
+        },
+        at(1 s) {
+          chips(d._2)(d._1).fill -> Color.sfxColor2jfx(tmpCol)
+        },
+        at(1.5 s) {
+          chips(a._2)(a._1).fill -> Color.Green
+        },
+        at(1.5 s) {
+          chips(b._2)(b._1).fill -> Color.Green
+        },
+        at(1.5 s) {
+          chips(c._2)(c._1).fill -> Color.Green
+        },
+        at(1.5 s) {
+          chips(d._2)(d._1).fill -> Color.Green
+        },
+      )
+    )
+    t.setCycleCount(5)
+    t.play()
+
+
+  /** Animates the dropping of a chip into his position.
    *
    * @param element Choose the element type to be animated.
-   * @param color Choose the element color to be animated.
+   * @param color   Choose the element color to be animated.
    */
   def animateDrop(element: Circle, color: Color): Unit =
     Timeline(
@@ -174,7 +224,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
     }
 
   /** Creates an empty grid with the size of chips.
-   *  If mouse clicked on the grid, insert a new chip and update the status text.
+   * If mouse clicked on the grid, insert a new chip and update the status text.
    *
    * @return Returns an empty GridPane.
    */

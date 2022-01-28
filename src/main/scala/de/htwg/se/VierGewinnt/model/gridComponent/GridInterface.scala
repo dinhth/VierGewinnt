@@ -41,32 +41,32 @@ trait GridInterface:
   /** Check if someone has won (4 Chips touch each other horizontally, vertically or diagonally) using Option. 
    * 
    * @return Noone won, return none. 1 -> red has won. 2 -> yellow has won.*/
-  def checkWin(): Option[Int]
+  def checkWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 
   /** Check if four chips have the same colour
    * 
    * @return */
-  def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Int
+  def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 
   /** Iterates through the grid and checks for all horizontal win possibilities.
    * 
    * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
-  def checkHorizontalWin(): Int
+  def checkHorizontalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 
   /** Iterates through the grid and checks for all vertical win possibilities.
    *
    * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
-  def checkVerticalWin(): Int
+  def checkVerticalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 
   /** Iterates through the grid and checks for all diagonal up right win possibilities.
    *
    * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
-  def checkDiagonalUpRightWin(): Int
+  def checkDiagonalUpRightWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 
   /** Iterates through the grid and checks for all diagonal up left win possibilities.
    *
    * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
-  def checkDiagonalUpLeftWin(): Int
+  def checkDiagonalUpLeftWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))]
 
   /** The size of the grid. */
   var size: Int = 0

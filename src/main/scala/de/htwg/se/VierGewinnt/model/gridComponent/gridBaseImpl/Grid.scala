@@ -68,96 +68,107 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface :
 
   /** Check if someone has won (4 Chips touch each other horizontally, vertically or diagonally) using Option.
    *
-   * @return Noone won, return none. 1 -> red has won. 2 -> yellow has won.*/
-  override def checkWin(): Option[Int] = { // Return 0 = none, 1 = red, 2 = yel
-    val tupel = (checkHorizontalWin(), checkVerticalWin(), checkDiagonalUpRightWin(), checkDiagonalUpLeftWin())
-    tupel match {
-      case (0, 0, 0, 0) => None
-      case _ => {
-        val list = tupel.toList
-        val sorted = list.sortWith(_ > _)
-        Some(sorted(0))
-      }
+   * @return None won, return none. 1 -> red has won. 2 -> yellow has won. */
+  override def checkWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = { // Return 0 = none, 1 = red, 2 = yel
+    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
+    checkHorizontalWin() match {
+      case Some(v) => result = Some(v)
+      case None => None
     }
+    if (result == None)
+      checkVerticalWin() match {
+        case Some(v) => result = Some(v)
+        case None => None
+      }
+    if (result == None)
+      checkDiagonalUpRightWin() match {
+        case Some(v) => result = Some(v)
+        case None => None
+      }
+    if (result == None)
+      checkDiagonalUpLeftWin() match {
+        case Some(v) => result = Some(v)
+        case None => None
+      }
+    result
+
+
   }
 
   /** Check if four chips have the same colour
    *
    * @return */
-  override def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Int = {
+  override def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
     val check = getCell(a1, a2).value.getValue
-    if ((getCell(b1, b2).value.getValue == check)
-        && (getCell(c1, c2).value.getValue == check)
-        && (getCell(d1, d2).value.getValue == check)) {
-      check
+    if (check != 0 && (getCell(b1, b2).value.getValue == check)
+      && (getCell(c1, c2).value.getValue == check)
+      && (getCell(d1, d2).value.getValue == check)) {
+      Some(check, (a1, a2), (b1, b2), (c1, c2), (d1, d2))
     } else {
-      0
+      None
     }
-  }
+
 
   /** Iterates through the grid and checks for all horizontal win possibilities.
    *
-   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
-  override def checkHorizontalWin(): Int = {
-    var result = 0;
+   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
+  override def checkHorizontalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
+    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
     for (y <- 0 to (size - 4)) yield { // Height
       for (x <- 0 to (size - 1)) yield { // Width
-        var tempres = checkFour(x, y, x, y + 1, x, y + 2, x, y + 3) // tempres = temporary result
-        if (tempres != 0) {
-          result = tempres
+        checkFour(x, y, x, y + 1, x, y + 2, x, y + 3) match {
+          case Some(v) => result = Some(v)
+          case None =>
         }
       }
     }
     result
-  }
 
   /** Iterates through the grid and checks for all vertical win possibilities.
    *
-   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
-  override def checkVerticalWin(): Int = {
-    var result = 0;
+   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
+  override def checkVerticalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
+    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
     for (x <- 0 to (size - 4)) yield { // Width
       for (y <- 0 to (size - 1)) yield { // Height
-        var tempres = checkFour(x, y, x + 1, y, x + 2, y, x + 3, y)
-        tempres match
-          case 0 =>
-          case _ => result = tempres
+        checkFour(x, y, x + 1, y, x + 2, y, x + 3, y) match {
+          case Some(v) => result = Some(v)
+          case None =>
+        }
       }
     }
     result
-  }
+
 
   /** Iterates through the grid and checks for all diagonal up right win possibilities.
    *
-   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
-  override def checkDiagonalUpRightWin(): Int = {
-    var result = 0;
+   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
+  override def checkDiagonalUpRightWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
+    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
     for (y <- 0 to (size - 4)) yield { // Height
       for (x <- 0 to (size - 4)) yield { // Width
-        var tempres = checkFour(x, y, x + 1, y + 1, x + 2, y + 2, x + 3, y + 3)
-        tempres match
-          case 0 =>
-          case _ => result = tempres
+        checkFour(x, y, x + 1, y + 1, x + 2, y + 2, x + 3, y + 3) match
+          case Some(v) => result = Some(v)
+          case None =>
       }
     }
     result
-  }
+
 
   /** Iterates through the grid and checks for all diagonal up left win possibilities.
    *
-   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won.*/
-  override def checkDiagonalUpLeftWin(): Int = {
-    var result = 0;
+   * @return 0 -> Noone won. 1 -> red has won. 2 -> yellow has won. */
+  override def checkDiagonalUpLeftWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] =
+    var result: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
     for (y <- 0 to (size - 4)) yield { // Height
       for (x <- 3 to (size - 1)) yield { // Width
-        var tempres = checkFour(x, y, x - 1, y + 1, x - 2, y + 2, x - 3, y + 3)
-        tempres match
-          case 0 =>
-          case _ => result = tempres
+        checkFour(x, y, x - 1, y + 1, x - 2, y + 2, x - 3, y + 3) match
+          case Some(v) => result = Some(v)
+          case None =>
       }
     }
     result
-  }
+
 
   /** Set the size of the grid. */
   size = grid.size

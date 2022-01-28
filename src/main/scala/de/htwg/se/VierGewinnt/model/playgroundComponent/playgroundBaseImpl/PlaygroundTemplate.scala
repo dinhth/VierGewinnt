@@ -53,7 +53,7 @@ trait PlaygroundTemplate extends PlaygroundInterface {
         val box = "It's your turn " + player(0).getName()
         return if (error != "") error else box // print the col is full error if needed
       case Some(num) =>
-        if (num == 1) //1 == Red, 2 == Yellow
+        if (num._1 == 1) //1 == Red, 2 == Yellow
           val box = "Player Red has won the game!"
           return if (error != "") error else box // print the col is full error if needed
         else

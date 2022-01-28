@@ -42,6 +42,7 @@ class FileIO extends FileIOInterface {
 
       _grid match {
         case Success(value) => grid = value
+        case Failure(e) =>
       }
 
     val pl1 = (player1.toString().split("&")(0), if (player1.toString().split("&")(1)) == "RED" then Chip.RED else Chip.YELLOW)

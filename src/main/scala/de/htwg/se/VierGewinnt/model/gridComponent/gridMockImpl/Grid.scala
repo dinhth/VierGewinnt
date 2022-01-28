@@ -21,15 +21,15 @@ class Grid(grid: Vector[Vector[Cell]]) extends GridInterface {
 
   override def checkFull(): Boolean = true
 
-  override def checkWin(): Option[Int] = Some(0)
+  override def checkWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = Some((1,(0,0),(0,1),(0,2),(0,3)))
 
-  override def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Int = 0
+  override def checkFour(a1: Int, a2: Int, b1: Int, b2: Int, c1: Int, c2: Int, d1: Int, d2: Int): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
 
-  override def checkHorizontalWin(): Int = 0
+  override def checkHorizontalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
 
-  override def checkVerticalWin(): Int = 0
+  override def checkVerticalWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
 
-  override def checkDiagonalUpRightWin(): Int = 0
+  override def checkDiagonalUpRightWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
 
-  override def checkDiagonalUpLeftWin(): Int = 0
+  override def checkDiagonalUpLeftWin(): Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
 }

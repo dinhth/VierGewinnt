@@ -35,22 +35,22 @@ class GridSpec extends AnyWordSpec {
         GridObject.checkFull() should be (true)
       }
       "should check if who won in checkWin" in {
-        GridObject.checkWin() should be (Some(0))
+        GridObject.checkWin() should be (Some((1,(0,0),(0,1),(0,2),(0,3))))
       }
       "should check four Cells in a row in checkFour" in {
-        GridObject.checkFour(0,0,0,0,0,0,0,0) should be (0)
+        GridObject.checkFour(0,0,0,0,0,0,0,0) should be (None)
       }
       "should check horizontal win" in {
-        GridObject.checkHorizontalWin() should be (0)
+        GridObject.checkHorizontalWin() should be (None)
       }
       "should check vertical win" in {
-        GridObject.checkVerticalWin() should be (0)
+        GridObject.checkVerticalWin() should be (None)
       }
       "should check diagonal up left win" in {
-        GridObject.checkDiagonalUpLeftWin() should be (0)
+        GridObject.checkDiagonalUpLeftWin() should be (None)
       }
       "should check diagonal up right win in" in {
-        GridObject.checkDiagonalUpRightWin() should be (0)
+        GridObject.checkDiagonalUpRightWin() should be (None)
       }
     }
   }

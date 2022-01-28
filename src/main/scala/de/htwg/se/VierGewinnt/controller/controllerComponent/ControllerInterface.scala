@@ -14,22 +14,22 @@ import de.htwg.se.VierGewinnt.util.{Move, Observable}
  * Extends the Observable class to be compatible with the model-view-controller architecture
  * and communicate vith the view.
  */
-trait ControllerInterface() extends Observable:
+trait ControllerInterface() extends Observable :
   /** Returns the size of the grid withing playground. */
   def gridSize: Int
 
   /** Sets up a new game and switches the GameState to PlayState().
    *
    * @param gameType Choose the gametype (0 -> PVP, 1 -> PVP).
-   * @param size Choose the size of the playground.
+   * @param size     Choose the size of the playground.
    */
   def setupGame(gameType: Int, size: Int): Unit
 
   /** Loads the previously saved playground from a file. */
-  def load:Unit
+  def load: Unit
 
   /** Saves the current playground to a file. */
-  def save:Unit
+  def save: Unit
 
   /** Reset the GameState to PrepareState() to restart the game. */
   def restartGame: Unit
@@ -43,7 +43,7 @@ trait ControllerInterface() extends Observable:
   /** Do a given move with a given function and save it into the UndoManager.
    *
    * @param doThis A function to do and save into the UndoManager.
-   * @param move Move with input.
+   * @param move   Move with input.
    */
   def doAndPublish(doThis: Move => PlaygroundInterface, move: Move): Unit
 
@@ -64,13 +64,15 @@ trait ControllerInterface() extends Observable:
    * @param move On which column the chip should be placed on the playground.
    * @return Return a new playground after the chip was inserted.
    */
-  def insChip(move: Move):PlaygroundInterface
+  def insChip(move: Move): PlaygroundInterface
 
   /** Check if the playground is full with chips. */
   def checkFull(pg: PlaygroundInterface): Unit
 
   /** Check if the playground has a winner. */
   def checkWinner(pg: PlaygroundInterface): Unit
+
+  var winnerChips: Option[(Int, (Int, Int), (Int, Int), (Int, Int), (Int, Int))] = None
 
   /** Gets the color of a chip on a certain coordinate.
    *
@@ -80,7 +82,7 @@ trait ControllerInterface() extends Observable:
    */
   def getChipColor(row: Int, col: Int): String
 
-  /**  Gets the string of the current state.
+  /** Gets the string of the current state.
    *
    * @return Returns the string of the current state.
    */

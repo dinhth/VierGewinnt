@@ -20,7 +20,7 @@ import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
 /** Controller base implementation.
  *
  * @param playground Sets the default playground with inject.
- * @param gameType Sets the default gametype with inject.
+ * @param gameType   Sets the default gametype with inject.
  */
 class Controller @Inject()(@Named("DefaultPlayground") var playground: PlaygroundInterface, @Named("DefaultGameType") var gameType: Int) extends Observable with ControllerInterface :
 
@@ -46,7 +46,7 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   /** Sets up a new game and switches the GameState to PlayState().
    *
    * @param gameType Choose the gametype (0 -> PVP, 1 -> PVP).
-   * @param size Choose the size of the playground.
+   * @param size     Choose the size of the playground.
    */
   override def setupGame(gameType: Int, size: Int): Unit =
     gameType match
@@ -55,6 +55,7 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
       case 1 =>
         playground = new PlaygroundPvE(size)
     gamestate.changeState(PlayState())
+    winnerChips = None
     notifyObservers
 
   /** Variable for an instance of the UndoManager. */
@@ -63,7 +64,7 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   /** Do a given move with a given function and save it into the UndoManager.
    *
    * @param doThis A function to do and save into the UndoManager.
-   * @param move Move with input.
+   * @param move   Move with input.
    */
   override def doAndPublish(doThis: Move => PlaygroundInterface, move: Move): Unit =
     gameNotDone match
@@ -126,12 +127,14 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
       case false => if (gameNotDone)
         gamestate.changeState(PlayState())
 
+
   /** Check if the playground has a winner.
    * If there is a winner, change the GameState to WinState, else do nothing. */
   override def checkWinner(pg: PlaygroundInterface): Unit =
     pg.grid.checkWin() match
       case None =>
       case Some(num) => //1 == Red, 2 == Yellow
+        winnerChips = Some(num)
         gamestate.changeState(WinState())
 
   /** Gets the color of a chip on a certain coordinate.
@@ -143,7 +146,7 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
   override def getChipColor(row: Int, col: Int): String =
     playground.grid.getCell(row, col).chip.getColorCode
 
-  /**  Gets the string of the current state.
+  /** Gets the string of the current state.
    *
    * @return Returns the string of the current state.
    */

@@ -1,7 +1,7 @@
 [![Scala CI](https://github.com/dinhth/VierGewinnt/actions/workflows/scala.yml/badge.svg?branch=master&kill_cache=1)](https://github.com/dinhth/VierGewinnt/actions/workflows/scala.yml)
 [![Coverage Status](https://coveralls.io/repos/github/dinhth/VierGewinnt/badge.svg?branch=master&kill_cache=1)](https://coveralls.io/github/dinhth/VierGewinnt?branch=master)
 # VierGewinnt
-The game VierGewinnt (Connect Four) is a software project for the course software engineering of the University of Applied Sciences (HTWG Konstanz) developed by the students Thu Ha Dinh, Orkan Yücetag
+The game VierGewinnt (Connect Four) is a software project for the course software engineering and software architecture of the University of Applied Sciences (HTWG Konstanz) developed by Orkan Yücetag
 
 # How to play (GUI)
 1. Choose Game Type (_File -> New PvP | New PVE_)

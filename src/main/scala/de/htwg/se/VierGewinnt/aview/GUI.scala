@@ -33,7 +33,8 @@ import scala.language.postfixOps
  */
 case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
   controller.add(this)
-  //use val instead of var to make it immutable
+  /**use val instead of var to make it immutable [functionalStyle]
+   */
   val chips: Vector[Vector[Circle]] = emptyChips()
   val chipGrid: GridPane = emptyGrid()
   val playgroundstatus = new Menu(controller.playgroundState)
@@ -146,9 +147,9 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                       title = "Set a size"
                       this.setContentText("Enter a number min. 4:")
                     }
-                    var result = dialog.showAndWait()
+                    val result = dialog.showAndWait()
                     while (result.get.toInt < 4)
-                      result = dialog.showAndWait()
+                      dialog.showAndWait()
 
                     controller.setupGame(0, result.get.toInt)
                     //Update Grid to new Size
@@ -162,9 +163,9 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                       title = "Set a size"
                       this.setContentText("Enter a number min. 4:")
                     }
-                    var result = dialog.showAndWait()
+                    val result = dialog.showAndWait()
                     while (result.get.toInt < 4)
-                      result = dialog.showAndWait()
+                      dialog.showAndWait()
 
                     controller.setupGame(1, result.get.toInt)
                     emptyGrid() //Update Grid to new Size
@@ -201,7 +202,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
           )
         }
 
-        var vBox = new VBox() :
+        val vBox = new VBox() :
           children = List(menu, chipGrid)
 
         content = new VBox() {

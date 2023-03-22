@@ -4,11 +4,10 @@
 package de.htwg.se.VierGewinnt.util
 
 trait Observable {
-  var subscribers: Vector[Observer] = Vector()
+  val subscribers: scala.collection.mutable.ListBuffer[Observer] = scala.collection.mutable.ListBuffer.empty[Observer]
+  def add(s: Observer) = subscribers :+ s
 
-  def add(s: Observer) = subscribers = subscribers :+ s
+  def remove(s: Observer):Unit = subscribers.filterNot(_ == s)
 
-  def remove(s: Observer) = subscribers = subscribers.filterNot(o => o == s)
-
-  def notifyObservers = subscribers.foreach(o => o.update)
+  def notifyObservers() = subscribers.foreach(_.update)
 }

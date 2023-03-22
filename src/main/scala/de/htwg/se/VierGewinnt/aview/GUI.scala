@@ -1,6 +1,6 @@
 /** Graphical User Interface for VierGewinnt.
  *
- * @author Thu Ha Dinh & Orkan Yücetag */
+ * @author Thu Ha Dinh & Orkan Yücetag & Victor Gänshirt */
 package de.htwg.se.VierGewinnt.aview
 
 import de.htwg.se.VierGewinnt.controller.controllerComponent.ControllerInterface
@@ -33,10 +33,11 @@ import scala.language.postfixOps
  */
 case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
   controller.add(this)
-  var chips: Vector[Vector[Circle]] = emptyChips()
-  var chipGrid: GridPane = emptyGrid()
-  var playgroundstatus = new Menu(controller.playgroundState)
-  var statestatus = new Menu(controller.printState)
+  //use val instead of var to make it immutable
+  val chips: Vector[Vector[Circle]] = emptyChips()
+  val chipGrid: GridPane = emptyGrid()
+  val playgroundstatus = new Menu(controller.playgroundState)
+  val statestatus = new Menu(controller.printState)
 
   /** Updates the GUI with chips and grid from the controller. */
   override def update: Unit =
@@ -150,7 +151,8 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                       result = dialog.showAndWait()
 
                     controller.setupGame(0, result.get.toInt)
-                    chipGrid = emptyGrid() //Update Grid to new Size
+                    //Update Grid to new Size
+                    emptyGrid()
                     start()
                   }
                 }, new MenuItem("New PvE") {
@@ -165,7 +167,7 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
                       result = dialog.showAndWait()
 
                     controller.setupGame(1, result.get.toInt)
-                    chipGrid = emptyGrid() //Update Grid to new Size
+                    emptyGrid() //Update Grid to new Size
                     start()
                   }
                 },
@@ -219,8 +221,8 @@ case class GUI(controller: ControllerInterface) extends JFXApp3 with Observer :
    * If the chips size does not equal the controller size, update the chips and the grid with an empty one. */
   def checkChipSize(): Unit =
     if (!chips.length.equals(controller.gridSize)) {
-      chips = emptyChips()
-      chipGrid = emptyGrid()
+      emptyChips()
+      emptyGrid()
     }
 
   /** Creates an empty grid with the size of chips.

@@ -1,0 +1,8 @@
+ignore:
+  - "gui/**/*"
+  - "**/TuiService.scala"
+coverage:
+  status:
+    patch:
+      default:
+        target: 80%

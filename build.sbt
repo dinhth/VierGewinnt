@@ -9,6 +9,11 @@ lazy val commonSettings = Seq(
   libraryDependencies += ("net.codingwell" %% "scala-guice" % "5.1.1").cross(CrossVersion.for3Use2_13),
   libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.1.0",
   libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.10.0-RC7"),
+  libraryDependencies ++= Seq(
+    "com.typesafe.akka" %% "akka-http" % "10.5.0",
+    "com.typesafe.akka" %% "akka-actor-typed" % "2.8.0",
+    "com.typesafe.akka" %% "akka-http-spray-json" % "10.5.0"
+  ),
   coverageEnabled := true
 )
 

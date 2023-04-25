@@ -3,8 +3,11 @@
  * @author Victor Gänshirt & Orkan Yücetag */
 package de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl
 
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Chip
+import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip, Grid}
+import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.Player
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
+import play.api.libs.json.JsValue
+import play.api.libs.json.{JsArray, JsValue, Json}
 
 import scala.io.AnsiColor.{BLUE_B, RESET}
 
@@ -71,3 +74,52 @@ trait PlaygroundTemplate extends PlaygroundInterface {
     s"${BLUE_B}  " + ("----" * size) + s"-  ${RESET}\n"
   }
 }
+
+//TODO move the following functions into the right spot
+def gameToJson: JsValue =
+  Json.obj(
+    //TODO refactor this fancy piece of code, with playground type ?
+    "grid" -> Json.obj(
+      "cells" -> Json.toJson(
+        (0 until size - 4).flatMap(col =>
+          (3 until size).reverse.map(row => {
+            val player = getCell(row, col).chip match
+              case Some(s) => s.player
+              case None =>
+            Json.obj(
+              "row" -> row,
+              "col" -> col,
+              "value" -> player
+            )
+          }))
+      )
+    )
+  )
+override def toJsonString: String =
+  Json.prettyPrint(gameToJson)
+
+def toJson: JsValue =
+  gameToJson
+
+def jsonToGrid(player1: Player, player2: Player, par_grid: Grid, source: String): Grid =
+  val gameJson: JsValue = Json.parse(source)
+  val grid = (gameJson \ "grid")
+
+  val cells = (grid \ "cells").as[JsArray]
+  recursiveSetGrid(player1, player2, cells, 0, par_grid)
+
+
+def recursiveSetGrid(player1: Player, player2: Player, cells: JsArray, idx: Int, grid: Grid): Grid =
+  if cells.value.length == idx then
+    return grid
+
+  val cell = cells.value(idx)
+
+  val row = (cell \ "row").get.as[Int]
+  val col = (cell \ "col").get.as[Int]
+  val value = (cell \ "value").get.as[Int]
+  val optPiece = value match
+    case 1 => Some(player1.chip)
+    case 2 => Some(player2.chip)
+    case _ => None
+  recursiveSetGrid(player1, player2, cells, idx + 1, grid.replaceCell(row, col, Cell(optPiece)))

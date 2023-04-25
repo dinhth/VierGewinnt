@@ -9,13 +9,13 @@ import akka.http.scaladsl.server.{ExceptionHandler, Route}
 
 import scala.concurrent.ExecutionContextExecutor
 
-
+//TODO paths anpassen
 class FileIOAPI {
   val routes: String =
     """
         persistence-service! Available routes:
-          GET   /fileio/load
-          POST  /fileio/save
+          GET   /../load
+          POST  /../save
         """.stripMargin
 
   // needed to run the route
@@ -29,12 +29,12 @@ class FileIOAPI {
     pathSingleSlash {
       complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>FileIO</h1>"))
     },
-    path("fileio" / "load") {
+    path(".." / "load") {
       get {
         complete(HttpEntity(ContentTypes.`application/json`, PersistenceController.load()))
       }
     },
-    path("fileio" / "save") {
+    path(".." / "save") {
       concat(
         post {
           entity(as[String]) { game =>

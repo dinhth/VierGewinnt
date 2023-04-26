@@ -1,4 +1,4 @@
-package de.htwg.se.VierGewinnt.core
+package de.htwg.se.VierGewinnt.core.service
 
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
@@ -10,8 +10,7 @@ import de.htwg.se.VierGewinnt.core.*
 
 import scala.util.{Failure, Success}
 
-
-object CoreService {
+object CoreRestService {
   val injector: Injector = Guice.createInjector(CoreModule())
   val controller = injector.getInstance(classOf[ControllerInterface])
 
@@ -34,8 +33,8 @@ object CoreService {
           }
         }
       )
-    val bound = Http().newServerAt("localhost",8080).bind(route)
-    bound.onComplete{
+    val bound = Http().newServerAt("localhost", 8080).bind(route)
+    bound.onComplete {
       case Success(bind) => print(bind)
       case Failure(exception) => {}
     }

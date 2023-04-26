@@ -18,7 +18,7 @@ import scala.concurrent.ExecutionContextExecutor
 import scala.util.Failure
 import scala.util.Success
 
-object FileIOAPI {
+object PersistenceRestService {
   def main(args: Array[String]): Unit =
     // needed to run the route
     val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "my-system")

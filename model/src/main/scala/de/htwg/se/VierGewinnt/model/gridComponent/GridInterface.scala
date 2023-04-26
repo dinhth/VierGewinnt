@@ -4,8 +4,7 @@
 package de.htwg.se.VierGewinnt.model.gridComponent
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.{Cell, Chip}
-import de.htwg.se.VierGewinnt.model.playerComponent.playerMockImpl.Player
-import play.api.libs.json.{JsValue, Json}
+
 import scala.io.AnsiColor.{BLUE_B, RESET}
 import scala.util.{Failure, Success, Try}
 
@@ -71,5 +70,3 @@ trait GridInterface:
 
   /** The size of the grid. */
   var size: Int = 0
-
-

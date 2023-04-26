@@ -7,12 +7,11 @@ import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpRequ
 import akka.http.scaladsl.server.Directives.*
 import com.google.inject.{Guice, Injector}
 import de.htwg.se.VierGewinnt.core.*
-import de.htwg.se.VierGewinnt.persist.fileio.*
 
 import scala.util.{Failure, Success}
 
 
-object RootService {
+object CoreService {
   val injector: Injector = Guice.createInjector(CoreModule())
   val controller = injector.getInstance(classOf[ControllerInterface])
 

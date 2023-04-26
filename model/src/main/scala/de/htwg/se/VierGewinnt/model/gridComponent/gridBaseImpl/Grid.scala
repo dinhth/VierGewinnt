@@ -7,9 +7,6 @@ package de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 
 import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
-import de.htwg.se.VierGewinnt.model.playerComponent.playerMockImpl.Player
-
-
 import scala.io.AnsiColor.BLUE_B
 import scala.io.AnsiColor.RESET
 import scala.util.Failure
@@ -185,5 +182,3 @@ case class Grid(grid: Vector[Vector[Cell]]) extends GridInterface:
     }
     out
   }
-
-  

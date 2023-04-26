@@ -1,8 +1,4 @@
-package fileIOComponent.service
-import com.google.inject.{Guice, Inject}
-import de.htwg.se.VierGewinnt.model.gridComponent.gridBaseImpl.Grid
-import de.htwg.se.VierGewinnt.model.playerComponent.playerBaseImpl.Player
-
+package de.htwg.se.VierGewinnt.persist.fileio
 
 import java.io._
 import play.api.libs.json.{JsValue, Json}

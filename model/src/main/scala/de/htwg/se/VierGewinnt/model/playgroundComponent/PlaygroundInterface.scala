@@ -43,5 +43,3 @@ trait PlaygroundInterface:
 
   /** Return the border of the playground. */
   def border(): String
-
-  def toJsonString: String

@@ -9,6 +9,7 @@ package de.htwg.se.VierGewinnt.core.controllerBaseImpl
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{Guice, Inject, Key}
 import de.htwg.se.VierGewinnt.core.{ControllerInterface, CoreModule, Util}
+import de.htwg.se.VierGewinnt.core.service.CoreRestController
 import de.htwg.se.VierGewinnt.model.gridComponent.GridInterface
 import de.htwg.se.VierGewinnt.model.playerComponent.{PlayerInterface, playerBaseImpl}
 import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvE, PlaygroundPvP}
@@ -16,12 +17,13 @@ import de.htwg.se.VierGewinnt.model.playgroundComponent.{PlaygroundInterface, pl
 import de.htwg.se.VierGewinnt.util.{Command, Move, Observable, UndoManager}
 import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.ActorSystem
-import akka.http.scaladsl.model.HttpMethods
-import akka.http.scaladsl.model.HttpRequest
-import akka.http.scaladsl.model.HttpResponse
+import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse, StatusCodes}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.http.scaladsl.Http
-import scala.concurrent.Future
+import de.htwg.se.VierGewinnt.core.service.CoreRestService.getClass
+import org.slf4j.LoggerFactory
+
+import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.util.Failure
 import scala.util.Success
 
@@ -38,53 +40,31 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
 
 
   val fileIOServer = "http://localhost:8081/fileio"
+  private val logger = LoggerFactory.getLogger(getClass)
+
+  val restController: CoreRestController = new CoreRestController
 
   /** Returns the size of the grid withing playground. */
   override def gridSize: Int = playground.size
 
   /** Loads the previously saved playground from a file. */
   override def load: Unit =
-    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    val responseFuture = restController.sendGetRequest(fileIOServer + "/load")
 
-    implicit val executionContext = system.executionContext
+    restController.handleResponse(responseFuture, json => {
+      playground = Util.jsonToPlayground(json)
+      notifyObservers
+    })
 
-    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(uri = fileIOServer + "/load"))
-
-    responseFuture
-      .onComplete {
-        case Failure(_) => sys.error("Failed getting Json")
-        case Success(value) =>
-          Unmarshal(value.entity).to[String].onComplete {
-            case Failure(_) => sys.error("Failed unmarshalling")
-            case Success(value) =>
-              printf("%s\n", value)
-              playground = Util.jsonToPlayground(value)
-              notifyObservers
-          }
-      }
-
-    notifyObservers
 
   /** Saves the current playground to a file. */
   override def save: Unit =
-    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    val responseFuture = restController.sendPostRequest(fileIOServer + "/save", Util.toJsonString(playground))
 
-    implicit val executionContext = system.executionContext
-
-    val responseFuture: Future[HttpResponse] = Http().singleRequest(
-      HttpRequest(
-        method = HttpMethods.POST,
-        uri = fileIOServer + "/save",
-        entity = Util.toJsonString(playground)
-      )
-    )
-    responseFuture.onComplete {
-      case Failure(fail) => sys.error("failed")
-      case Success(value) => printf("%s\n", value)
-    }
-
-
-    notifyObservers
+    restController.handleResponse(responseFuture, json => {
+      logger.info(json)
+      notifyObservers
+    })
 
   /** Sets up a new game and switches the GameState to PlayState().
    *
@@ -214,3 +194,4 @@ class Controller @Inject()(@Named("DefaultPlayground") var playground: Playgroun
 
   /** Prints the playground to a string. */
   override def toString = playground.toString
+

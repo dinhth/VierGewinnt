@@ -54,7 +54,7 @@ lazy val core = project
     description := "Core for Vier Gewinnt",
     commonSettings
   )
-  .dependsOn(model, util) //persistence
+  .dependsOn(model, util)
 
 lazy val persistence = project
   .in(file("persistence"))

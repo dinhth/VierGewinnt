@@ -2,6 +2,7 @@ package de.htwg.se.VierGewinnt.persist.fileio
 
 import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.ActorSystem
+import akka.event.Logging
 import akka.http.scaladsl.model.ContentTypes
 import akka.http.scaladsl.model.HttpEntity
 import akka.http.scaladsl.model.StatusCode
@@ -14,8 +15,6 @@ import akka.http.scaladsl.server.ExceptionHandler
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.Http
 import org.slf4j.LoggerFactory
-import akka.event.Logging
-
 import scala.concurrent._
 import scala.concurrent.ExecutionContextExecutor
 import scala.util.Failure
@@ -46,7 +45,7 @@ object PersistenceRestService extends App {
     },
     path("fileio" / "load") {
       get {
-        logger.info("Received load request")
+        logger.info("Received load request: {}", PersistenceController.load())
         complete(HttpEntity(ContentTypes.`application/json`, PersistenceController.load()))
       }
     },

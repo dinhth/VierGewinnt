@@ -1,15 +1,28 @@
 package de.htwg.se.VierGewinnt.core.service
 
-import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.AskPattern.*
 import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpRequest, HttpResponse, StatusCodes}
+import akka.actor.typed.ActorSystem
+import akka.http.scaladsl.model.ContentTypes
+import akka.http.scaladsl.model.HttpEntity
+import akka.http.scaladsl.model.HttpMethods
+import akka.http.scaladsl.model.HttpRequest
+import akka.http.scaladsl.model.HttpResponse
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.http.scaladsl.Http
+import concurrent.duration.DurationInt
 import de.htwg.se.VierGewinnt.core.service.CoreRestService
-import org.slf4j.{Logger, LoggerFactory}
-
-import scala.concurrent.{ExecutionContextExecutor, Future}
-import scala.util.{Failure, Success}
+import de.htwg.se.VierGewinnt.core.Util
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import scala.concurrent.duration.Duration
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.Future
+import scala.util.Failure
+import scala.util.Success
+import spray.json.RootJsonFormat
 
 class CoreRestController {
   private val logger = LoggerFactory.getLogger(CoreRestService.getClass)
@@ -22,39 +35,47 @@ class CoreRestController {
 
   given ExecutionContextExecutor = executionContext
 
-  def sendGetRequest(url: String): Future[HttpResponse] = {
+  def sendGetRequest(url: String): Future[String] = {
     val request = HttpRequest(
       method = HttpMethods.GET,
       uri = url
     )
-
-    Http().singleRequest(request)
+    val response: Future[HttpResponse] = Http().singleRequest(request)
+    handleResponse(response)
   }
-  
-  def sendPostRequest(url: String, payload: String): Future[HttpResponse] = {
+
+  def sendPostRequest(url: String, payload: String): Future[String] = {
     val request = HttpRequest(
       method = HttpMethods.POST,
       uri = url,
       entity = HttpEntity(ContentTypes.`application/json`, payload)
     )
-
-    Http().singleRequest(request)
+    val response: Future[HttpResponse] = Http().singleRequest(request)
+    handleResponse(response)
   }
-  
-  def handleResponse(responseFuture: Future[HttpResponse], onSuccess: String => Unit): Unit =
-    responseFuture
-      .onComplete {
-        case Failure(_) =>
-          logger.error("Failed getting JSON")
-        case Success(response) if response.status == StatusCodes.OK =>
-          Unmarshal(response.entity).to[String].onComplete {
-            case Failure(_) =>
-              logger.error("Failed unmarshalling")
-            case Success(jsonString) =>
-              onSuccess(jsonString)
-          }
-        case Success(response) =>
-          logger.error(s"Unexpected response status: ${response.status}")
+
+  def handleResponse(responseFuture: Future[HttpResponse]): Future[String] =
+    responseFuture.flatMap { response =>
+      response.status match {
+        case StatusCodes.OK =>
+          Unmarshal(response.entity).to[String]
+        case _ =>
+          logger.warn(s"Failed! Response status: ${response.status}")
+          Future.failed(new RuntimeException(s"Failed! Response status: ${response.status}"))
       }
+    }
+
+  def gridSize(responseFuture: Future[HttpResponse]): Int =
+    val gridSizeFuture = responseFuture.flatMap { response =>
+      if (response.status == StatusCodes.OK) {
+        Unmarshal(response.entity).to[String].map { json =>
+          Util.jsonToPlayground(json).size
+        }
+      } else {
+        Future.failed(new RuntimeException(s"Unexpected response status: ${response.status}"))
+      }
+    }
+    val gridSize: Int = Await.result(gridSizeFuture, 5.seconds)
+    gridSize
 
 }

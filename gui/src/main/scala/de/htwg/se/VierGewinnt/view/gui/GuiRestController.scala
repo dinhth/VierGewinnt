@@ -32,6 +32,7 @@ class GuiRestController {
 
   given ExecutionContextExecutor = executionContext
   val coreServer = "http://localhost:8080/core"
+  val utilServer = "http://localhost:8083"
 
   def getGridSize: Int =
     val future: Future[String] = sendGetRequest(coreServer + "/gridSize")
@@ -97,7 +98,7 @@ class GuiRestController {
       "name" -> "GUI",
       "serverAddress" -> "http://localhost:3000"
     )
-    val future: Future[String] = sendPostRequest(s"${coreServer}/observer", Json.toJson("Json.stringify(Json.toJson(toObserve))").toString)
+    val future: Future[String] = sendPostRequest(s"${utilServer}/observer/add", observerPayload.toString)
     val result: String = Await.result(future, Duration.Inf)
     logger.info(result)
 

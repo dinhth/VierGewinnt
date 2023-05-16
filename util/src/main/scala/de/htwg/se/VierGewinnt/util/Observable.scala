@@ -12,3 +12,6 @@ trait Observable {
 
   def notifyObservers = subscribers.foreach(o => o.update)
 }
+
+case class GuiObserver(address:String) extends Observer:
+  override def update: Unit = print("a")

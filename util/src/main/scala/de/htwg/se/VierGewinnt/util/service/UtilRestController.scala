@@ -1,39 +1,25 @@
-package de.htwg.se.VierGewinnt.core.service
+package de.htwg.se.VierGewinnt.util.service
 
-import akka.actor.typed.scaladsl.AskPattern.*
-import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.ActorSystem
-import akka.http.scaladsl.model.ContentTypes
-import akka.http.scaladsl.model.HttpEntity
-import akka.http.scaladsl.model.HttpMethods
-import akka.http.scaladsl.model.HttpRequest
-import akka.http.scaladsl.model.HttpResponse
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import concurrent.duration.DurationInt
-import de.htwg.se.VierGewinnt.core.service.CoreRestService
-import de.htwg.se.VierGewinnt.core.Util
-import org.slf4j.Logger
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpRequest, HttpResponse, StatusCodes}
+import akka.http.scaladsl.unmarshalling.Unmarshal
 import org.slf4j.LoggerFactory
-import scala.concurrent.duration.Duration
-import scala.concurrent.Await
-import scala.concurrent.ExecutionContextExecutor
-import scala.concurrent.Future
-import scala.util.Failure
-import scala.util.Success
-import spray.json.RootJsonFormat
 
-class CoreRestController {
+import scala.concurrent.{ExecutionContextExecutor, Future}
+
+class UtilRestController {
   private val logger = LoggerFactory.getLogger(getClass)
 
-  val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "CoreAPI")
+  val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "UtilAPI")
 
   given ActorSystem[Any] = system
 
   val executionContext: ExecutionContextExecutor = system.executionContext
 
   given ExecutionContextExecutor = executionContext
+
 
   def sendGetRequest(url: String): Future[String] = {
     val request = HttpRequest(

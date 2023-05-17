@@ -10,8 +10,6 @@ import akka.http.scaladsl.model.HttpResponse
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.http.scaladsl.Http
-import de.htwg.se.VierGewinnt.core.service.CoreRestService
-import de.htwg.se.VierGewinnt.util.Observer
 import org.slf4j.LoggerFactory
 import play.api.libs.json.Json
 import scala.concurrent.duration.Duration
@@ -126,7 +124,7 @@ class GuiRestController {
           Unmarshal(response.entity).to[String]
         case _ =>
           logger.error(s"Failed! Response status: ${response.status}")
-          Future.failed(new RuntimeException(s"Failed! Response status: ${response.status}"))
+          Future.failed(new RuntimeException(s"Failed! Response status: ${response.status}\n${responseFuture}"))
       }
     }
 

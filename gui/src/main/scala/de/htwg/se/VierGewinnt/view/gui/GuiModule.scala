@@ -6,5 +6,4 @@ class GuiModule extends AbstractModule {
   override def configure(): Unit =
     bind(classOf[GuiRestController])
     bind(classOf[GUI])
-  // bind(classOf[ControllerInterface])
 }

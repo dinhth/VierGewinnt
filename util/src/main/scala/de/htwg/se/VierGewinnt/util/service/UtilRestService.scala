@@ -12,6 +12,7 @@ import com.google.inject.Injector
 import de.htwg.se.VierGewinnt.util.GuiObserver
 import de.htwg.se.VierGewinnt.util.Move
 import de.htwg.se.VierGewinnt.util.Observable
+import de.htwg.se.VierGewinnt.util.ObservableImpl
 import de.htwg.se.VierGewinnt.util.UtilModule
 import org.slf4j.LoggerFactory
 import play.api.libs.json.Json
@@ -22,7 +23,7 @@ import scala.util.Success
 object UtilRestService extends App {
 
   val injector: Injector = Guice.createInjector(UtilModule())
-  val observable: Observable = injector.getInstance(classOf[Observable])
+  val observable: ObservableImpl = injector.getInstance(classOf[ObservableImpl])
 
   private val logger = LoggerFactory.getLogger(getClass)
 
@@ -40,17 +41,20 @@ object UtilRestService extends App {
     concat(
       post {
         path("observer" / "add") {
-          entity(as[String]) { request =>
-            val observerJson = Json.parse(request)
+          entity(as[String]) { payload =>
+            val observerJson = Json.parse(payload)
             val name: String = (observerJson \ "name").as[String]
             val serverAddress: String = (observerJson \ "serverAddress").as[String]
 
+            logger.info(payload)
             val observer = if (name == "gui") GuiObserver(serverAddress) else GuiObserver(serverAddress)
-            observable.add(observer)
+            if (observable.subscribers.contains(observer))
+              complete(HttpEntity(ContentTypes.`application/json`, Json.toJson(s"${observer} already exists").toString))
+            else
+              observable.add(observer)
+              //observer.update
+              complete(HttpEntity(ContentTypes.`application/json`, Json.toJson(s"${name} is added to observer list").toString))
 
-            logger.info(request)
-
-            complete(HttpEntity(ContentTypes.`application/json`, Json.toJson(s"${name} is added to observer list").toString))
           }
         }
       },
@@ -59,14 +63,14 @@ object UtilRestService extends App {
           entity(as[String]) { request =>
             val observer = Json.parse(request)
 
-            complete(HttpEntity(ContentTypes.`application/json`, "loaded"))
+            complete(HttpEntity(ContentTypes.`application/json`, Json.toJson("loaded").toString))
           }
         }
       },
       get {
         path("observer" / "notifyObservers") {
           observable.notifyObservers
-          complete(HttpEntity(ContentTypes.`application/json`, "notified all observers"))
+          complete(HttpEntity(ContentTypes.`application/json`, Json.toJson("notified all observers").toString))
         }
       }
     )

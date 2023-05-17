@@ -40,7 +40,6 @@ lazy val gui = project
     commonSettings,
     libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
   )
-  .dependsOn(core)
 
 lazy val tui = project
   .in(file("tui"))

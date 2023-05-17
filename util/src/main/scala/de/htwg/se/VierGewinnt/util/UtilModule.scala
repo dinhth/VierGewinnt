@@ -5,6 +5,6 @@ import de.htwg.se.VierGewinnt.util.service.UtilRestController
 
 class UtilModule extends AbstractModule {
   override def configure(): Unit =
-    bind(classOf[Observable])
+    bind(classOf[Observable]).to(classOf[ObservableImpl])
     bind(classOf[UtilRestController])
 }

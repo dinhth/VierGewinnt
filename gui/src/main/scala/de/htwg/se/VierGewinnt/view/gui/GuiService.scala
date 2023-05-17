@@ -9,7 +9,6 @@ import akka.http.scaladsl.model.HttpRequest
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.Http
 import com.google.inject.Guice
-import de.htwg.se.VierGewinnt.util.Move
 import org.slf4j.LoggerFactory
 import play.api.libs.json.Json
 import scala.concurrent.ExecutionContextExecutor

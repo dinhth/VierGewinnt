@@ -23,23 +23,22 @@ import com.google.inject.name.Names
 import com.google.inject.Guice
 import com.google.inject.Inject
 import com.google.inject.Key
-
 import concurrent.duration.Duration
 import concurrent.duration.DurationInt
-import de.htwg.se.VierGewinnt.core.service.{CoreRestController, PlaygroundProvider}
+import de.htwg.se.VierGewinnt.core.service.CoreRestController
 import de.htwg.se.VierGewinnt.core.service.CoreRestService.getClass
+import de.htwg.se.VierGewinnt.core.service.PlaygroundProvider
 import de.htwg.se.VierGewinnt.core.ControllerInterface
 import de.htwg.se.VierGewinnt.core.CoreModule
 import de.htwg.se.VierGewinnt.core.Util
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvE
+import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.PlaygroundPvP
 import de.htwg.se.VierGewinnt.model.playgroundComponent.PlaygroundInterface
-import de.htwg.se.VierGewinnt.model.playgroundComponent.playgroundBaseImpl.{PlaygroundPvE, PlaygroundPvP}
 import de.htwg.se.VierGewinnt.util.Command
 import de.htwg.se.VierGewinnt.util.Move
-import de.htwg.se.VierGewinnt.util.Observable
 import de.htwg.se.VierGewinnt.util.UndoManager
 import org.slf4j.LoggerFactory
 import play.api.libs.json.Json
-
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.Future
@@ -57,8 +56,7 @@ class Controller @Inject() (
     @Named("DefaultPlayground") var playground: PlaygroundInterface,
     @Named("DefaultGameType") var gameType: Int,
     restController: CoreRestController
-) extends Observable
-    with ControllerInterface:
+) extends ControllerInterface:
   val fileIOServer = "http://localhost:8081/fileio"
   val modelServer = "http://localhost:8082"
   private val logger = LoggerFactory.getLogger(getClass)
@@ -73,15 +71,14 @@ class Controller @Inject() (
     val playgroundResult: String = Await.result(playgroundFuture, Duration.Inf)
     logger.info(playgroundResult)
     playground = Util.jsonToPlayground(playgroundResult)
-    notifyObservers
-
+    restController.notifyObservers
 
   /** Saves the current playground to a file. */
   override def save: Unit =
     val playgroundFuture: Future[String] = restController.sendPostRequest(fileIOServer + "/save", Util.toJsonString(playground))
     val playgroundResult: String = Await.result(playgroundFuture, Duration.Inf)
     logger.info(playgroundResult)
-    notifyObservers
+    restController.notifyObservers
 
   /** Sets up a new game and switches the GameState to PlayState().
     *
@@ -98,7 +95,7 @@ class Controller @Inject() (
         playground = new PlaygroundPvE(size)
     gamestate.changeState(PlayState())
     winnerChips = None
-    notifyObservers
+    restController.notifyObservers
 
   /** Variable for an instance of the UndoManager. */
   val undoManager = new UndoManager[PlaygroundInterface]
@@ -114,7 +111,7 @@ class Controller @Inject() (
     gameNotDone match
       case true =>
         playground = doThis(move)
-        notifyObservers
+        restController.notifyObservers
       case _ =>
 
   /** Do a given function and save it into the UndoManager.
@@ -126,13 +123,13 @@ class Controller @Inject() (
     gameNotDone match
       case true =>
         playground = doThis
-        notifyObservers
+        restController.notifyObservers
       case _ =>
 
   /** Reset the GameState to PrepareState() to restart the game. */
   override def restartGame: Unit =
     gamestate.changeState(PrepareState())
-    notifyObservers
+    restController.notifyObservers
 
   /** Checks if the game is still in preparing phase. */
   override def isPreparing: Boolean =
@@ -211,4 +208,3 @@ class Controller @Inject() (
 
   /** Prints the playground to a string. */
   override def toString = playground.toString
-

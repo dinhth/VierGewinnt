@@ -35,16 +35,22 @@ class CoreRestController {
 
   given ExecutionContextExecutor = executionContext
 
-  def sendGetRequest(url: String): Future[String] = {
+  val utilServer = "http://localhost:8083"
+
+  def notifyObservers:Unit =
+    sendGetRequest(s"${utilServer}/observer/notifyObservers")
+
+
+  def sendGetRequest(url: String): Future[String] =
     val request = HttpRequest(
       method = HttpMethods.GET,
       uri = url
     )
     val response: Future[HttpResponse] = Http().singleRequest(request)
     handleResponse(response)
-  }
 
-  def sendPostRequest(url: String, payload: String): Future[String] = {
+
+  def sendPostRequest(url: String, payload: String): Future[String] =
     val request = HttpRequest(
       method = HttpMethods.POST,
       uri = url,
@@ -52,7 +58,7 @@ class CoreRestController {
     )
     val response: Future[HttpResponse] = Http().singleRequest(request)
     handleResponse(response)
-  }
+
 
   def handleResponse(responseFuture: Future[HttpResponse]): Future[String] =
     responseFuture.flatMap { response =>

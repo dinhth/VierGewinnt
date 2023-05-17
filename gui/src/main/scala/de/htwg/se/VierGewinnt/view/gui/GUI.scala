@@ -3,8 +3,6 @@ package de.htwg.se.VierGewinnt.view.gui
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import com.google.inject.Inject
-import de.htwg.se.VierGewinnt.util.Move
-import de.htwg.se.VierGewinnt.util.Observer
 import scala.concurrent.Await
 import scala.concurrent.Future
 import scala.io.AnsiColor.BLUE_B
@@ -39,10 +37,7 @@ import scalafx.Includes.at
   * @param controller
   *   Controller as parameter, which controls this GUI.
   */
-class GUI @Inject() (restController: GuiRestController) extends JFXApp3 with Observer:
-  // controller.add(this)
-  restController.addToObserver
-
+class GUI @Inject() (restController: GuiRestController) extends JFXApp3:
   val coreService = "http://localhost:8080/"
 
   var chips: Vector[Vector[Circle]] = emptyChips()
@@ -50,8 +45,10 @@ class GUI @Inject() (restController: GuiRestController) extends JFXApp3 with Obs
   var playgroundstatus = new Menu(restController.getPlaygroundState)
   var statestatus = new Menu(restController.getGameState)
 
+  restController.addToObserver
+
   /** Updates the GUI with chips and grid from the controller. */
-  override def update: Unit =
+  def update: Unit =
     checkChipSize()
     restController.getWinnerChips match { // restController.getWinnerChips
       case Some(v) => win(v._2, v._3, v._4, v._5)

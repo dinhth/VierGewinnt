@@ -42,17 +42,17 @@ object ModelRestService extends App {
     concat(
       path("playground") {
         get {
-          logger.info("Received playground request %s", Util.toJson(playgroundPvP).toString)
-          complete(HttpEntity(ContentTypes.`application/json`, Util.toJson(playgroundPvP).toString))
+          logger.info("Received playground request %s", Util.playgroundToJson(playgroundPvP).toString)
+          complete(HttpEntity(ContentTypes.`application/json`, Util.playgroundToJson(playgroundPvP).toString))
         }
       },
     )
-  val bindingFuture = Http().newServerAt("localhost", servicePort).bind(route)
+  val bindingFuture = Http().newServerAt("0.0.0.0", servicePort).bind(route)
   //readLine
   bindingFuture.onComplete {
     case Success(binding) =>
       val address = binding.localAddress
-      logger.info(s"Model REST service online at http://localhost:${servicePort}")
+      logger.info(s"Model REST service online at http://0.0.0.0:${servicePort}")
 
     case Failure(exception) =>
       logger.error(s"Model REST service couldn't be started! Error: {}", exception.getMessage)

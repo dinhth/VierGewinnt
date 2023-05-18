@@ -75,11 +75,11 @@ object UtilRestService extends App {
       }
     )
 
-  val bindingFuture = Http().newServerAt("localhost", servicePort).bind(route)
+  val bindingFuture = Http().newServerAt("0.0.0.0", servicePort).bind(route)
   bindingFuture.onComplete {
     case Success(binding) =>
       val address = binding.localAddress
-      logger.info(s"Util REST service online at http://localhost:${address.getPort}")
+      logger.info(s"Util REST service online at http://0.0.0.0:${address.getPort}")
 
     case Failure(exception) =>
       logger.error(s"Util REST service couldn't be started! Error: {}", exception.getMessage)

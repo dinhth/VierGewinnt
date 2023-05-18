@@ -6,7 +6,7 @@ import akka.event.Logging
 import akka.http.scaladsl.model.ContentTypes
 import akka.http.scaladsl.model.HttpEntity
 import akka.http.scaladsl.model.StatusCode
-import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Directives.complete
 import akka.http.scaladsl.server.Directives.concat
 import akka.http.scaladsl.server.Directives.get
@@ -14,14 +14,18 @@ import akka.http.scaladsl.server.Directives.path
 import akka.http.scaladsl.server.ExceptionHandler
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.Http
+import com.google.inject.Guice
+import com.google.inject.Injector
 import org.slf4j.LoggerFactory
-import scala.concurrent._
+import scala.concurrent.*
 import scala.concurrent.ExecutionContextExecutor
 import scala.util.Failure
 import scala.util.Success
 
 object PersistenceRestService extends App {
-  // Create the logger
+  val injector: Injector = Guice.createInjector(PersistenceModule())
+  val fileIo: FileIOInterface = injector.getInstance(classOf[FileIOInterface])
+
   private val logger = LoggerFactory.getLogger(getClass)
 
   // needed to run the route
@@ -43,18 +47,19 @@ object PersistenceRestService extends App {
     pathSingleSlash {
       complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, routes))
     },
-    path("fileio" / "load") {
+    path("fileio" / "json" / "load") {
       get {
-        logger.info("Received load request: {}", PersistenceController.load())
-        complete(HttpEntity(ContentTypes.`application/json`, PersistenceController.load()))
+        val result = fileIo.load
+        logger.info("Received load request: {}", result)
+        complete(HttpEntity(ContentTypes.`application/json`, result))
       }
     },
-    path("fileio" / "save") {
+    path("fileio" / "json" / "save") {
       concat(
         post {
           entity(as[String]) { game =>
             logger.info("Received save request with game: {}", game)
-            PersistenceController.save(game)
+            fileIo.save(game)
             complete("game saved")
           }
         }
@@ -64,12 +69,9 @@ object PersistenceRestService extends App {
 
   val bindingFuture = Http().newServerAt("localhost", 8081).bind(route)
 
-  bindingFuture.onComplete {
-    case Success(binding) =>
-      val address = binding.localAddress
-      logger.info(s"File IO REST service online at http://localhost:${address.getPort}")
+  println(s"File IO REST service online at http://localhost:8081/")
+  bindingFuture
+    .flatMap(_.unbind())
+    .onComplete(_ => system.terminate())
 
-    case Failure(exception) =>
-      logger.error(s"File IO REST service couldn't be started! Error: {}", exception.getMessage)
-  }
 }

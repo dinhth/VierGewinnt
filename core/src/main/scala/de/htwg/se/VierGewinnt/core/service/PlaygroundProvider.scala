@@ -11,8 +11,8 @@ import scala.concurrent.Await
 import scala.concurrent.Future
 
 class PlaygroundProvider @Inject() (restController: CoreRestController) extends Provider[PlaygroundInterface] {
-  val modelServer = "http://localhost:8082"
-  val fileIOServer = "http://localhost:8081/fileio"
+  val modelServer = "http://0.0.0.0:8082"
+  val fileIOServer = "http://0.0.0.0:8081/fileio"
 
   private val logger = LoggerFactory.getLogger(getClass)
 

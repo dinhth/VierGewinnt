@@ -1,0 +1,31 @@
+services:
+  gui:
+    image: gui
+    build:
+      context: gui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    container_name: gui
+    tty: true
+  core:
+    image: core
+    build:
+      context: core
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    container_name: core
+    tty: true
+  persistence:
+    image: persistence
+    build:
+      context: persistence
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    stdin_open: true
+    container_name: persistence
+    tty: true

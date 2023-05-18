@@ -24,56 +24,13 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-http-core"  % akkaHttp,
     "ch.qos.logback"    %  "logback-classic" % "1.4.6",
     "com.typesafe.akka" %% "akka-testkit"    % akkaVersion   % "test"
-  ),
-  coverageEnabled := true
+  )
 )
-
-lazy val util = project
-  .in(file("util"))
-  .settings(name := "util", description := "Util for Vier Gewinnt", commonSettings)
-
-lazy val gui = project
-  .in(file("gui"))
-  .settings(
-    name := "gui",
-    description := "GUI for Vier Gewinnt",
-    commonSettings,
-    libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
-  )
-
-lazy val tui = project
-  .in(file("tui"))
-  .settings(name := "tui", description := "TUI for Vier Gewinnt", commonSettings)
-  .dependsOn(core)
-
-lazy val core = project
-  .in(file("core"))
-  .settings(
-    name := "core",
-    description := "Core for Vier Gewinnt",
-    commonSettings
-  )
-  .dependsOn(model, util)
-
-lazy val persistence = project
-  .in(file("persistence"))
-  .settings(
-    name := "persistence",
-    description := "Persistence for Vier Gewinnt",
-    commonSettings
-  )
-
-lazy val model = project
-  .in(file("model"))
-  .settings(
-    name := "model",
-    description := "Model for Vier Gewinnt",
-    commonSettings
-  )
 
 lazy val root = project
   .in(file("."))
   .settings(
-    name := "VierGewinnt",
+    name := "persistence",
+    description := "Persistence for Vier Gewinnt",
     commonSettings
   )

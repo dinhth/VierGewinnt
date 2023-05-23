@@ -26,7 +26,6 @@ lazy val commonSettings = Seq(
     "ch.qos.logback" % "logback-classic" % "1.4.6",
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
   ),
-  coverageEnabled := true,
   dockerBaseImage := "sbtscala/scala-sbt:eclipse-temurin-jammy-17.0.5_8_1.8.3_3.2.2",
   Docker / daemonUserUid := None,
   Docker / daemonUser := "root"

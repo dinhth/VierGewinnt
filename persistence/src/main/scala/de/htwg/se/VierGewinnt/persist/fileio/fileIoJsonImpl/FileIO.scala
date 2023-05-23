@@ -30,6 +30,9 @@ class FileIO extends FileIOInterface {
     * @param playground
     *   The playground to save.
     */
-  override def save(playground: String): Unit =
-    ;
+  def save(playground: String): Unit =
+    import java.io._
+    val pw = new PrintWriter(new File("game.json"))
+    pw.write(playground)
+    pw.close()
 }

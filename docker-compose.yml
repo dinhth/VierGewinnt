@@ -8,6 +8,8 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
     network_mode: host
+    profiles:
+      - donotstart
   core:
     image: core:0.2.0-SNAPSHOT
     ports:
@@ -16,6 +18,8 @@ services:
     depends_on:
       - model
       - util
+    profiles:
+      - donotstart
   persistence:
     image: persistence:0.2.0-SNAPSHOT
     ports:

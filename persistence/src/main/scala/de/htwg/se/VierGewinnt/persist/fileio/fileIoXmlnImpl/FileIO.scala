@@ -8,18 +8,20 @@ package de.htwg.se.VierGewinnt.persist.fileio.fileIoXmlnImpl
 import com.google.inject.Guice
 import de.htwg.se.VierGewinnt.persist.fileio.FileIOInterface
 
-import java.io.{File, PrintWriter}
-import scala.util.Failure
-import scala.util.Success
+import java.io.File
+import java.io.PrintWriter
+import scala.util.{Failure, Success, Try}
 import scala.xml.PrettyPrinter
 
 /** FileIO XML Implementation, to save and load the state of a game with a XML file. */
 class FileIO extends FileIOInterface {
 
   /** Load the game from a "playground.xml" file and return the playground. */
-  override def load: String =
-    val file = scala.xml.XML.loadFile("playground.xml")
-    file.toString()
+  override def load: Try[String] =
+    Try {
+      val file = scala.xml.XML.loadFile("playground.xml")
+      file.toString()
+    }
 
   /** Save the game to a "playground.json" file.
     *

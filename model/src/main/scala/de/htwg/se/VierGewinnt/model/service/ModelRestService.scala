@@ -42,7 +42,7 @@ object ModelRestService extends App {
     concat(
       path("playground") {
         get {
-          logger.info("Received playground request %s", Util.playgroundToJson(playgroundPvP).toString)
+          logger.info(s"Received playground request ${Util.playgroundToJson(playgroundPvP).toString}")
           complete(HttpEntity(ContentTypes.`application/json`, Util.playgroundToJson(playgroundPvP).toString))
         }
       },

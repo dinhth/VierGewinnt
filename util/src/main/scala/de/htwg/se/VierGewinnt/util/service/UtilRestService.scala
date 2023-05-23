@@ -16,7 +16,9 @@ import de.htwg.se.VierGewinnt.util.ObservableImpl
 import de.htwg.se.VierGewinnt.util.UtilModule
 import org.slf4j.LoggerFactory
 import play.api.libs.json.Json
+
 import scala.concurrent.ExecutionContextExecutor
+import scala.io.StdIn
 import scala.util.Failure
 import scala.util.Success
 
@@ -44,7 +46,7 @@ object UtilRestService extends App {
           entity(as[String]) { payload =>
             val observerJson = Json.parse(payload)
             val name: String = (observerJson \ "name").as[String]
-            val serverAddress: String = (observerJson \ "serverAddress").as[String]
+            val serverAddress: String = "http://host.docker.internal:3000" //(observerJson \ "serverAddress").as[String]
 
             logger.info(payload)
             val observer = if (name == "gui") GuiObserver(serverAddress) else GuiObserver(serverAddress)
@@ -71,6 +73,11 @@ object UtilRestService extends App {
         path("observer" / "notifyObservers") {
           observable.notifyObservers
           complete(HttpEntity(ContentTypes.`application/json`, Json.toJson("notified all observers").toString))
+        }
+      },
+      get {
+        path("hello") {
+          complete(HttpEntity(ContentTypes.`application/json`, Json.toJson("Hello").toString))
         }
       }
     )

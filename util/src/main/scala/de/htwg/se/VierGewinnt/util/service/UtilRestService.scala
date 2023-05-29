@@ -16,9 +16,7 @@ import de.htwg.se.VierGewinnt.util.ObservableImpl
 import de.htwg.se.VierGewinnt.util.UtilModule
 import org.slf4j.LoggerFactory
 import play.api.libs.json.Json
-
 import scala.concurrent.ExecutionContextExecutor
-import scala.io.StdIn
 import scala.util.Failure
 import scala.util.Success
 
@@ -46,7 +44,7 @@ object UtilRestService extends App {
           entity(as[String]) { payload =>
             val observerJson = Json.parse(payload)
             val name: String = (observerJson \ "name").as[String]
-            val serverAddress: String = "http://host.docker.internal:3000" //(observerJson \ "serverAddress").as[String]
+            val serverAddress: String = (observerJson \ "serverAddress").as[String]
 
             logger.info(payload)
             val observer = if (name == "gui") GuiObserver(serverAddress) else GuiObserver(serverAddress)
@@ -74,19 +72,14 @@ object UtilRestService extends App {
           observable.notifyObservers
           complete(HttpEntity(ContentTypes.`application/json`, Json.toJson("notified all observers").toString))
         }
-      },
-      get {
-        path("hello") {
-          complete(HttpEntity(ContentTypes.`application/json`, Json.toJson("Hello").toString))
-        }
       }
     )
 
-  val bindingFuture = Http().newServerAt("0.0.0.0", servicePort).bind(route)
+  val bindingFuture = Http().newServerAt("localhost", servicePort).bind(route)
   bindingFuture.onComplete {
     case Success(binding) =>
       val address = binding.localAddress
-      logger.info(s"Util REST service online at http://0.0.0.0:${address.getPort}")
+      logger.info(s"Util REST service online at http://localhost:${address.getPort}")
 
     case Failure(exception) =>
       logger.error(s"Util REST service couldn't be started! Error: {}", exception.getMessage)

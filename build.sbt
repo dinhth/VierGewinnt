@@ -1,5 +1,3 @@
-import com.typesafe.sbt.packager.docker.ExecCmd
-
 val scala3Version = "3.2.2"
 
 val akkaVersion = "2.8.0"
@@ -12,36 +10,27 @@ lazy val commonSettings = Seq(
     "org.scalactic" %% "scalactic" % "3.2.15",
     "org.scalatest" %% "scalatest" % "3.2.15" % "test",
     "com.google.inject" % "guice" % "5.1.0",
-    ("net.codingwell" %% "scala-guice" % "5.1.1"),
+    ("net.codingwell" %% "scala-guice" % "5.1.1").cross(CrossVersion.for3Use2_13),
     "org.scala-lang.modules" %% "scala-xml" % "2.1.0",
     "com.typesafe.play" %% "play-json" % "2.10.0-RC7",
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion,
-    "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+    "com.typesafe.akka" %% "akka-slf4j"      % akkaVersion,
     "com.typesafe.akka" %% "akka-stream" % akkaVersion,
     "com.typesafe.akka" %% "akka-http" % akkaHttp,
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttp,
+    "org.slf4j" % "slf4j-nop" % "2.0.5",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
-    "com.typesafe.akka" %% "akka-http-core" % akkaHttp,
-    "ch.qos.logback" % "logback-classic" % "1.4.6",
-    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
+    "com.typesafe.akka" %% "akka-http-core"  % akkaHttp,
+    "ch.qos.logback"    %  "logback-classic" % "1.4.6",
+    "com.typesafe.akka" %% "akka-testkit"    % akkaVersion   % "test"
   ),
-  dockerBaseImage := "sbtscala/scala-sbt:eclipse-temurin-jammy-17.0.5_8_1.8.3_3.2.2",
-  Docker / daemonUserUid := None,
-  Docker / daemonUser := "root"
+  coverageEnabled := true
 )
 
 lazy val util = project
   .in(file("util"))
-  .settings(
-    name := "util",
-    description := "Util for Vier Gewinnt",
-    commonSettings,
-    Compile / run / mainClass := Some("de.htwg.se.VierGewinnt.util.service.UtilRestService"),
-    Compile / compile / mainClass := Some("de.htwg.se.VierGewinnt.util.service.UtilRestService"),
-    dockerExposedPorts := Seq(8083)
-  )
-  .enablePlugins(JavaAppPackaging, DockerPlugin)
+  .settings(name := "util", description := "Util for Vier Gewinnt", commonSettings)
 
 lazy val gui = project
   .in(file("gui"))
@@ -49,15 +38,8 @@ lazy val gui = project
     name := "gui",
     description := "GUI for Vier Gewinnt",
     commonSettings,
-    libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31",
-    logLevel := sbt.util.Level.Info,
-    dockerCommands ++= Seq(
-      ExecCmd("RUN", "apt-get", "update"),
-      ExecCmd("RUN", "apt-get", "install", "-y", "openjfx", "dbus-x11", "csh", "libgl1", "libx11-6"),
-      ExecCmd("CMD", "sbt", "run")
-    )
+    libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
   )
-  .enablePlugins(JavaAppPackaging, DockerPlugin)
 
 lazy val tui = project
   .in(file("tui"))
@@ -69,34 +51,26 @@ lazy val core = project
   .settings(
     name := "core",
     description := "Core for Vier Gewinnt",
-    commonSettings,
-    dockerExposedPorts := Seq(8080),
-    logLevel := sbt.util.Level.Info
+    commonSettings
   )
   .dependsOn(model, util)
-  .enablePlugins(JavaAppPackaging, DockerPlugin)
 
 lazy val persistence = project
   .in(file("persistence"))
   .settings(
     name := "persistence",
     description := "Persistence for Vier Gewinnt",
-    commonSettings,
-    dockerExposedPorts ++= Seq(8081),
-    logLevel := sbt.util.Level.Info
+    commonSettings
   )
-  .enablePlugins(JavaAppPackaging, DockerPlugin)
+  .dependsOn(model)
 
 lazy val model = project
   .in(file("model"))
   .settings(
     name := "model",
     description := "Model for Vier Gewinnt",
-    commonSettings,
-    dockerExposedPorts ++= Seq(8082),
-    logLevel := sbt.util.Level.Info
+    commonSettings
   )
-  .enablePlugins(JavaAppPackaging, DockerPlugin)
 
 lazy val root = project
   .in(file("."))

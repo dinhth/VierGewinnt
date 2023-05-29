@@ -43,11 +43,11 @@ object GuiService extends App {
       }
     )
 
-  val bindingFuture = Http().newServerAt("0.0.0.0", servicePort).bind(route)
+  val bindingFuture = Http().newServerAt("localhost", servicePort).bind(route)
   bindingFuture.onComplete {
     case Success(binding) =>
       val address = binding.localAddress
-      logger.info(s"GUI REST service online at http://0.0.0.0:${address.getPort}")
+      logger.info(s"GUI REST service online at http://localhost:${address.getPort}")
 
     case Failure(exception) =>
       logger.error(s"GUI REST service couldn't be started! Error: {}", exception.getMessage)

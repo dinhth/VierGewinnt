@@ -48,7 +48,7 @@ object CoreRestService extends App {
           complete(HttpEntity(ContentTypes.`application/json`, "loaded"))
         }
       },
-      post {
+      get {
         path("core" / "save") {
           controller.save
           complete(HttpEntity(ContentTypes.`application/json`, "saved"))
@@ -157,21 +157,14 @@ object CoreRestService extends App {
       post {
         path("core" / "addObserver") {
           entity(as[String]) { request =>
-            val json = Json.parse(request)
-            print(json)
+            logger.info(request.toString)
             complete(HttpEntity(ContentTypes.`application/json`, "Observer added"))
           }
         }
       }
     )
-  val bindingFuture = Http().newServerAt("localhost", servicePort).bind(route)
-  bindingFuture.onComplete {
-    case Success(binding) =>
-      val address = binding.localAddress
-      logger.info(s"Core REST service online at http://localhost:${address.getPort}")
+  val bindingFuture = Http().newServerAt("0.0.0.0", servicePort).bind(route)
+  println(s"Core REST service online at http://0.0.0.0:${servicePort}/core/gameState")
 
-    case Failure(exception) =>
-      logger.error(s"Core REST service couldn't be started! Error: {}", exception.getMessage)
-  }
 
 }

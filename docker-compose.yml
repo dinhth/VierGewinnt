@@ -1,12 +1,52 @@
-version: '3.7'
-
 services:
-  # here all the services are needed
-  Persistence:
-    build:
-      context: ./Persistence
-      dockerfile: Dockerfile
+  core:
+    image: core:0.2.0-SNAPSHOT
     ports:
-      - "80:80"
-    stdin_open: true
-    container_name: persistence_service
+      - "8080:8080"
+    container_name: core
+    depends_on:
+      - model
+      - util
+    profiles:
+      - donotstart
+    networks:
+      - viergewinnt
+  persistence:
+    image: persistence:0.2.0-SNAPSHOT
+    ports:
+      - "8081:8081"
+    container_name: persistence
+    networks:
+      - viergewinnt
+  model:
+    image: model:0.2.0-SNAPSHOT
+    ports:
+      - "8082:8082"
+    container_name: model
+    networks:
+      - viergewinnt
+  util:
+    image: util:0.2.0-SNAPSHOT
+    ports:
+      - "8083:8083"
+    container_name: util
+    networks:
+      - viergewinnt
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: viergewinnt
+      POSTGRES_IP: localhost
+      POSTGRES_PORT: 5432
+    ports:
+      - "5436:5432"
+    networks:
+      - viergewinnt
+
+networks:
+  viergewinnt:
+    driver: bridge

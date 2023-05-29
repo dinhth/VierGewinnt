@@ -35,7 +35,7 @@ class CoreRestController {
 
   given ExecutionContextExecutor = executionContext
 
-  val utilServer = "http://localhost:8083"
+  val utilServer = "http://0.0.0.0:8083"
 
   def notifyObservers:Unit =
     sendGetRequest(s"${utilServer}/observer/notifyObservers")

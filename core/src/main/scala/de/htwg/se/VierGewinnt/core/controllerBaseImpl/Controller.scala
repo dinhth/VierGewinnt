@@ -57,8 +57,7 @@ class Controller @Inject() (
     @Named("DefaultGameType") var gameType: Int,
     restController: CoreRestController
 ) extends ControllerInterface:
-  val fileIOServer = "http://localhost:8081/fileio"
-  val modelServer = "http://localhost:8082"
+  val fileIOServer = "http://0.0.0.0:8081/fileio"
   private val logger = LoggerFactory.getLogger(getClass)
 
   /** Returns the size of the grid withing playground. */
@@ -67,7 +66,7 @@ class Controller @Inject() (
 
   /** Loads the previously saved playground from a file. */
   override def load: Unit =
-    val playgroundFuture: Future[String] = restController.sendGetRequest(fileIOServer + "/load")
+    val playgroundFuture: Future[String] = restController.sendGetRequest(fileIOServer + "/json/load")
     val playgroundResult: String = Await.result(playgroundFuture, Duration.Inf)
     logger.info(playgroundResult)
     playground = Util.jsonToPlayground(playgroundResult)
@@ -75,7 +74,7 @@ class Controller @Inject() (
 
   /** Saves the current playground to a file. */
   override def save: Unit =
-    val playgroundFuture: Future[String] = restController.sendPostRequest(fileIOServer + "/save", Util.toJsonString(playground))
+    val playgroundFuture: Future[String] = restController.sendPostRequest(fileIOServer + "/json/save", Util.toJsonString(playground))
     val playgroundResult: String = Await.result(playgroundFuture, Duration.Inf)
     logger.info(playgroundResult)
     restController.notifyObservers

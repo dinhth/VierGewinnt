@@ -1,4 +1,5 @@
 import com.typesafe.sbt.packager.docker.ExecCmd
+import sbt.ExclusionRule
 
 val scala3Version = "3.2.2"
 
@@ -29,12 +30,10 @@ lazy val commonSettings = Seq(
     "org.slf4j" % "slf4j-nop" % "2.0.5",
     ("org.mongodb.scala" %% "mongo-scala-driver" % "4.8.0").cross(CrossVersion.for3Use2_13)
   ),
-  "io.gatling.highcharts" % "gatling-charts-highcharts" % "3.9.5" % Test,
   dockerBaseImage := "sbtscala/scala-sbt:eclipse-temurin-jammy-17.0.5_8_1.8.3_3.2.2",
   Docker / daemonUserUid := None,
   Docker / daemonUser := "root"
 )
-// https://www.mongodb.com/docs/drivers/scala/
 
 lazy val util = project
   .in(file("util"))
@@ -102,6 +101,24 @@ lazy val model = project
     logLevel := sbt.util.Level.Info
   )
   .enablePlugins(JavaAppPackaging, DockerPlugin)
+
+lazy val performance = project
+  .in(file("performance"))
+  .settings(
+    name := "performance",
+    description := "Model for performance testing of Vier Gewinnt",
+    commonSettings,
+    libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "3.9.1" % "test,it",
+    libraryDependencies += "io.gatling" % "gatling-test-framework" % "3.9.1" % "test,it",
+    excludeDependencies ++= Seq(
+      ExclusionRule("com.typesafe.scala-logging", "scala-logging_2.13"),
+      ExclusionRule("com.typesafe.akka", "akka-actor_2.13"),
+      ExclusionRule("com.typesafe.akka", "akka-slf4j_2.13")
+    ),
+    dockerExposedPorts ++= Seq(8084),
+    logLevel := sbt.util.Level.Info
+  )
+  .enablePlugins(JavaAppPackaging, DockerPlugin, GatlingPlugin)
 
 lazy val root = project
   .in(file("."))
